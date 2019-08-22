@@ -1,0 +1,34 @@
+<div class="row">
+  <div class="col-md-12">
+    <mat-card style="margin-bottom: 13px;margin-top: 0px;min-height: 0;padding: 12px;">
+      <h3 style="height: 100%">
+        <span>وظایف جاری قرارداد ها</span>
+      </h3>
+    </mat-card>
+  </div>
+</div>
+<mat-card>
+  <div class="row" *ngIf="spinnerChecking">
+    <div class="col-md-2"></div>
+    <div class="col-md-8" style="text-align: center;display: flex;justify-content: center;align-items: center;">
+      <mat-spinner></mat-spinner>
+    </div>
+    <div class="col-md-2"></div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <mat-list role="list" *ngIf="checkList">
+        <mat-list-item role="listitem"  style="background: #1b5347;color: #e7f9f5;">
+          <div class="row">
+            <div class="col-md-1">ردیف</div>
+          </div>
+        </mat-list-item>
+        <mat-list-item role="listitem" *ngFor="let duty of duties">
+          <div class="row" style="width: 100%;margin: 0;">
+            <div class="col-md-1">{{ duty.Id }}</div>
+          </div>
+        </mat-list-item>
+      </mat-list>
+    </div>
+  </div>
+</mat-card>

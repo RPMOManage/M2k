@@ -1,0 +1,31 @@
+table {
+  direction: rtl;
+  font-family: IranSans;
+  text-align: center;
+}
+
+h1 {
+  text-align: center;
+  direction: rtl;
+  font-family: IranSans;
+}
+
+.fa-times {
+  float: left;
+  margin-top: -20px;
+  margin-left: -20px;
+  color: #ff0707da;
+}
+
+.chips-red mat-chip {
+  background-color: red !important;
+}
+.chips-orange mat-chip {
+  background-color: orange !important;
+}
+.chips-green mat-chip {
+  background-color: green !important;
+}
+.chips-blue mat-chip {
+  background-color: blue !important;
+}

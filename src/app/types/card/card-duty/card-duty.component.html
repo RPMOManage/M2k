@@ -1,0 +1,51 @@
+<div class="row" *ngIf="contractID && typeID && duty && filteredDutyCalenders && currentDutyCalender && contract">
+  <div class="col-md-1"></div>
+  <div class="col-md-10">
+    <mat-card>
+      <div class="row">
+        <div class="col-md-12" style="border-bottom: 1px solid #f0f0f0;">
+          <h5 style="text-align: center;">
+            <span style="float: right;text-align: center;width: 100%;">وظیفه : {{ currentDutyCalender.Title }}</span>
+          </h5>
+          <h6 style="text-align: center;">قرارداد : {{ contract.Title }}</h6>
+        </div>
+        <div class="col-md-6">
+          <table class="table table-bordered">
+            <tbody>
+            <tr>
+              <th>تاریخ شروع وظیفه</th>
+              <td>{{ currentDutyCalender.StartDate }}</td>
+            </tr>
+            <tr>
+              <th>تاریخ پایان وظیفه</th>
+              <td>{{ currentDutyCalender.FinishDate }}</td>
+            </tr>
+            <tr>
+              <th>وضعیت انجام وظیفه</th>
+              <td style="color: #2b939b;">{{ dutyDoneTitle }}</td>
+            </tr>
+            <tr>
+              <th>وضعیت تایید مدیر پروژه</th>
+              <td>{{ dutyApprovementTitle }}</td>
+            </tr>
+            <tr>
+              <th>نقش شما در این قرارداد</th>
+              <td *ngIf="isPM" style="color: #da345a;">مدیر پروژه</td>
+              <td *ngIf="!isPM" style="color: #da345a;">مسئول اطلاعات</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-6">
+          <div [chart]="chart"></div>
+          <p class="percent-circle">{{ calDates() }} روز</p>
+          <p style="direction: rtl; text-align: center;font-family: IranSans;">زمان باقی مانده</p>
+        </div>
+      </div>
+    </mat-card>
+    <app-pc-duty *ngIf="typeID === 1" [contractID]="contractID" [isPM]="isPM" [typeID]="typeID" [duties]="duties" [duty]="duty" [filteredDutyCalenders]="filteredDutyCalenders" [isReadOnly]="isReadOnly" [today]="today" [currentDutyCalender]="currentDutyCalender" [contract]="contract"></app-pc-duty>
+    <app-deliverable-duty *ngIf="typeID === 2" [contractID]="contractID" [isPM]="isPM" [typeID]="typeID" [duties]="duties" [duty]="duty" [filteredDutyCalenders]="filteredDutyCalenders" [isReadOnly]="isReadOnly" [today]="today" [currentDutyCalender]="currentDutyCalender" [contract]="contract"></app-deliverable-duty>
+    <app-financial-duty *ngIf="typeID === 3" [contractID]="contractID" [isPM]="isPM" [typeID]="typeID" [duties]="duties" [duty]="duty" [filteredDutyCalenders]="filteredDutyCalenders" [isReadOnly]="isReadOnly" [today]="today" [currentDutyCalender]="currentDutyCalender" [contract]="contract"></app-financial-duty>
+  </div>
+  <div class="col-md-1"></div>
+</div>

@@ -1,0 +1,52 @@
+<i class="fas fa-times"></i>
+<h1 mat-dialog-title>{{ this.data.contract.Title }}</h1>
+<div mat-dialog-content>
+  <table *ngIf="data.type === 'compContracts'" class="table table-bordered">
+  <tbody>
+  <tr>
+    <th>شماره قرارداد</th>
+  <td>{{ this.data.contract.ContractCode }}</td>
+  </tr>
+  <tr>
+    <th>واحد سازمانی</th>
+    <td>{{ this.data.contract.Unit }}</td>
+  </tr>
+  <tr>
+    <th>گروه متولی</th>
+    <td>{{ this.data.contract.SubUnit }}</td>
+  </tr>
+  <tr>
+    <th>مدیر پروژه</th>
+    <td>{{ this.data.contract.PM }}</td>
+  </tr>
+  <tr>
+    <th>مسئول اطلاعات</th>
+    <td>{{ this.data.contract.Importer }}</td>
+  </tr>
+  <tr>
+    <th>طرف قرارداد</th>
+    <td>{{ this.data.contract.Contractor }}</td>
+  </tr>
+  <tr>
+    <th>تاریخ شروع</th>
+    <td>{{ this.data.contract.Date }}</td>
+  </tr>
+  </tbody>
+  </table>
+  <table class="table table-bordered" *ngIf="data.type === 'changes'">
+  <tbody>
+  <tr *ngFor="let ct of data.changeCategories">
+    <th [class]="ct.colorClass">
+      <mat-chip selected>{{ ct.name }}</mat-chip>
+    </th>
+  <td>
+    <div *ngFor="let item of data.changeItems">
+      <p *ngIf="item.categoryID === ct.id">
+        {{ item.name }}
+      </p>
+    </div>
+  </td>
+  </tr>
+  </tbody>
+  </table>
+</div>

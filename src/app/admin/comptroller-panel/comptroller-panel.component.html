@@ -1,0 +1,53 @@
+<mat-card style="margin-bottom: 10px;">
+  <div class="row">
+    <div class="flex-centered col-xl-12 col-lg-6 col-md-8 col-sm-12">
+      <h2 class="title">پنل بروزرسانی اطلاعات مالی از ذی حسابی</h2>
+    </div>
+  </div>
+</mat-card>
+<mat-card>
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+      <table class="table table-bordered" *ngIf="contracts">
+        <thead>
+        <tr>
+          <th>آی دی</th>
+          <th>عنوان قرارداد</th>
+          <th>کد ذی حسابی</th>
+          <th>
+            <span> انتخاب (همه) </span>
+            <span><mat-checkbox (change)="onSelectAll($event)"></mat-checkbox></span>
+          </th>
+          <!--<th>-->
+          <!--<span> Payments / Requests </span>-->
+          <!--<span></span>-->
+          <!--</th>-->
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let contract of contracts">
+          <td style="width: 10%;">{{ contract.Id }}</td>
+          <td style="width: 70%;">{{ contract.Title }}</td>
+          <td style="width: 10%;">{{ contract.ComptrollerCode }}</td>
+          <td style="width: 10%;">
+            <mat-checkbox (change)="onChangeCheckBox($event, contract)"></mat-checkbox>
+          </td>
+          <!--<td>-->
+          <!--<mat-checkbox (change)="onChangeCheckBoxPR($event, true, contract.Id)"></mat-checkbox>-->
+          <!--<mat-checkbox (change)="onChangeCheckBoxPR($event, false, contract.Id)"></mat-checkbox>-->
+          <!--</td>-->
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+  <div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4" *ngIf="contracts && testing && financialPayments">
+      <button mat-raised-button color="primary" style="width: 100%" (click)="onUpdateData()">بروزرسانی اطلاعات مالی</button>
+    </div>
+    <div class="col-md-4"></div>
+  </div>
+</mat-card>

@@ -1,0 +1,45 @@
+<mat-card style="margin-top: 25px;">
+  <div class="row">
+    <div class="col-md-12" style="border-bottom: 1px solid #f0f0f0;">
+      <h5>
+        <span style="float: right;">تایید نهایی</span>
+      </h5>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+      <form
+      [formGroup]="formGp">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <mat-form-field class="example-full-width">
+            <textarea
+              class="form-control"
+              matInput
+              matTextareaAutosize
+              matAutosizeMinRows="5"
+              matAutosizeMaxRows="10"
+              formControlName="Description"
+              placeholder="توضیحات" required>
+            </textarea>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      </form>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-3">
+      <button style="width: 100%" class="btn btn-primary" (click)="onSubmit()">تایید نهایی</button>
+    </div>
+    <div class="col-md-3">
+      <button style="width: 100%" class="btn btn-danger" (click)="onReject()">رد</button>
+    </div>
+    <div class="col-md-3"></div>
+  </div>
+</mat-card>

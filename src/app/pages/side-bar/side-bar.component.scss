@@ -1,0 +1,60 @@
+mat-card {
+  min-height: 905px;
+}
+
+.card-icon {
+  padding: 5px !important;
+}
+
+mat-list-item {
+  font-family: IranSans;
+  cursor: pointer;
+  color: rgba(51, 51, 51, 0.83);
+}
+
+mat-list-item:hover {
+  color: rgba(39, 64, 88, 0.87);
+  font-weight: bold;
+}
+
+.active {
+  color: #1f7cd3 !important;
+  font-weight: bold;
+}
+
+i.fas.fa-file-contract {
+  font-size: 29px;
+  color: #5db5ac;
+}
+
+.men-title {
+  padding-right: 5px;
+}
+
+mat-list-item {
+  text-align: center;
+}
+
+.contract-button {
+  text-align: center;
+  position: absolute;
+  bottom: 15px;
+  width: 100%;
+}
+
+
+.contract-button {
+  text-align: center;
+  position: absolute;
+  bottom: 30px;
+  width: 100%;
+}
+
+.contract-button button {
+  background-color: #4060ff !important;
+}
+
+.plusBtn-isIcon {
+  width: 35px;
+  height: 35px;
+}

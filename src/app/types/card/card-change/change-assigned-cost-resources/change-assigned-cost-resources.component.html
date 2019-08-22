@@ -1,0 +1,145 @@
+<mat-card style="margin-top: 25px;">
+  <div class="row">
+    <div class="col-md-12" style="border-bottom: 1px solid #f0f0f0;">
+      <h5>
+        <span style="float: right;">محل تامین اعتبار فعلی قرارداد</span>
+      </h5>
+    </div>
+    <div class="col-md-12">
+      <table class="table table-bordered lastDuty" *ngIf="assignedCostResources && costResources">
+        <thead>
+        <th>ردیف</th>
+        <th>تاریخ ابلاغ</th>
+        <th>محل تامین اعتبار</th>
+        <th>مبلغ تامین اعتبار</th>
+        </thead>
+        <tbody>
+        <tr *ngFor="let assignedCostResource of assignedCostResources; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ assignedCostResource.DDate }}</td>
+          <td>{{ getCostResourceName(assignedCostResource.CostResource) }}</td>
+          <td>{{ assignedCostResource.Cost | separator }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</mat-card>
+<mat-card style="margin-top: 25px;">
+  <div class="row">
+    <div class="col-md-12" style="border-bottom: 1px solid #f0f0f0;">
+      <h5>
+        <span style="float: right;">تغییر محل تامین اعتبار به : </span>
+      </h5>
+    </div>
+    <div class="col-md-12">
+      <form [formGroup]="formGp" *ngIf="formGp">
+        <!--<div class="row">-->
+          <!--<div class="col-md-4"></div>-->
+          <!--<div class="col-md-4">-->
+            <!--<p *ngIf="sharedService.newCost" style="cursor: default;direction: rtl;text-align: right;font-family: IranSans;">-->
+              <!--<span>مبلغ قرارداد : </span>-->
+              <!--<span style="direction: rtl;"-->
+                    <!--*ngIf="sharedService.newCost"-->
+                    <!--[ngClass]="(formGp.get('Costs').value.reduce(getSum) === sharedService.newCost &&-->
+               <!--!formGp.get('Costs').value.includes(null) &&-->
+               <!--!formGp.get('Costs').value.includes(0))? 'sh' : 'sh2'"-->
+                    <!--matInput type="number">{{ sharedService.newCost | separator }} {{ currency }}</span>-->
+            <!--</p>-->
+          <!--</div>-->
+          <!--<div class="col-md-4"></div>-->
+        <!--</div>-->
+        <!--<hr>-->
+        <!--<h5>-->
+        <!--</h5>-->
+        <div class="row cost-row" *ngFor="let hobbyControl of formGp.get('CostResources').value;let i = index">
+          <div class="col-md-1">
+            <p class="counter-num">{{ i + 1 }}.</p>
+          </div>
+          <div class="col-md-4">
+            <div formArrayName="CostResources">
+              <div class="form-group">
+                <mat-form-field>
+                  <mat-select class="form-control" placeholder="محل تامین اعتبار"
+                              [formControlName]="i" required>
+                    <mat-option *ngFor="let costResource of costResources" [value]="costResource.ID">
+                      {{ costResource.Name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div formArrayName="Costs">
+              <div class="form-group">
+                <mat-form-field class="example-full-width">
+                  <input [formControlName]="i" class="form-control" type="number" matInput placeholder="مبلغ تامین اعتبار" required>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div formArrayName="SumPayments">
+              <div class="form-group">
+                <mat-form-field class="example-full-width">
+                  <input [formControlName]="i" class="form-control" type="number" matInput placeholder="جمع پرداختی ها" required>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="!isReadOnly" class="col-md-1">
+            <div class="trasha" *ngIf="formGp.get('CostResources').value.length > 1">
+              <i (click)="onDeleteCostResource(i)" class="fas fa-times"></i>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div *ngIf="!isReadOnly" class="row">
+          <div class="col-md-12">
+            <button (click)="onAddCostResource()" class="plusBtn" mat-fab>
+              <i class="fas fa-plus"></i>
+            </button>
+          </div>
+        </div>
+        <hr>
+        <div class="row" style="font-size: 19px;padding-bottom: 20px;">
+          <div class="col-md-1"></div>
+          <div class="col-md-5" style="text-align: right;">
+            <span style="text-align: left;font-family: IranSans;" *ngIf="change.Json.ChangeCost">مبلغ جدید قرارداد : </span>
+            <span style="text-align: left;font-family: IranSans;" *ngIf="!change.Json.ChangeCost">مبلغ قرارداد : </span>
+            <span *ngIf="change.Json.ChangeCost">{{ change.Json.ChangeCost.Cost | separator }}</span>
+            <span *ngIf="!change.Json.ChangeCost">{{ contract.Cost | separator }}</span>
+          </div>
+          <div class="col-md-5">
+            <span
+            *ngIf="formGp.get('CostResources').value.length > 1"
+            style="text-align: left;font-family: IranSans;text-align: right">جمع : </span>
+            <span *ngIf="formGp.get('CostResources').value.length > 1">
+              <span *ngIf="change.Json.ChangeCost" [ngClass]="
+              (formGp.get('Costs').value.reduce(getSum) === change.Json.ChangeCost.Cost &&
+               !formGp.get('Costs').value.includes(null) &&
+               !formGp.get('Costs').value.includes(0))? 'sh' : 'sh2'">
+                {{ formGp.get('Costs').value.reduce(getSum) | separator }}  <span style="font-family: IranSans">ریال</span>
+              </span>
+              <span *ngIf="!change.Json.ChangeCost" [ngClass]="
+              (formGp.get('Costs').value.reduce(getSum) === contract.Cost &&
+               !formGp.get('Costs').value.includes(null) &&
+               !formGp.get('Costs').value.includes(0))? 'sh' : 'sh2'">
+                {{ formGp.get('Costs').value.reduce(getSum) | separator }}  <span style="font-family: IranSans">ریال</span>
+              </span>
+            </span>
+          </div>
+          <div class="col-md-1"></div>
+        </div>
+        <div class="row last-button-row">
+          <div class="col-md-4"></div>
+          <div class="col-md-4">
+            <button class="btn btn-primary" (click)="onSubmitClick()">ثبت اطلاعات</button>
+          </div>
+          <div class="col-md-4"></div>
+        </div>
+      </form>
+    </div>
+  </div>
+</mat-card>

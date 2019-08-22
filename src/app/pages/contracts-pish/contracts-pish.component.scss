@@ -1,0 +1,211 @@
+h3 {
+  font-family: IranSans;
+  text-align: center;
+  direction: rtl;
+  font-size: 17px;
+  font-weight: bold;
+  height: 7px;
+}
+
+.flex-centered {
+  margin: auto;
+}
+
+nb-card-body {
+  display: flex;
+}
+
+.title {
+  text-align: center;
+  font-family: IranSans;
+}
+
+.sub-title {
+  text-align: center;
+  display: block;
+  margin-bottom: 3rem;
+}
+
+.btn {
+  margin-bottom: 2rem;
+}
+
+.my-tab {
+  text-align: center;
+}
+
+.my-tab h3 {
+  cursor: pointer;
+  padding-bottom: 10px;
+}
+
+.fa-couch {
+  font-size: 28px;
+  color: rgba(31, 124, 171, 0.91);
+  cursor: pointer;
+}
+
+.fa-dragon {
+  font-size: 28px;
+  color: rgba(79, 73, 171, 0.91);
+  cursor: pointer;
+}
+
+.fa-couch:hover {
+  color: rgba(22, 83, 116, 0.91);
+}
+
+.fa-dragon:hover {
+  color: rgba(47, 44, 102, 0.91);
+}
+
+.my-tab-active h3 {
+  color: #a5a8ac;
+  border-bottom: 1px solid #dadada9e;
+}
+
+.changes-box {
+  min-height: 250px;
+  margin: 15px;
+  box-shadow: 0px 3px 3px 2px #bcc1c6;
+  border-radius: 3px;
+  background: #fff;
+  font-family: IranSans;
+}
+
+.box-counter {
+  padding-left: 5px;
+  padding-left: 5px;
+  text-align: center;
+  line-height: 245px;
+  font-size: 19px;
+}
+
+.box-counter:last-child {
+  border-left: none;
+}
+
+mat-list-item.mat-list-item {
+  font-family: IranSans;
+}
+
+.list-counter {
+  padding-left: 7px;
+}
+
+.left-side {
+  height: 33.333%;
+  text-align: center;
+  padding-top: 25px;
+}
+
+.fa-user-check {
+  color: #d35548 !important;
+}
+
+.fa-user-check-fade {
+  color: #d3554847 !important;
+}
+
+.fa-user-edit {
+  color: #2c85d3 !important;
+}
+
+.fa-user-edit-fade {
+  color: #2c85d347 !important;
+}
+
+.fa-check-double {
+  color: #39d38e !important;
+}
+
+.fa-check-double-fade {
+  color: #39d38e47 !important;
+}
+
+.doted-line-box {
+  border-top: 6px dotted #1e3aed30;
+}
+
+.fal, fas {
+  cursor: default !important;
+  font-size: 25px;
+  color: #fff;
+  margin: 7px 3px;
+}
+
+.main-box {
+  margin: 10px 0;
+  min-height: 250px;
+  max-height: 305px;
+}
+
+.mat-card-header {
+  border-bottom: 1px solid #e8eaf5;
+}
+
+
+.card-avatar {
+  border: 2px solid #159CDA;
+  background: rgba(21, 161, 223, 0.08);
+}
+
+.fa-file-signature {
+  //color: #159CDA;
+  margin: 2px;
+  font-size: 22px;
+  margin-top: 7px;
+}
+
+.card-avatar-special {
+  border: 2px solid #da345a;
+  background: rgba(240, 57, 99, 0.06);
+}
+
+.file-avatar-special {
+  color: #da345a !important;
+}
+
+.mat-card-title {
+  text-align: right;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 73%;
+  cursor: pointer;
+}
+
+.side-box {
+
+}
+
+mat-card {
+  direction: rtl;
+  text-align: right;
+}
+
+.header-box {
+  direction: rtl;
+  text-align: right;
+  padding: 3px 0;
+  border-bottom: 1px solid #d1d1d15e;
+  font-family: IranSans;
+  height: 40px;
+}
+
+.filter-box i {
+  float: left;
+}
+
+.mat-checkbox-inner-container {
+  margin: inherit !important;
+}
+
+.mat-fab {
+  float: left;
+  width: 30px;
+  height: 30px;
+  line-height: 27px;
+  margin-top: -5px;
+  margin-left: -3px;
+}

@@ -1,0 +1,73 @@
+import { NgModule } from '@angular/core';
+import {
+  MatAutocompleteModule,
+  MatButtonModule,
+  MatCardModule,
+  MatCheckboxModule,
+  MatChipsModule,
+  MatDatepickerModule,
+  MatDialogModule, MatExpansionModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatListModule,
+  MatMenuModule, MatProgressBarModule, MatProgressSpinnerModule, MatRadioModule,
+  MatSelectModule,
+  MatSlideToggleModule,
+  MatSortModule,
+  MatTableModule,
+  MatTabsModule,
+  MatToolbarModule, MatTooltipModule
+} from '@angular/material';
+
+@NgModule({
+  declarations: [],
+  imports: [
+    MatButtonModule,
+    MatCardModule,
+    MatChipsModule,
+    MatCheckboxModule,
+    MatFormFieldModule,
+    MatDialogModule,
+    MatSlideToggleModule,
+    MatDatepickerModule,
+    MatSelectModule,
+    MatInputModule,
+    MatMenuModule,
+    MatToolbarModule,
+    MatTabsModule,
+    MatListModule,
+    MatAutocompleteModule,
+    MatTableModule,
+    MatSortModule,
+    MatTooltipModule,
+    MatRadioModule,
+    MatExpansionModule,
+    MatProgressBarModule
+  ],
+  exports: [
+    MatButtonModule,
+    MatCardModule,
+    MatChipsModule,
+    MatCheckboxModule,
+    MatFormFieldModule,
+    MatDialogModule,
+    MatSlideToggleModule,
+    MatDatepickerModule,
+    MatSelectModule,
+    MatInputModule,
+    MatMenuModule,
+    MatToolbarModule,
+    MatTabsModule,
+    MatListModule,
+    MatAutocompleteModule,
+    MatTableModule,
+    MatSortModule,
+    MatProgressSpinnerModule,
+    MatTooltipModule,
+    MatRadioModule,
+    MatExpansionModule,
+    MatProgressBarModule
+  ],
+})
+export class AppMaterialModule {
+}

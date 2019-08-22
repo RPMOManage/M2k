@@ -1,0 +1,199 @@
+<mat-card style="margin-top: 25px;">
+  <div class="row">
+    <div class="col-md-12" style="border-bottom: 1px solid #f0f0f0;">
+      <h5>
+        <span style="float: right;direction: rtl;"> آخرین اطلاعات تایید شده (به ریال)</span>
+      </h5>
+    </div>
+    <div class="col-md-12">
+      <table class="table table-bordered lastDuty" style="direction: rtl;" *ngIf="contract">
+        <thead>
+        <th>تاریخ</th>
+        <th>مجموع صورت وضعیت کارکرد تایید شده</th>
+        <th>مجموع مبلغ درخواستی تایید شده خالص</th>
+        <th>مجموع مبلغ درخواستی تایید شده ناخالص</th>
+        <th>مجموع مبلغ پرداختی تایید شده خالص</th>
+        <th>مجموع مبلغ پرداختی تایید شده ناخالص</th>
+        </thead>
+        <tbody>
+        <tr>
+          <td>{{ contract.FinancialLast.Date }}</td>
+          <td>{{ contract.FinancialLast.TotalInvoice | separator }}</td>
+          <td>{{ contract.FinancialLast.TotalNetRequest | separator }}</td>
+          <td>{{ contract.FinancialLast.TotalGrossRequest | separator }}</td>
+          <td>{{ contract.FinancialLast.TotalNetPayment | separator }}</td>
+          <td>{{ contract.FinancialLast.TotalGrossPayment | separator }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</mat-card>
+<mat-card style="margin-top: 25px;">
+  <div class="row" style="direction: rtl;text-align: right;">
+    <div class="col-md-12">
+      <mat-checkbox (change)="onChangeChecked($event)" [checked]="isChecked" [disabled]="isReadOnly">این دوره زمانی فاقد سند مالی است!</mat-checkbox>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <mat-accordion>
+        <mat-expansion-panel expanded="true" [ngStyle]="isChecked ? {'filter': 'brightness(80%)'} : {}">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <i class="fas fa-hand-holding"></i>
+              <span style="padding-left: 5px;">سند های درخواستی</span>
+            </mat-panel-title>
+            <mat-panel-description>
+            </mat-panel-description>
+            <mat-panel-description>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="row">
+            <div class="col-md-12">
+              <table mat-table [dataSource]="requestsDataSource" class="mat-elevation-z8" style="width: 100%;direction: rtl;">
+
+                <ng-container matColumnDef="ID">
+                  <th mat-header-cell *matHeaderCellDef> ردیف</th>
+                  <td mat-cell *matCellDef="let element;let i = index"> {{i + 1}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="RequestType" *ngIf="tabIndex === 0">
+                  <th mat-header-cell *matHeaderCellDef> نوع سند درخواستی</th>
+                  <td mat-cell *matCellDef="let element"> {{element.FinancialRequestType.Title}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="ApprovedDate" *ngIf="tabIndex === 0">
+                  <th mat-header-cell *matHeaderCellDef> تاریخ تایید درخواست</th>
+                  <td mat-cell *matCellDef="let element"> {{element.Date1}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="GrossAmount">
+                  <th mat-header-cell *matHeaderCellDef> مبلغ ناخالص</th>
+                  <td mat-cell *matCellDef="let element"> {{element.GrossAmount}}</td>
+                </ng-container>
+                <ng-container matColumnDef="NetAmount">
+                  <th mat-header-cell *matHeaderCellDef> مبلغ خالص</th>
+                  <td mat-cell *matCellDef="let element"> {{element.NetAmount}}</td>
+                </ng-container>
+                <ng-container matColumnDef="Edit">
+                  <th mat-header-cell *matHeaderCellDef> عملیات</th>
+                  <td mat-cell *matCellDef="let element">
+                    <a (click)="onAddFinancial(element, false, 0)" *ngIf="!isReadOnly && !isChecked">
+                      <i class="far fa-edit"></i>
+                    </a>
+                    <a (click)="onAddFinancial(element, false, 0)" *ngIf="isReadOnly">
+                      <i class="far fa-eye"></i>
+                    </a>
+                    <a (click)="onDeleteFinancial(element, 0)" *ngIf="!isReadOnly && !isChecked">
+                      <i class="fas fa-trash-alt"></i>
+                    </a>
+                  </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <button *matCellDef="let element" (click)="onAddFinancial(element, true, 0)" class="plusBtn" mat-fab [disabled]="isReadOnly || isChecked">
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <mat-accordion>
+        <mat-expansion-panel expanded="true" [ngStyle]="isChecked ? {'filter': 'brightness(80%)'} : {}">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <i class="fas fa-hands"></i>
+              <span style="padding-left: 5px;">سند های پرداختی</span>
+            </mat-panel-title>
+            <mat-panel-description>
+            </mat-panel-description>
+            <mat-panel-description>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="row">
+            <div class="col-md-12">
+              <table mat-table [dataSource]="paymentsDataSource" class="mat-elevation-z8" style="width: 100%;direction: rtl;">
+
+                <ng-container matColumnDef="ID">
+                  <th mat-header-cell *matHeaderCellDef> ردیف</th>
+                  <td mat-cell *matCellDef="let element;let i = index"> {{i + 1}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="RequestType" *ngIf="financialPaymentTypes">
+                  <th mat-header-cell *matHeaderCellDef> نوع پرداخت</th>
+                  <td mat-cell *matCellDef="let element"> {{getPaymentTypeName(element.PaymentType)}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="ApprovedDate">
+                  <th mat-header-cell *matHeaderCellDef> تاریخ پرداخت</th>
+                  <td mat-cell *matCellDef="let element"> {{element.Date1}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="CostResource" *ngIf="costResources">
+                  <th mat-header-cell *matHeaderCellDef> محل تامین اعتبار</th>
+                  <td mat-cell *matCellDef="let element"> {{getCostResourceName(element.CostResource)}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="GrossAmount">
+                  <th mat-header-cell *matHeaderCellDef> مبلغ ناخالص</th>
+                  <td mat-cell *matCellDef="let element"> {{element.GrossAmount}}</td>
+                </ng-container>
+                <ng-container matColumnDef="NetAmount">
+                  <th mat-header-cell *matHeaderCellDef> مبلغ خالص</th>
+                  <td mat-cell *matCellDef="let element"> {{element.NetAmount}}</td>
+                </ng-container>
+                <ng-container matColumnDef="Edit">
+                  <th mat-header-cell *matHeaderCellDef> عملیات</th>
+                  <td mat-cell *matCellDef="let element">
+                    <a (click)="onAddFinancial(element, false, 1)" *ngIf="!isReadOnly && !isChecked">
+                      <i class="far fa-edit"></i>
+                    </a>
+                    <a (click)="onAddFinancial(element, false, 1)" *ngIf="isReadOnly">
+                      <i class="far fa-eye"></i>
+                    </a>
+                    <a (click)="onDeleteFinancial(element, 1)" *ngIf="!isReadOnly && !isChecked">
+                      <i class="fas fa-trash-alt"></i>
+                    </a>
+                  </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <button *matCellDef="let element" (click)="onAddFinancial(element, true, 1)" class="plusBtn" mat-fab [disabled]="isReadOnly || isChecked">
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </div>
+  <div class="row" *ngIf="isPM" style="direction: rtl;text-align: right">
+    <div class="col-md-12">
+      <mat-checkbox (change)="onChangeAppChecked($event)" [checked]="isAppChecked" [disabled]="isReadOnly">اطلاعات فوق مورد تایید می باشد!</mat-checkbox>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+      <button class="btn btn-primary" (click)="onSubmitClick()" *ngIf="!isReadOnly && isPM" [disabled]="!isAppChecked">ثبت اطلاعات</button>
+      <button class="btn btn-primary" (click)="onSubmitClick()" *ngIf="!isReadOnly && !isPM">ثبت اطلاعات</button>
+    </div>
+    <div class="col-md-4"></div>
+  </div>
+</mat-card>

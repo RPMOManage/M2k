@@ -1,0 +1,115 @@
+<br>
+<div class="row" style="direction: rtl;">
+  <div class="col-md-6">
+    <!--<div class="row">-->
+      <!--<div class="col-md 2"></div>-->
+      <!--<div class="col-md-8">-->
+        <!--<button class="btn btn-primary" (click)="showText()">Check Validations</button>-->
+      <!--</div>-->
+      <!--<div class="col-md-2"></div>-->
+    <!--</div>-->
+    <div class="row" *ngFor="let txt of text">
+      <div class="col-md-2"></div>
+      <div class="col-md-8">
+        <div class="row" [ngClass]="txt.content === null ? 'greenBox': 'redBox'">
+          <div class="col-md-12">
+            <h3 class="name">
+              <i *ngIf="txt.content !== null" class="fas fa-times-circle"></i>
+              <i *ngIf="txt.content === null" class="fas fa-check-circle"></i>
+              {{ txt.name }}
+            </h3>
+            <hr>
+          </div>
+          <div *ngIf="txt.content === null" class="col-md-12 mainContent">
+            <!--<span>- هیچ خطایی موجود نمی باشد!</span>-->
+          </div>
+          <div *ngIf="txt.content !== null" class="col-md-12 mainContent" [innerHtml]="txt.content"></div>
+        </div>
+      </div>
+      <div class="col-md-2"></div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="row" *ngIf="isAllowed">
+      <div class="col-md-2"></div>
+      <div class="col-md-8">
+        <form *ngIf="formGp && (!isApproved.importer && !isApproved.pm && userMainRole === 0) || (isApproved.importer && !isApproved.pm && userMainRole === 1) || (isApproved.importer && isApproved.pm && userMainRole === 2)" [formGroup]="formGp">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <mat-form-field class="example-full-width">
+            <textarea
+              [readonly]="!finalValid || (isReadOnly === true && (userRole.Id_Importer === importerUser))"
+              class="form-control"
+              matInput
+              matTextareaAutosize
+              matAutosizeMinRows="5"
+              matAutosizeMaxRows="10"
+              formControlName="Description"
+              placeholder="توضیحات" required>
+            </textarea>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2" [ngClass]="!userRole.IsPM && !userRole.IsPMOExpert ? 'col-md-4' : 'col-md-2'"></div>
+            <div class="col-md-4" *ngIf="userRole.IsPM || userRole.IsPMOExpert">
+              <button [disabled]="!finalValid" class="btn btn-danger" type="submit" (click)="onApproved(false)">رد</button>
+            </div>
+            <div class="col-md-4">
+              <button [disabled]="!finalValid" class="btn btn-success" type="submit" (click)="onApproved(true)">تایید</button>
+            </div>
+            <div class="col-md-2" [ngClass]="!userRole.IsPM && !userRole.IsPMOExpert ? 'col-md-4' : 'col-md-2'"></div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <mat-error style="padding: 15px 0;text-align: center;font-family: IranSans;" *ngIf="!finalValid"><strong>توجه :</strong> تا زمانی که مراحل کامل نشده باشند نمیتوانید قرارداد را تایید نمایید!</mat-error>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-md-2"></div>
+    </div>
+    <hr>
+    <div class="row" *ngIf="finalApprovalForm">
+      <div class="col-md-2"></div>
+      <div class="col-md-8">
+        <h3>سوابق توضیحات</h3>
+        <br>
+        <table class="table table-bordered ">
+          <thead>
+          <tr>
+            <th>ردیف</th>
+            <th>تاریخ</th>
+            <th>کاربر</th>
+            <th>توضیحات</th>
+            <th>وضعیت</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let fa of finalApprovalForm; let i  = index" [ngClass]="fa.isApproved ? 'Approved' : 'notApproved'">
+            <td>{{ i + 1 }}</td>
+            <td>{{ fa.date }}</td>
+            <td>
+              <span *ngIf="fa.role === 'PMOExpert'">دفتر مدیریت پروژه</span>
+              <span *ngIf="fa.role === 'PM'">مدیر پروژه</span>
+              <span *ngIf="fa.role !== 'PMOExpert' && fa.role !== 'PM'">وارد کننده اطلاعات</span>
+              <span> : </span>
+              <span *ngIf="userRoles[i]">{{ userRoles[i].FullName }}</span>
+            </td>
+            <td>
+              <a *ngIf="userRoles[i]" (click)="showDescriptionPopup(fa.Description, userRoles[i].FullName, fa.role, fa.date)">{{ shorten(fa.Description, 30) }} ...</a>
+            </td>
+            <td>
+              <span style="color: #237746;" *ngIf="fa.isApproved">تایید</span>
+              <span style="color: orangered" *ngIf="!fa.isApproved">عدم تایید</span>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-md-2"></div>
+    </div>
+  </div>
+</div>

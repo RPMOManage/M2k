@@ -1,0 +1,28 @@
+<div class="row row-spinner" style="padding: 15px 0;margin: 0;">
+  <mat-spinner diameter="60" *ngIf="!spinnerChecking"></mat-spinner>
+</div>
+<div class="row" style="direction: ltr;">
+  <div class="col-md-12">
+    <hot-table
+      [hotId]="instance"
+      [settings]="options"
+    ></hot-table>
+  </div>
+</div>
+<div class="row" style="direction: rtl;padding: 0 15px;">
+  <div *ngIf="!isReadOnly" id="addRow" class="col-md-1">
+    <button (click)="addRowPopUp()" matTooltip="افزودن رکورد" matTooltipClass="example-tooltip" class="plusBtn" mat-fab>
+      <i class="fa fa-plus"></i>
+    </button>
+  </div>
+  <div id="delete" class="col-md-1"  *ngIf="!isReadOnly">
+    <button (click)="deleteRowPopUp()" matTooltip="حذف رکورد" matTooltipClass="example-tooltip" class="plusBtn" mat-fab>
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+  <div id="download" class="col-md-1">
+    <button (click)="getCSV()" matTooltip="دانلود بصورت اکسل" matTooltipClass="example-tooltip" class="plusBtn" mat-fab>
+      <i class="far fa-file-excel"></i>
+    </button>
+  </div>
+</div>

@@ -1,0 +1,62 @@
+<mat-card style="margin-top: 25px;">
+  <div class="row">
+    <div class="col-md-12" style="border-bottom: 1px solid #f0f0f0;">
+      <h5>
+        <span style="float: right;">سوابق تاریخ پایان قرارداد</span>
+      </h5>
+    </div>
+    <div class="col-md-12">
+      <table class="table table-bordered lastDuty" *ngIf="finishDates">
+        <thead>
+        <th>ردیف</th>
+        <th>تاریخ ابلاغ</th>
+        <th>تاریخ پایان</th>
+        </thead>
+        <tbody>
+        <tr *ngFor="let finishDate of finishDates; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ finishDate.DDate }}</td>
+          <td>{{ finishDate.FinishDate }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</mat-card>
+<mat-card style="margin-top: 25px;">
+  <div class="row">
+    <div class="col-md-12" style="border-bottom: 1px solid #f0f0f0;">
+      <h5>
+        <span style="float: right;">تغییر تاریخ پایان به : </span>
+      </h5>
+    </div>
+    <div class="col-md-12">
+      <form *ngIf="formGp" [formGroup]="formGp">
+        <div class="row">
+          <!--<div class="col-md-2">-->
+            <!--<mat-form-field class="example-full-width">-->
+              <!--<input formControlName="NewDeclareDate" autocomplete="off" class="form-control" (focus)="NewDeclareDate.open()" matInput [matDatepicker]="NewDeclareDate" placeholder="تاریخ ابلاغ" [(ngModel)]="selectedNewDeclareDate" required>-->
+              <!--<mat-datepicker-toggle matSuffix [for]="NewDeclareDate"></mat-datepicker-toggle>-->
+              <!--<mat-datepicker #NewDeclareDate></mat-datepicker>-->
+            <!--</mat-form-field>-->
+          <!--</div>-->
+          <div class="col-md-2">
+            <mat-form-field class="example-full-width">
+              <input formControlName="FinishDate" autocomplete="off" class="form-control" (focus)="FinishDate.open()" matInput [matDatepicker]="FinishDate" placeholder="تاریخ پایان" [(ngModel)]="selectedFinishDate" required>
+              <mat-datepicker-toggle matSuffix [for]="FinishDate"></mat-datepicker-toggle>
+              <mat-datepicker #FinishDate></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+        <br>
+        <div class="row last-button-row">
+          <div class="col-md-4"></div>
+          <div class="col-md-4">
+            <button class="btn btn-primary" (click)="onSubmitClick()">ثبت اطلاعات</button>
+          </div>
+          <div class="col-md-4"></div>
+        </div>
+      </form>
+    </div>
+  </div>
+</mat-card>

@@ -1,0 +1,202 @@
+<div class="row">
+  <div class="col-md-2"></div>
+  <div class="col-md-8">
+    <h3 style="direction: rtl;text-align: center;border-bottom: none;padding-bottom: 0;">
+      {{ title }}
+    </h3>
+    <h6 style="direction: rtl;text-align: center;">
+      <p style="color: #0d435b;text-align: center;">اختصاص دسترسی</p>
+    </h6>
+  </div>
+  <div class="col-md-2"></div>
+</div>
+<div class="row" *ngIf="!isSiteBuilt">
+  <div class="col-md-2"></div>
+  <div class="col-md-8" style="text-align: center;display: flex;justify-content: center;align-items: center;">
+    <mat-spinner></mat-spinner>
+  </div>
+  <div class="col-md-2"></div>
+</div>
+<div class="container-fluid" *ngIf="!startTransferToSite && isSiteBuilt">
+  <div class="row">
+    <h2>{{ siteName }}</h2>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <p style="text-align: right;direction: rtl;color: #0d4d61;">مسئول اطلاعات : {{ importerTemp }} </p>
+    </div>
+  </div>
+  <div class="row" style="padding: 35px;">
+    <div class="col-md-1"></div>
+
+    <div class="col-md-5" style="border: 1px solid #3d6cd5;padding: 40px;margin-left: 5px;border-radius: 4px">
+      <h3>مشاهده کنندگان اطلاعات</h3>
+      <div class="expands">
+        <div class="row" *ngFor="let group of siteGroups_Viewers;let i = index">
+          <div class="col-md-12">
+            <mat-accordion>
+
+              <div class="col-md-12">
+                <mat-expansion-panel>
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      <p><span>نام گروه : </span><span>{{ 'مشاهده کنندگان ' + getImporterName(group.Title.replace('Viewers_', '')) }}</span></p>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                      <p>
+                        <span>تعداد : </span>
+                        <span>{{ group.Users.length }}</span>
+                        <i (click)="onDeleteGroup(group.Id)(i)" class="fas fa-times"></i>
+                      </p>
+                    </mat-panel-description>
+                  </mat-expansion-panel-header>
+                  <p class="pd" *ngFor="let importer of group.Users;let j = index" (click)="showUser(importer)">
+                    <span>{{ j + 1 }}. </span>
+                    <span *ngIf="importer.information">{{ importer.information.FullName }}</span>
+                    <span *ngIf="!importer.information">{{ importer.Title }}</span>
+                  </p>
+
+                </mat-expansion-panel>
+                <i (click)="onDeleteGroup(group.Id)" class="fas fa-times"></i>
+              </div>
+
+            </mat-accordion>
+          </div>
+        </div>
+      </div>
+      <div class="row addGroup">
+        <br>
+        <div class="row" style="margin-top: 30px;width: 100%;">
+          <div class="col-md-1"></div>
+          <div class="col-md-10">
+            <div class="row">
+              <div class="col-md-6 addToGroupText">
+                <span>افزودن دسترسی به گروه </span>
+              </div>
+              <div class="col-md-5">
+                <mat-form-field *ngIf="mainSiteGroups_Viewers">
+                  <mat-select class="form-control" placeholder="انتخاب گروه" #viewerGroup>
+                    <mat-option *ngFor="let operation of mainSiteGroups_Viewers" [value]="operation">
+                      {{ 'مشاهده کنندگان ' + getImporterName(operation.Title.replace('Viewers_', '')) }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-1">
+                <i (click)="addGroup('Viewers')" style="margin: 16px 0px;" class="fas fa-plus-circle"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!--<div class="col-md-1"></div>-->
+
+    <div class="col-md-5" style="border: 1px solid #3d6cd5;padding: 40px;border-radius: 4px">
+      <h3>وارد کنندگان اطلاعات</h3>
+      <div class="expands">
+        <div class="row" *ngFor="let group of siteGroups_Writers;let i = index">
+          <div class="col-md-12">
+            <mat-accordion>
+
+              <div class="col-md-12">
+                <mat-expansion-panel>
+                  <mat-expansion-panel-header>
+                    <mat-panel-title style="min-width: 200px;">
+                      <p><span>نام گروه : </span><span>{{ 'واردکنندگان ' + getImporterName(group.Title.replace('Writers_', '')) }}</span></p>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                      <p>
+                        <span>تعداد : </span>
+                        <span>{{ group.Users.length }}</span>
+                      </p>
+                    </mat-panel-description>
+                  </mat-expansion-panel-header>
+                  <p class="pd" *ngFor="let importer of group.Users;let j = index" (click)="showUser(importer)">
+                    <span>{{ j + 1 }}. </span>
+                    <span *ngIf="importer.information">{{ importer.information.FullName }}</span>
+                    <span *ngIf="!importer.information">{{ importer.Title }}</span>
+                  </p>
+
+                </mat-expansion-panel>
+                <i (click)="onDeleteGroup(group.Id)" class="fas fa-times"></i>
+              </div>
+
+            </mat-accordion>
+          </div>
+        </div>
+      </div>
+      <div class="row addGroup">
+        <br>
+        <div class="row" style="margin-top: 30px;width: 100%;">
+          <div class="col-md-1"></div>
+          <div class="col-md-10">
+            <div class="row">
+              <div class="col-md-6 addToGroupText">
+                <span>افزودن دسترسی به گروه </span>
+              </div>
+              <div class="col-md-5">
+                <mat-form-field *ngIf="mainSiteGroups_Writers">
+                  <mat-select class="form-control" placeholder="انتخاب گروه" #writerGroup>
+                    <mat-option *ngFor="let operation of mainSiteGroups_Writers" [value]="operation">
+                      {{ 'واردکنندگان ' + getImporterName(operation.Title.replace('Writers_', '')) }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-1">
+                <i (click)="addGroup('Writers')" style="margin: 16px 0px;" class="fas fa-plus-circle"></i>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!--<div class="col-md-4">-->
+    <!--<mat-accordion>-->
+
+    <!--<div class="col-md-12">-->
+    <!--<mat-expansion-panel (opened)="panelOpenState = true"-->
+    <!--(closed)="panelOpenState = false">-->
+    <!--<mat-expansion-panel-header>-->
+    <!--<mat-panel-title>-->
+    <!--Importer Writers-->
+    <!--</mat-panel-title>-->
+    <!--<mat-panel-description>-->
+    <!--<p><span>تعداد : </span><span>{{ importerWriters.length }}</span></p>-->
+    <!--</mat-panel-description>-->
+    <!--</mat-expansion-panel-header>-->
+    <!--<p class="pd" *ngFor="let importer of importerWriters;let i = index" (click)="showUser(importer)">-->
+    <!--<span>{{ i + 1 }}. </span>-->
+    <!--<span *ngIf="importer.information">{{ importer.information.FullName }}</span>-->
+    <!--<span *ngIf="!importer.information">{{ importer.Title }}</span>-->
+    <!--</p>-->
+    <!--</mat-expansion-panel>-->
+    <!--</div>-->
+
+    <!--</mat-accordion>-->
+    <!--</div>-->
+
+    <div class="col-md-1"></div>
+  </div>
+
+  <div class="row" style="margin-top: 100px;margin-bottom: 100px;">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+      <button style="width: 100%;" class="btn btn-primary" (click)="onFinish()">تایید نهایی</button>
+
+    </div>
+    <div class="col-md-4"></div>
+  </div>
+</div>
+
+<app-site-creation *ngIf="startTransferToSite" [contractID]="contractID" [stepFormsData]="stepFormsData"></app-site-creation>
+
+
+<app-generate-duties *ngIf="isSiteBuilt" [contractID]="contractID"></app-generate-duties>

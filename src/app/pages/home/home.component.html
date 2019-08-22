@@ -1,0 +1,225 @@
+<!--<h4 style="direction: rtl;text-align: center">Home</h4>-->
+
+<!--<button class="btn btn-primary" (click)="onAnimate()">Animate</button>-->
+<div>
+  <div class="row" id="main">
+
+    <div class="col-md-3" style="padding-right: 0px;">
+      <mat-card class="home-main-card" style="background: #fff7f7fc;height: 155px;">
+        <mat-card-header>
+          <mat-card-title>پیشرفت کل برنامه ای</mat-card-title>
+        </mat-card-header>
+        <mat-card-content style="height: 75%;">
+          <div class="row" style="height: 100%;overflow: hidden;">
+            <div class="col-md-4 content-icon" id="icon-1">
+              <i class="fas fa-bullseye" style="line-height: 102px;"></i>
+            </div>
+            <div class="col-md-8"><span style="line-height: 90px;" *ngIf="boxes.PCPlan !== null" id="pc-round">% {{ boxes.PCPlan }}</span></div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="col-md-3" style="padding-left: 12px;padding-right: 10px;">
+      <mat-card class="home-main-card" style="background: #fff7fffc;height: 155px;">
+        <mat-card-header>
+          <mat-card-title>پیشرفت کل واقعی</mat-card-title>
+        </mat-card-header>
+        <mat-card-content style="height: 75%;">
+          <div class="row" style="height: 100%;overflow: hidden;">
+            <div class="col-md-4 content-icon" id="icon-2">
+              <i class="fas fa-hammer" style="line-height: 102px;"></i>
+            </div>
+            <div class="col-md-8"><span style="line-height: 90px;" *ngIf="boxes.PCAct !== null">% {{ boxes.PCAct }}</span></div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="col-md-3" style="padding-left: 10px;padding-right: 12px;">
+      <mat-card class="home-main-card" style="background: #f7fffafc;height: 155px;">
+        <mat-card-header>
+          <mat-card-title>پیشرفت کل مالی</mat-card-title>
+        </mat-card-header>
+        <mat-card-content style="height: 75%;">
+          <div class="row" style="height: 100%;overflow: hidden;">
+            <div class="col-md-4 content-icon" id="icon-3">
+              <i class="fas fa-coins" style="line-height: 102px;"></i>
+            </div>
+            <div class="col-md-8"><span style="line-height: 90px;" *ngIf="boxes.PCFinance !== null">% {{ boxes.PCFinance }}</span></div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="col-md-3" style="padding-left: 0px;">
+      <mat-card class="home-main-card" style="background: #f7fafffc;height: 155px;">
+        <mat-card-header>
+          <mat-card-title>تعداد کل قرارداد ها</mat-card-title>
+        </mat-card-header>
+        <mat-card-content style="height: 75%;">
+          <div class="row" style="height: 100%;overflow: hidden;">
+            <div class="col-md-4 content-icon" id="icon-4">
+              <i class="fas fa-file-signature" style="line-height: 102px;"></i>
+            </div>
+            <div class="col-md-8"><span style="line-height: 90px;" *ngIf="boxes.AllContract !== null">{{ boxes.AllContract }}</span></div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <mat-card>
+        <mat-card-header id="content-chart">
+          <mat-card-title>{{ slideShowTitle }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <i class="fas fa-chevron-right" style="position: absolute;right: 0;top: 50%;font-size: 30px;color: #c4cde7;" (click)="changeMainChartIndexNext()"></i>
+          <div [chart]="chart" *ngIf="slideShowsIndex === -1"></div>
+          <div *ngFor="let slide of slideShows; let i = index">
+            <img [src]="slide.URL" alt="" *ngIf="slideShowsIndex === i">
+          </div>
+          <i class="fas fa-chevron-left" style="position: absolute;left: 0;top: 50%;font-size: 30px;color: #c4cde7;" (click)="changeMainChartIndexPrevious()"></i>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <div class="row sort-cards">
+    <div class="col-md-4">
+      <mat-card *ngIf="!speedFlapped">
+        <mat-card-header>
+          <mat-card-title>
+            <i style="float: right;" [ngClass]="sortSpeed ? 'fas fa-sort-amount-down' : 'fas fa-sort-amount-up'" (click)="onChangeSort('speed')"></i>
+            <span style="float: left;">
+              <i class="fas fa-exchange-alt" (click)="onChangeSpeedFlapped()"></i>
+            </span>
+            <span *ngIf="!sortSpeed">بیشترین سرعت 30 روزه</span>
+            <span *ngIf="sortSpeed">کمترین سرعت 30 روزه</span>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-list role="list" id="speed90">
+            <mat-list-item *ngFor="let topPCSpeed of boxes.TopPCSpeeds;let i = index" role="listitem">
+              <span class="list-counter">{{ i + 1 }}. </span>
+              <span class="contract-title" (click)="onClickContract(contracts[topPCSpeed[1]].Id)">{{ contracts[topPCSpeed[1]].Title }}</span>
+              <span class="contract-speed" *ngIf="topPCSpeed[0]">{{(topPCSpeed[0].Speed30D * 100).toFixed() }}</span>
+            </mat-list-item>
+          </mat-list>
+        </mat-card-content>
+      </mat-card>
+      <mat-card *ngIf="speedFlapped">
+        <mat-card-header>
+          <mat-card-title>
+            <i style="float: right;" [ngClass]="sortSpeed90 ? 'fas fa-sort-amount-down' : 'fas fa-sort-amount-up'" (click)="onChangeSort('speed90')"></i>
+            <span style="float: left;">
+              <i class="fas fa-exchange-alt" (click)="onChangeSpeedFlapped()"></i>
+            </span>
+            <span *ngIf="!sortSpeed90">بیشترین سرعت 90 روزه</span>
+            <span *ngIf="sortSpeed90">کمترین سرعت 90 روزه</span>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-list role="list">
+            <mat-list-item *ngFor="let topPCSpeed90 of boxes.TopPCSpeeds90;let i = index" role="listitem">
+              <span class="list-counter">{{ i + 1 }}. </span>
+              <span class="contract-title" (click)="onClickContract(contracts[topPCSpeed90[1]].Id)">{{ contracts[topPCSpeed90[1]].Title }}</span>
+              <span class="contract-speed" *ngIf="topPCSpeed90[0]">{{(topPCSpeed90[0].Speed90D * 100).toFixed() }}</span>
+            </mat-list-item>
+          </mat-list>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="col-md-4">
+      <mat-card *ngIf="!deviationFlapped">
+        <mat-card-header>
+          <mat-card-title>
+            <i  style="float: right;" [ngClass]="sortTime ? 'fas fa-sort-amount-down deviation-down' : 'fas fa-sort-amount-up deviation-up'" (click)="onChangeSort('time')"></i>
+            <span style="float: left;">
+              <i class="fas fa-exchange-alt" (click)="onChangeDeviationFlapped()"></i>
+            </span>
+            <span *ngIf="!sortTime">بیشترین انحراف زمانی</span>
+            <span *ngIf="sortTime">کمترین انحراف زمانی</span>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-list role="list">
+            <mat-list-item *ngFor="let topTimeDeviation of boxes.TopTimeDeviations;let i = index" role="listitem">
+              <span class="list-counter">{{ i + 1 }}. </span>
+              <span class="contract-title" (click)="onClickContract(contracts[topTimeDeviation[1]].Id)">{{ contracts[topTimeDeviation[1]].Title }}</span>
+              <span class="contract-speed" *ngIf="topTimeDeviation[0]">{{ (topTimeDeviation[0].TimeDeviation * 100).toFixed() }} %</span>
+            </mat-list-item>
+          </mat-list>
+        </mat-card-content>
+      </mat-card>
+      <mat-card *ngIf="deviationFlapped">
+        <mat-card-header>
+          <mat-card-title>
+            <i  style="float: right;" [ngClass]="sortPD ? 'fas fa-sort-amount-down deviation-down' : 'fas fa-sort-amount-up deviation-up'" (click)="onChangeSort('pd')"></i>
+            <span style="float: left;">
+              <i class="fas fa-exchange-alt" (click)="onChangeDeviationFlapped()"></i>
+            </span>
+            <span *ngIf="!sortPD">بیشترین انحراف پرداختی</span>
+            <span *ngIf="sortPD">کمترین انحراف پرداختی</span>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-list role="list">
+            <mat-list-item *ngFor="let topPaymentDeviation of boxes.TopPaymentDeviations;let i = index" role="listitem">
+              <span class="list-counter">{{ i + 1 }}. </span>
+              <span class="contract-title" (click)="onClickContract(contracts[topPaymentDeviation[1]].Id)">{{ contracts[topPaymentDeviation[1]].Title }}</span>
+              <span class="contract-speed">{{ (topPaymentDeviation[0].PaymentDeviation * 100).toFixed() }} %</span>
+            </mat-list-item>
+          </mat-list>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="col-md-4">
+      <mat-card *ngIf="!finishingFlapped">
+        <mat-card-header>
+          <mat-card-title>
+            <i  style="float: right;" [ngClass]="sortFc ? 'fas fa-sort-amount-down deviation-down' : 'fas fa-sort-amount-up deviation-up'" (click)="onChangeSort('fc')"></i>
+            <span style="float: left;">
+              <i class="fas fa-exchange-alt" (click)="onChangeFinishingFlapped()"></i>
+            </span>
+            <span *ngIf="!sortFc">نزدیک ترین قرارداد های در شرف اتمام</span>
+            <span *ngIf="sortFc">دور ترین قرارداد های در شرف اتمام</span>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-list role="list">
+            <mat-list-item *ngFor="let topFinishingContract of boxes.TopFinishingContracts;let i = index" role="listitem">
+              <span class="list-counter">{{ i + 1 }}. </span>
+              <span class="contract-title" (click)="onClickContract(contracts[topFinishingContract[1]].Id)">{{ contracts[topFinishingContract[1]].Title }}</span>
+              <span class="contract-speed">{{ (topFinishingContract[0]) }} </span>
+            </mat-list-item>
+          </mat-list>
+        </mat-card-content>
+      </mat-card>
+      <mat-card *ngIf="finishingFlapped">
+        <mat-card-header>
+          <mat-card-title>
+            <i  style="float: right;" [ngClass]="sortAfc ? 'fas fa-sort-amount-down' : 'fas fa-sort-amount-up'" (click)="onChangeSort('afc')"></i>
+            <span style="float: left;">
+              <i class="fas fa-exchange-alt" (click)="onChangeFinishingFlapped()"></i>
+            </span>
+            <span *ngIf="!sortAfc">نزدیک ترین قراردادهای گذشته از تاریخ پایان</span>
+            <span *ngIf="sortAfc">دور ترین قراردادهای گذشته از تاریخ پایان</span>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-list role="list">
+            <mat-list-item *ngFor="let topAfterFinishContract of boxes.TopAfterFinishContracts;let i = index" role="listitem">
+              <span class="list-counter">{{ i + 1 }}. </span>
+              <span class="contract-title" (click)="onClickContract(contracts[topAfterFinishContract[1]].Id)">{{ contracts[topAfterFinishContract[1]].Title }}</span>
+              <span class="contract-speed">{{ (topAfterFinishContract[0]) }} </span>
+            </mat-list-item>
+          </mat-list>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>
+

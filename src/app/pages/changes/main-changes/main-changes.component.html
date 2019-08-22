@@ -1,0 +1,144 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="flex-centered col-xl-12 col-lg-6 col-md-8 col-sm-12">
+      <!--<h2 class="title">تغییرات</h2>-->
+      <!--<small class="sub-title"></small>-->
+      <!--<div class="row">-->
+        <!--<div class="col-md-12">-->
+          <!--<div class="row">-->
+            <!--<div class="col-md-12">-->
+              <!--<div>-->
+                <!--<app-card-filter-bar [contract]="contract" (searching)="onSearch($event)" [type]="type"></app-card-filter-bar>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+      <button (click)="onClickButton()" matTooltip="ایجاد تغییر" matTooltipClass="example-tooltip" class="plusBtn" mat-fab>
+        <i class="fa fa-plus"></i>
+      </button>
+      <div class="row" *ngIf="changes.length === 0">
+        <div class="col-md-12" style="padding: 0;">
+          <mat-card style="min-height: 700px;">
+            <p style="direction: rtl; text-align: center; color: #da345a">درخواست تغییری موجود نمی باشد!</p>
+          </mat-card>
+        </div>
+      </div>
+      <div class="row" style="margin-top: 15px;" *ngIf="changeItemsWithChecked">
+        <div class="col-md-12">
+          <div class="row changes-box" *ngFor="let change of changes; let i = index">
+            <div class="col-md-1 box-counter">{{ i + 1 }}.</div>
+            <div class="col-md-10" style="padding: 10px 10px;">
+              <div class="row">
+                <div class="col-md-12" style="padding-bottom: 45px;">
+                  <mat-chip-list aria-label="Fish selection">
+                    <div class="col-md-3" *ngFor="let cItem of change.ChangeItem;let j = index">
+                      <mat-chip selected [ngStyle]="{'background': '#8e3299'}">{{ getChangeItemName(cItem) }}</mat-chip>
+                    </div>
+                  </mat-chip-list>
+                </div>
+                <div class="col-md-12" style="position: absolute;bottom: 0;">
+                  <p class="description-changes">
+                    <span style="color: #831a0e;">توضیحات : </span>
+                    <span>{{ change.Description }}</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-1" style="border-right: 1px solid #e1e1e1;">
+              <div class="row left-side">
+                <div class="col-md-12">
+                  <i class="fas fa-couch"></i>
+                  <!--{{ change.DDate }}-->
+                </div>
+              </div>
+              <div class="row left-side">
+                <div class="col-md-12">
+                  {{ change.DDate }}
+                </div>
+              </div>
+              <div class="row left-side">
+                <div class="col-md-12">
+                  <i class="fas fa-dragon" (click)="onClickPage(change.ID)"></i>
+                </div>
+              </div>
+            </div>
+            <div class="row" style="width: 100%;margin: 0;padding: 0;text-align: center;border-top: 1px solid #e1e1e1;padding-top: 12px;">
+              <div class="col-md-2">
+                <i
+                  [ngClass]="change.ImporterApproved ? 'fas fa-user-edit' : 'fas fa-user-edit fa-user-edit-fade'"
+                  nbPopover="This is Importer"
+                  nbPopoverMode="hint"
+                  nbPopoverPlacement="bottom"
+                  matTooltip="تایید مسئول اطلاعات"
+                ></i>
+              </div>
+              <div class="col-md-3"><hr class="doted-line-box"/></div>
+              <div class="col-md-2">
+                <i [ngClass]="change.PMApproved ? 'fas fa-user-check' : 'fas fa-user-check fa-user-check-fade'"
+                   nbPopover="This is PM"
+                   nbPopoverMode="hint"
+                   nbPopoverPlacement="bottom"
+                matTooltip="تایید مدیر پروژه"></i>
+              </div>
+              <div class="col-md-3"><hr class="doted-line-box"/></div>
+              <div class="col-md-2">
+                <i [ngClass]="change.Date ? 'fas fa-check-double' : 'fas fa-check-double fa-check-double-fade'"
+                   nbPopover="This is Expert"
+                   nbPopoverMode="hint"
+                   nbPopoverPlacement="bottom"
+                 matTooltip="تایید دفتر مدیریت پروژه"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--<div class="col-md-3" style="margin-top: 10px;">-->
+          <!--<mat-card class="side-box">-->
+            <!--<div class="filter-box pish-left-box">-->
+              <!--<div class="header-box"><span> وضعیت : </span></div>-->
+              <!--<div class="row">-->
+                <!--<div class="col-md-12">-->
+                  <!--<mat-checkbox class="not-selectable" [checked]="true">-->
+                    <!--<span> در حال بررسی مسئول اطلاعات</span>-->
+                    <!--<i class="fas fa-user-edit fa-user-edit-fade"-->
+                       <!--nbPopover="This is Importer"-->
+                       <!--nbPopoverMode="hint"-->
+                       <!--nbPopoverPlacement="bottom"-->
+                    <!--&gt;</i>-->
+                  <!--</mat-checkbox>-->
+                <!--</div>-->
+                <!--<div class="col-md-12">-->
+                  <!--<mat-checkbox class="not-selectable" [checked]="false">-->
+                    <!--<span>در حال بررسی مدیر پروژه</span>-->
+                    <!--<i class="fas fa-user-check fa-user-check-fade"-->
+                       <!--nbPopover="This is PM"-->
+                       <!--nbPopoverMode="hint"-->
+                       <!--nbPopoverPlacement="bottom"></i>-->
+                  <!--</mat-checkbox>-->
+                <!--</div>-->
+                <!--<div class="col-md-12">-->
+                  <!--<mat-checkbox class="not-selectable" [checked]="false">-->
+                    <!--<span>در حال بررسی دفتر مدیریت پروژه </span>-->
+                    <!--<i class="fas fa-check-double fa-check-double-fade"-->
+                       <!--nbPopover="This is Expert"-->
+                       <!--nbPopoverMode="hint"-->
+                       <!--nbPopoverPlacement="bottom"></i>-->
+                  <!--</mat-checkbox>-->
+                <!--</div>-->
+                <!--<div class="col-md-12">-->
+                  <!--<mat-checkbox class="not-selectable" [checked]="false">-->
+                    <!--<span>تایید شده توسط دفتر مدیریت پروژه </span>-->
+                    <!--<i class="fas fa-check-double"-->
+                       <!--nbPopover="This is Expert"-->
+                       <!--nbPopoverMode="hint"-->
+                       <!--nbPopoverPlacement="bottom"></i>-->
+                  <!--</mat-checkbox>-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</mat-card>-->
+        <!--</div>-->
+      </div>
+    </div>
+  </div>
+</div>

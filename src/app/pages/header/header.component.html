@@ -1,0 +1,89 @@
+<nav style="direction: rtl;font-family: IranSans;background: #425961 !important;height: 40px;" class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <i class="fas fa-bars" (click)="onExpand()"></i>
+  <a class="navbar-brand" style="cursor: pointer;" (click)="onClickNormalPage('')">
+    <img src="http://rpmo.rai.ir/SitePages/main/assets/logo.png" alt="Logo" style="width:40px;">
+  </a>
+  <ul class="navbar-nav" style="margin-right: 65px;width: 100%">
+    <!--<li class="nav-item active">-->
+    <li class="nav-item active">
+      <a class="nav-link" style="cursor: pointer;">سامانه مدیریت پروژه حوزه فنی و زیربنایی</a>
+    </li>
+    <!--<li class="nav-item active">-->
+      <!--<a class="nav-link" style="cursor: pointer;" (click)="onClickNormalPage('')">صفحه اصلی</a>-->
+    <!--</li>-->
+    <!--<li class="nav-item dropdown active" (mouseover)="lessonLearnedShow = true" (mouseleave)="lessonLearnedShow = false">-->
+      <!--<a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+        <!--درس آموخته ها-->
+      <!--</a>-->
+      <!--<div [ngClass]="lessonLearnedShow === false ? 'dropdown-menu': 'dropdown-menu show'" aria-labelledby="navbarDropdown">-->
+        <!--<a class="dropdown-item" (click)="onClickNormalPage('post/add')">افزودن درس آموخته</a>-->
+        <!--<a class="dropdown-item" (click)="onClickNormalPage('posts')">لیست درس آموخته ها</a>-->
+      <!--</div>-->
+    <!--</li>-->
+    <!--<li class="nav-item dropdown active" (mouseover)="EtelaResaniShow = true" (mouseleave)="EtelaResaniShow = false">-->
+      <!--<a class="nav-link dropdown-toggle" id="navbarDropdown3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+        <!--اطلاع رسانی-->
+      <!--</a>-->
+      <!--<div [ngClass]="EtelaResaniShow === false ? 'dropdown-menu': 'dropdown-menu show'" aria-labelledby="navbarDropdown">-->
+        <!--<a class="dropdown-item" (click)="onClickItem('news')">اخبار</a>-->
+        <!--&lt;!&ndash;<a class="dropdown-item" href="network.aspx#/kms/posts">معیارهای داوری</a>&ndash;&gt;-->
+        <!--<a class="dropdown-item" (click)="onClickItem(10)">معیارهای ارزیابی</a>-->
+      <!--</div>-->
+    <!--</li>-->
+    <!--<li class="nav-item dropdown active" (mouseover)="SeminarIntroduction = true" (mouseleave)="SeminarIntroduction = false">-->
+      <!--<a class="nav-link dropdown-toggle" id="navbarDropdown4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+        <!--درباره سمینار-->
+      <!--</a>-->
+      <!--<div [ngClass]="SeminarIntroduction === false ? 'dropdown-menu': 'dropdown-menu show'" aria-labelledby="navbarDropdown">-->
+        <!--<a class="dropdown-item" (click)="onClickItem(9)">معرفی سمینار</a>-->
+        <!--<a class="dropdown-item" (click)="onClickItem(8)">مراحل جمع آوری درس آموخته</a>-->
+        <!--<a class="dropdown-item" (click)="onClickItem(2)">محور های سمینار</a>-->
+        <!--<a class="dropdown-item" (click)="onClickItem(12)">نحوه ارائه تجربیات</a>-->
+      <!--</div>-->
+    <!--</li>-->
+    <!--<li class="nav-item active" >-->
+      <!--<a class="nav-link" style="cursor: pointer;" (click)="onClickItem(14)">تماس با ما</a>-->
+    <!--</li>-->
+    <!--<li class="nav-item">-->
+      <!--<a class="nav-link disabled" href="#">Disabled</a>-->
+    <!--</li>-->
+    <!--<li>-->
+      <!--<mat-spinner style="float: left;margin-right: -40px;width: 30px;height: 30px;margin-top: 3px;" diameter="30" *ngIf="!checking"></mat-spinner>-->
+      <!--<form style="min-width: 360px;" class="form-inline">-->
+        <!--<input style="width: 100%;font-size: 14px;" class="form-control mr-sm-2" type="text" (keyup)="onSearch($event)" placeholder="عنوان درس آموخته مورد نظر خود را جستجو کنید..." #search>-->
+      <!--</form>-->
+      <!--<div>-->
+        <!--<ul id="searchUl" [ngStyle]="blur ? {'border': 'none'} :{'border': '1px solid #d3d3d3'}">-->
+          <!--<li *ngFor="let searchItem of searchList" (click)="onPostClick(searchItem.ID)"><a>{{ searchItem.Title}}</a></li>-->
+        <!--</ul>-->
+      <!--</div>-->
+    <!--</li>-->
+    <!--<li class="nav-item" style="width: 980px;">-->
+    <!--</li>-->
+    <!--<li class="nav-item active">-->
+        <!--<a class="nav-link" style="color: #fff;cursor: default;float: left;">-->
+          <!--<i class="fas fa-search"></i>-->
+        <!--</a>-->
+    <!--</li>-->
+    <!--<li class="nav-item active" style="border-right: 1px solid #7d949b;">-->
+        <!--<a class="nav-link" style="color: #fff;cursor: default;float: left;">-->
+          <!--<i class="fas fa-envelope"></i>-->
+      <!--</a>-->
+    <!--</li>-->
+    <li class="nav-item active" style="position: absolute;left: 300px;border-left: 1px solid #5d8d9d6b;padding-left: 15px;">
+      <a class="nav-link profile" style="cursor: pointer;float: right" (click)="onClickNormalPage('profile')">
+        <i class="far fa-id-card" style="font-size: 23px;"></i>
+      </a>
+    </li>
+    <li class="nav-item active" style="position: absolute;left: 150px;width: 150px;">
+        <a class="nav-link" style="color: #fff;cursor: default;float: right;">
+      <span *ngIf="userRole">{{ userRole.FullName }}</span>
+      </a>
+    </li>
+    <li class="nav-item active" style="position: absolute;left: 0px;width: 150px;border-right: 1px solid #5d8d9d6b;">
+        <a class="nav-link" style="color: #fff;cursor: default;float: right;">
+      <span>{{ today }}</span>
+      </a>
+    </li>
+  </ul>
+</nav>

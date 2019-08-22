@@ -1,0 +1,252 @@
+<div class="row">
+  <div class="col-md-12">
+    <mat-card style="margin-bottom: 13px;margin-top: 0px;min-height: 0;padding: 12px;">
+      <h3 style="height: 100%">
+        <span>پروفایل کاربری</span>
+      </h3>
+    </mat-card>
+  </div>
+</div>
+<div class="row row-spinner" style="padding: 15px 0;margin: 0;">
+    <mat-spinner diameter="60" *ngIf="!checking"></mat-spinner>
+</div>
+<div class="row" style="direction: rtl;min-height: 650px;margin: 0;padding-bottom: 30px;" *ngIf="checking">
+  <div class="col-md-1"></div>
+  <div class="col-md-10">
+    <mat-card class="example-card">
+      <mat-card-content style="min-height: 50px;padding-top: 15px;font-family: IranSans;">
+        <form [formGroup]="formGp">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <mat-form-field>
+                  <input class="form-control" matInput formControlName="Title"
+                         placeholder="نام و نام خانوادگی" required>
+                  <mat-error style="text-align: right;" *ngIf="formGp.get('Title').hasError('required')">
+                    * وارد کردن این فیلد الزامی می باشد<strong>!</strong>
+                  </mat-error>
+                  <mat-error style="text-align: justify;direction: rtl" *ngIf="formGp.get('Title').hasError('minlength')">
+                    * حداقل 5 کاراکتر وارد نمایید<strong>!</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <mat-form-field>
+                  <mat-select class="form-control" formControlName="Position" placeholder="سمت" required>
+                    <mat-option *ngFor="let position of positions" [value]="position.ID">
+                      {{ position.Title }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error style="text-align: right;" *ngIf="formGp.get('Position').hasError('required')">
+                    * وارد کردن این فیلد الزامی می باشد<strong>!</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <div class="form-group">
+                <mat-form-field>
+                  <mat-select class="form-control" formControlName="Gender" placeholder="جنسیت" required>
+                    <mat-option *ngFor="let gender of genders" [value]="gender.Name">
+                      {{ gender.Title }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error style="text-align: right;" *ngIf="formGp.get('Gender').hasError('required')">
+                    * وارد کردن این فیلد الزامی می باشد<strong>!</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <mat-form-field>
+                  <input class="form-control" matInput formControlName="BirthDate"
+                         placeholder="تاریخ تولد" required>
+                  <mat-error style="text-align: right;" *ngIf="formGp.get('BirthDate').hasError('required')">
+                    * وارد کردن این فیلد الزامی می باشد<strong>!</strong>
+                  </mat-error>
+                  <mat-error style="text-align: justify;direction: rtl" *ngIf="formGp.get('BirthDate').hasError('minlength') || formGp.get('BirthDate').hasError('maxlength')">
+                    * فرمت قابل قبول تاریخ : 1360/05/07<strong></strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <mat-form-field>
+                  <input class="form-control" matInput formControlName="JobTitle"
+                         placeholder="عنوان شغل" required>
+                  <mat-error style="text-align: right;" *ngIf="formGp.get('JobTitle').hasError('required')">
+                    * وارد کردن این فیلد الزامی می باشد<strong>!</strong>
+                  </mat-error>
+                  <mat-error style="text-align: justify;direction: rtl" *ngIf="formGp.get('JobTitle').hasError('minlength')">
+                    * حداقل 4 کاراکتر وارد نمایید<strong>!</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <mat-form-field>
+                  <input class="form-control" matInput formControlName="Email"
+                         placeholder="ایمیل" required>
+                  <mat-error style="text-align: right;" *ngIf="formGp.get('Email').hasError('required')">
+                    * وارد کردن این فیلد الزامی می باشد<strong>!</strong>
+                  </mat-error>
+                  <mat-error style="text-align: justify;direction: rtl" *ngIf="formGp.get('Email').hasError('email')">
+                    * ایمیل خود را بدرستی وارد نمایید<strong>!</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <mat-form-field>
+                  <input class="form-control" type="number" matInput formControlName="Experience"
+                         placeholder="سابقه کار (سال)" required>
+                  <mat-error style="text-align: right;" *ngIf="formGp.get('Experience').hasError('required') || formGp.get('Experience').hasError('min')">
+                    * وارد کردن این فیلد الزامی می باشد<strong>!</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <mat-form-field>
+                  <input class="form-control" matInput formControlName="PhoneNumber"
+                         placeholder="شماره تلفن">
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <mat-form-field>
+                  <mat-select class="form-control" formControlName="EducationLevel" placeholder="سطح تحصیلات" required>
+                    <mat-option *ngFor="let educationLevel of educationLevels" [value]="educationLevel.ID">
+                      {{ educationLevel.Title }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error style="text-align: right;" *ngIf="formGp.get('EducationLevel').hasError('required')">
+                    * وارد کردن این فیلد الزامی می باشد<strong>!</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <mat-form-field>
+                  <input class="form-control" matInput formControlName="MobileNumber"
+                         placeholder="شماره موبایل">
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <mat-form-field>
+                  <input class="form-control" matInput formControlName="Major"
+                         placeholder="رشته تحصیلی" required>
+                  <mat-error style="text-align: right;" *ngIf="formGp.get('Major').hasError('required')">
+                    * وارد کردن این فیلد الزامی می باشد<strong>!</strong>
+                  </mat-error>
+                  <mat-error style="text-align: justify;direction: rtl" *ngIf="formGp.get('Major').hasError('minlength')">
+                    * حداقل 5 کاراکتر وارد نمایید<strong>!</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="row" style="border-bottom: 1px solid #dfdfdf;border-top: 1px solid #dfdfdf;padding: 15px 0px;margin: 15px -15px;
+}">
+            <div class="col-md-6" style="direction: rtl;text-align: justify;">
+              <div *ngIf="contractors && raiParts" class="form-group" style="margin-top: -10px;">
+                <p style="direction: rtl;text-align: justify;color: #0f456d;">
+                  <span>محل خدمت </span>
+                  <span style="color: #da345a">*</span>
+                </p>
+                <!--<mat-form-field>-->
+                <!--<input matInput placeholder="Input" style="display: none" >-->
+
+                <mat-radio-group formControlName="JobLocation" (change)="onJobLocationChange($event)">
+                  <mat-radio-button value="1">سازمان راه آهن</mat-radio-button>
+                  <mat-radio-button value="2">شرکت های طرف قرارداد</mat-radio-button>
+                </mat-radio-group>
+                <!--</mat-form-field>-->
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <mat-form-field>
+                  <mat-select class="form-control" formControlName="JobLocationList" [placeholder]="selectedJobTitlePlaceHolder" required>
+                    <mat-option *ngFor="let jobLocation of jobLocations" [value]="jobLocation.ID">
+                      {{ jobLocation.Title }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error style="text-align: right;" *ngIf="formGp.get('JobLocationList').hasError('required')">
+                    * وارد کردن این فیلد الزامی می باشد<strong>!</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <mat-form-field>
+                      <textarea
+                        class="form-control"
+                        matInput
+                        matTextareaAutosize
+                        matAutosizeMinRows="3"
+                        matAutosizeMaxRows="10"
+                        formControlName="Address"
+                        placeholder="آدرس">
+            </textarea>
+
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <mat-form-field>
+                      <textarea
+                        class="form-control"
+                        matInput
+                        matTextareaAutosize
+                        matAutosizeMinRows="3"
+                        matAutosizeMaxRows="10"
+                        formControlName="ActivityScope"
+                        placeholder="حوزه کاری" required>
+            </textarea>
+                  <mat-error style="text-align: right;" *ngIf="formGp.get('ActivityScope').hasError('required')">
+                    * وارد کردن این فیلد الزامی می باشد<strong>!</strong>
+                  </mat-error>
+                  <mat-error style="text-align: justify;direction: rtl" *ngIf="formGp.get('ActivityScope').hasError('minlength')">
+                    * حداقل 20 کاراکتر وارد نمایید<strong>!</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="row">
+          <div class="col-md-4"></div>
+          <div class="col-md-4">
+            <button style="width: 100%;" (click)="onSubmitForm()" class="btn btn-primary">بروزرسانی اطلاعات</button>
+          </div>
+          <div class="col-md-4"></div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="col-md-1"></div>
+</div>

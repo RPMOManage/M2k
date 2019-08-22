@@ -1,0 +1,157 @@
+.flex-centered {
+  margin: auto;
+}
+
+h3 {
+  font-family: IranSans;
+  text-align: center;
+  direction: rtl;
+  font-size: 17px;
+  font-weight: bold;
+  height: 7px;
+  margin: 0;
+}
+
+.fa-file-contract , .fa-chart-pie , .fa-table {
+  float: right;
+  cursor: pointer;
+  font-size: 20px;
+  margin-top: -4px;
+}
+
+
+.fa-table {
+  color: #ba1b43;
+  margin-right: 20px;
+}
+
+
+.fa-file-contract {
+  color: #1b91ba;
+}
+
+.fa-chart-pie {
+  color: #2fdc20;
+  margin-right: 20px;
+}
+
+nb-card-body {
+  display: flex;
+}
+
+.title {
+  text-align: center;
+  font-family: IranSans;
+}
+
+.mat-card-title {
+  color: #0066c0;
+}
+
+.sub-title {
+  text-align: center;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.btn {
+  margin-bottom: 2rem;
+}
+
+.my-tab {
+  text-align: center;
+}
+
+.my-tab h3 {
+  cursor: pointer;
+  padding-bottom: 10px;
+}
+
+.fal, .fas {
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.fa-plus-circle {
+  color: #64e484;
+  position: absolute;
+  left: 55px;
+  top: 1px;
+}
+
+.fa-plus-circle:hover {
+  color: #56ba68;
+}
+
+.my-tab-active h3 {
+  color: #a5a8ac;
+  border-bottom: 1px solid #dadada9e;
+}
+
+.fa-exchange-alt {
+  color: #4c76ac !important;
+  margin: 0 5px;
+  float: right;
+  margin: 10px 5px;
+}
+
+.fa-exchange-alt:hover {
+  color: rgba(55, 131, 229, 0.83) !important;
+}
+
+.table-contract {
+  border: 1px solid #d1d1d1b8;
+  border-radius: 3px;
+  padding: 0 20px;
+  font-family: IranSans;
+  //margin-bottom: 10px;
+  margin-bottom: 90px;
+  margin-right: 0px;
+  margin-left: 9px;
+  min-height: 750px;
+  background: #fff;
+}
+
+.fa-eye {
+  color: #5e3485;
+}
+
+.table tr {
+  text-align: center;
+}
+
+.dash-del {
+  margin-left: 10px;
+  color: #8b2389;
+  cursor: pointer;
+}
+
+.dash-del:hover {
+  color: #d533d3;
+}
+
+.dash-service {
+  color: #23238b;
+  cursor: pointer;
+}
+
+.dash-service:hover {
+  color: #3865ef;
+}
+.table-bordered th, .table-bordered td {
+  border: none !important;
+}
+
+.table-bordered {
+  border: 1px solid #1b5347 !important;
+  margin-top: 30px !important;
+}
+
+tr {
+  font-size: 15px;
+}
+
+.selected-icon:before {
+  border-radius: 22px;
+  box-shadow: rgba(73, 28, 129, 0.51) 0 -1px 20px 4px, inset transparent 0 -1px 0px 0px, transparent 0 2px 0px;
+}

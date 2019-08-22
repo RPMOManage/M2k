@@ -1,0 +1,95 @@
+<div class="container">
+  <br>
+  <div class="row" style="direction: rtl;">
+    <div class="col-md-1"></div>
+    <div class="col-md-10" style="background: #fff;">
+      <br>
+      <form [formGroup]="formGp" *ngIf="formGp">
+        <div class="row">
+          <div class="col-md-4"></div>
+          <div class="col-md-4">
+            <p *ngIf="sharedService.newCost" style="cursor: default;direction: rtl;text-align: right;font-family: IranSans;">
+              <span>مبلغ قرارداد : </span>
+              <span style="direction: rtl;"
+                    *ngIf="sharedService.newCost && formGp.get('hobbies').value.length > 1"
+                                                [ngClass]="(formGp.get('hobbies').value.reduce(getSum) === sharedService.newCost &&
+               !formGp.get('hobbies').value.includes(null) &&
+               !formGp.get('hobbies').value.includes(0))? 'sh' : 'sh2'"
+                                                matInput type="number">{{ sharedService.newCost | separator }} {{ currency }}</span>
+              <span style="direction: rtl;"
+                    *ngIf="sharedService.newCost && formGp.get('hobbies').value.length === 1"
+                                                [ngClass]="(formGp.get('hobbies').value[0] === sharedService.newCost &&
+               !formGp.get('hobbies').value.includes(null) &&
+               !formGp.get('hobbies').value.includes(0))? 'sh' : 'sh2'"
+                                                matInput type="number">{{ sharedService.newCost | separator }} {{ currency }}</span>
+            </p>
+          </div>
+          <div class="col-md-4"></div>
+        </div>
+        <hr>
+        <h5>
+        </h5>
+        <div class="row" *ngFor="let hobbyControl of formGp.get('CostResources').value;let i = index">
+          <div class="col-md-5">
+            <div formArrayName="CostResources">
+              <div class="form-group">
+                <label [for]="(i + 1) * 100">محل تامین اعتبار</label>
+                <select [formControlName]="i" class="form-control" [id]="(i + 1) * 100">
+                  <option *ngFor="let cr of costResources" [value]="cr.ID">{{ cr.Name }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-5">
+            <div formArrayName="hobbies">
+              <div class="form-group">
+                <label [for]="i">مبلغ تامین اعتبار</label>
+                <input currencyMask autocomplete="off"
+                       [options]="{ suffix: ' ریال ', thousands: ',', prefix: '', decimal: '', precision: 0 }"
+                       [formControlName]="i" class="form-control" [id]="i" placeholder="مبلغ تامین اعتبار">
+              </div>
+            </div>
+          </div>
+          <div *ngIf="!isReadOnly" class="col-md-2">
+            <div class="trasha" *ngIf="formGp.get('CostResources').value.length > 1">
+              <i (click)="delete(i)" class="fas fa-times"></i>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="!isReadOnly" class="row">
+          <div class="col-md-12">
+            <button (click)="onAddHobby(null, null)" class="plusBtn" mat-fab>
+              <i class="fas fa-plus"></i>
+            </button>
+          </div>
+        </div>
+        <hr>
+        <div class="row" style="font-size: 19px;">
+          <div class="col-md-3"></div>
+          <div class="col-md-2"><p
+            *ngIf="formGp.get('CostResources').value.length > 1"
+            style="text-align: left;font-family: IranSans;">جمع : </p></div>
+          <div class="col-md-4" style="text-align: right;">
+            <span *ngIf="formGp.get('CostResources').value.length > 1">
+              <span [ngClass]="
+              (formGp.get('hobbies').value.reduce(getSum) === cost &&
+               !formGp.get('hobbies').value.includes(null) &&
+               !formGp.get('hobbies').value.includes(0))? 'sh' : 'sh2'">
+                {{ formGp.get('hobbies').value.reduce(getSum) | separator }}  <span style="font-family: IranSans">{{ currency }}</span>
+              </span>
+            </span>
+          </div>
+        </div>
+        <div style="direction: ltr;" class="row">
+          <div class="col-md-12">
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+  <div class="row">
+    <div class="col-md-2">
+    </div>
+  </div>
+</div>

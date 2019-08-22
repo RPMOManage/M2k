@@ -1,0 +1,189 @@
+<div class="row" style="direction: rtl;">
+  <div class="col-md-2">
+    <div class="filter-box">
+      <div class="header-box">
+        <span style="float: right;">فیلتر های اعمال شده : </span>
+        <span style="float: left;color: #ff5075;font-size: 14px;cursor: pointer;" (click)="onRemoveTag('all')">حذف</span>
+      </div>
+      <div class="main-box">
+        <div class="row">
+          <div class="col-md-12">
+            <span class="badge badge-light not-selectable" (click)="onRemoveTag('startDate')" *ngIf="startDateVal !== null">
+             <span class="float-right">
+               <span>{{ startDateVal.format('YYYY/MM/DD') }}</span>
+               <span> تاریخ شروع : </span>
+             </span>
+              <i class="fas fa-times float-left"></i>
+            </span>
+            <span class="badge badge-light not-selectable" (click)="onRemoveTag('finishDate')" *ngIf="finishDateVal !== null">
+              <span class="float-right">
+                <span>{{ finishDateVal.format('YYYY/MM/DD') }}</span>
+                <span> تاریخ پایان :</span>
+              </span>
+              <i class="fas fa-times float-left"></i>
+            </span>
+            <span class="badge badge-light not-selectable" (click)="onRemoveTag('finishActDate')" *ngIf="finishActDateVal !== null">
+              <span class="float-right">
+                <span>{{ finishActDateVal.format('YYYY/MM/DD') }}</span>
+                <span> تاریخ اتمام واقعی :</span>
+              </span>
+              <i class="fas fa-times float-left"></i>
+            </span>
+          <span class="badge badge-light not-selectable" (click)="onRemoveTag('contractCost')" *ngIf="someRange[0] !== 0 || someRange[1] !== 15">
+              <span class="float-right">
+              <span> از </span>
+              <span> {{ 15 - someRange[1] }} </span>
+                <span> تا </span>
+              <span> {{ 15 - someRange[0] }} </span>
+              <span>ریال</span>
+              </span>
+              <i class="fas fa-times float-left"></i>
+            </span>
+          <span class="badge badge-light not-selectable" (click)="onRemoveTag('progressRange')" *ngIf="progressRange[0] !== 0 || progressRange[1] !== 100">
+              <span class="float-right">
+              <span> از </span>
+              <span> {{ 100 - progressRange[1] }} </span>
+                <span> تا </span>
+              <span> {{ 100 - progressRange[0] }} </span>
+              <span>درصد</span>
+              </span>
+              <i class="fas fa-times float-left"></i>
+            </span>
+            <span class="badge badge-light not-selectable" (click)="onRemoveTag('finishContract')" *ngIf="finishContract">
+              <span class="float-right">
+                <span>اتمام یافته</span>
+              </span>
+              <i class="fas fa-times float-left"></i>
+            </span>
+            <!--<span class="badge badge-light">Dark</span>-->
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="filter-box">
+      <div class="header-box"><span>فیلتر تاریخ : </span></div>
+      <div class="main-box">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <mat-form-field>
+                <input (dateChange)="onDateChange('startDate')" autocomplete="off" class="form-control" matInput [matDatepicker]="startDate" placeholder="تاریخ شروع" [(ngModel)]="startDateVal">
+                <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+                <mat-datepicker #startDate></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="form-group">
+              <mat-form-field>
+                <input (dateChange)="onDateChange('finishDate')" autocomplete="off" class="form-control" matInput [matDatepicker]="finishDate" placeholder="تاریخ پایان" [(ngModel)]="finishDateVal">
+                <mat-datepicker-toggle matSuffix [for]="finishDate"></mat-datepicker-toggle>
+                <mat-datepicker #finishDate></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="form-group">
+              <mat-form-field>
+                <input (dateChange)="onDateChange('finishActDate')" autocomplete="off" class="form-control" matInput [matDatepicker]="finishActDate" placeholder="تاریخ اتمام واقعی" [(ngModel)]="finishActDateVal">
+                <mat-datepicker-toggle matSuffix [for]="finishActDate"></mat-datepicker-toggle>
+                <mat-datepicker #finishActDate></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="filter-box">
+      <div class="header-box"><span>مبلغ قرارداد : </span></div>
+      <div class="main-box">
+        <div class="row">
+          <div class="col-md-12">
+            <nouislider [connect]="true" [min]="0" [max]="15" [step]="1" [(ngModel)]="someRange" (change)="onSliderChanges($event)"></nouislider>
+          </div>
+          <div class="col-md-6">
+            <div>
+              <span> از </span>
+              <span> {{ 15 - someRange[1] }} </span>
+              <span>ریال</span>
+            </div>
+          </div>
+          <div class="col-md-6" style="text-align: right;">
+            <div>
+              <span> تا </span>
+              <span> {{ 15 - someRange[0] }} </span>
+              <span>ریال</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="filter-box">
+      <div class="header-box"><span>درصد پیشرفت : </span></div>
+      <div class="main-box">
+        <div class="row">
+          <div class="col-md-12">
+            <nouislider [connect]="true" [min]="0" [max]="100" [step]="0.5" [(ngModel)]="progressRange" (change)="onProgressSliderChanges($event)"></nouislider>
+          </div>
+          <div class="col-md-6">
+            <div>
+              <span> از </span>
+              <span> {{ 100 - progressRange[1] }} </span>
+              <span>درصد</span>
+            </div>
+          </div>
+          <div class="col-md-6" style="text-align: right;">
+            <div>
+              <span> تا </span>
+              <span> {{ 100 - progressRange[0] }} </span>
+              <span>درصد</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="filter-box">
+      <div class="header-box"><span> اتمام یافته ها : </span></div>
+      <div class="main-box">
+         <div class="row">
+           <div class="col-md-12"></div>
+           <mat-checkbox class="not-selectable" [checked]="finishContract" (change)="onFinishContractChange($event)">بله</mat-checkbox>
+           <!--<mat-checkbox class="not-selectable" [checked]="finishContract" (change)="onFinishContractChange(false)">خیر</mat-checkbox>-->
+         </div>
+      </div>
+    </div>
+    <div class="filter-box">
+      <div class="header-box"><span>Header 4</span></div>
+      <div class="main-box"></div>
+    </div>
+  </div>
+  <div class="col-md-10">
+    <div class="row">
+      <div class="col-md-4"></div>
+      <div class="col-md-8"></div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-10">
+            <div class="dash-header">
+              <span>دفتر مدیریت پروژه</span>
+              <span class="dash-slash">/</span>
+              <span>قرادادها</span>
+              <span class="dash-slash">/</span>
+              <span style="font-weight: bold;">قرارداد های پروژه ای</span>
+            </div>
+          </div>
+          <div class="col-md-2" style="text-align: left;padding: 0px 20px;">
+            <div>
+              <span>1,000 پروژه</span>
+            </div>
+          </div>
+        </div>
+        <div class="row" style="margin: 5px 0;">
+          <div class="col-md-12 dash-main"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

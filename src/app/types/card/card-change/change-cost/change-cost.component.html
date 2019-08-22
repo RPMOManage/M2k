@@ -1,0 +1,76 @@
+<mat-card style="margin-top: 25px;">
+  <div class="row">
+    <div class="col-md-12" style="border-bottom: 1px solid #f0f0f0;">
+      <h5>
+        <span style="float: right;">سوابق مبلغ قرارداد</span>
+      </h5>
+    </div>
+    <div class="col-md-12">
+      <table class="table table-bordered lastDuty" *ngIf="costCodes">
+        <thead>
+        <th>ردیف</th>
+        <th>تاریخ تغییر</th>
+        <th>مبلغ قرارداد</th>
+        <th>واحد پول</th>
+        <th *ngIf="showEqCost()">مبلغ ارزی</th>
+        </thead>
+        <tbody>
+        <tr *ngFor="let costCode of costCodes; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ costCode.DDate }}</td>
+          <td>{{ costCode.Cost | separator }}</td>
+          <td>
+            <span *ngIf="costCode.EqCost === -1">ریال</span>
+            <span *ngIf="costCode.EqCost !== -1">واحد ارزی</span>
+          </td>
+          <td *ngIf="costCode.EqCost !== -1">{{ costCode.EqCost }}</td>
+          <td *ngIf="costCode.EqCost === -1 && showEqCost()">ندارد</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</mat-card>
+<mat-card style="margin-top: 25px;">
+  <div class="row">
+    <div class="col-md-12" style="border-bottom: 1px solid #f0f0f0;">
+      <h5>
+        <span style="float: right;">تغییر مبلغ به : </span>
+      </h5>
+    </div>
+    <div class="col-md-12">
+      <form *ngIf="formGp" [formGroup]="formGp">
+        <div class="row">
+          <div class="col-md-2">
+            <mat-form-field class="example-full-width">
+              <input formControlName="Cost" class="form-control" type="number" matInput placeholder="مبلغ جدید" required>
+            </mat-form-field>
+          </div>
+          <div class="col-md-2">
+            <mat-form-field>
+              <mat-select class="form-control" placeholder="واحد پول" formControlName="Currency"
+                          name="Currency" required (selectionChange)="onCurrencyChange($event)">
+                <mat-option *ngFor="let currency of currencies" [value]="currency.Id">
+                  {{ currency.Name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-md-2" *ngIf="formGp.get('Currency').value !== 'IRR'">
+            <mat-form-field class="example-full-width">
+              <input formControlName="EqCost" class="form-control" type="number" matInput placeholder="مبلغ ارزی" [required]="isEqCostRequired">
+            </mat-form-field>
+          </div>
+        </div>
+        <br>
+        <div class="row last-button-row">
+          <div class="col-md-4"></div>
+          <div class="col-md-4">
+            <button class="btn btn-primary" (click)="onSubmitClick()">ثبت اطلاعات</button>
+          </div>
+          <div class="col-md-4"></div>
+        </div>
+      </form>
+    </div>
+  </div>
+</mat-card>

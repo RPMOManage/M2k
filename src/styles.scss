@@ -1,0 +1,803 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+// themes - our custom or/and out of the box themes
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+//mine
+@import '~nouislider/distribute/nouislider.min.css';
+//mine
+@import '~angular2-multiselect-dropdown/themes/default.theme.css';
+//mine
+// handsontable pro
+@import '~handsontable/dist/handsontable.full.css';
+
+@font-face {
+  font-family: 'Shabnam';
+  src: url('./assets/fonts/Shabnam.eot');
+  src: local('Shabnam'), url('http://rpmo.rai.ir/SitePages/main/assets/fonts/IRANSansWeb(FaNum).woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'IranSans';
+  src: url('./assets/fonts/IRANSansWeb(FaNum).woff2');
+  src: local('IranSansNum'), url('http://rpmo.rai.ir/SitePages/main/assets/fonts/IRANSansWeb(FaNum).woff2') format('woff2'), url('http://pmo.rai.ir/PO/SitePages/IRANSansWeb(FaNum).woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'IranSans';
+  src: url('./assets/fonts/IRANSansWeb(FaNum)_Bold.woff2');
+  src: local('IranSansNum'), url('http://rpmo.rai.ir/SitePages/main/assets/fonts/IRANSansWeb(FaNum)_Bold.woff2') format('woff2'), url('http://pmo.rai.ir/PO/SitePages/IRANSansWeb(FaNum)_Bold.woff2') format('woff2');
+  font-weight: bold;
+  font-style: normal;
+}
+
+// KMS mine css Codes
+
+//.mat-tab-label .mat-tab-label-content {
+//  font-family: IranSans !important;
+//}
+//
+//.mat-tab-body.mat-tab-body-active {
+//  text-align: justify;
+//  direction: rtl;
+//  line-height: 35px;
+//  padding-top: 25px;
+//}
+
+// start mine css codes
+
+//.mat-card:not([class*=mat-elevation-z]) {
+//  -webkit-box-shadow: 2px 4px 14px -1px rgba(33,33,33,1) !important;
+//  -moz-box-shadow: 2px 4px 14px -1px rgba(33,33,33,1) !important;
+//  box-shadow: 2px 4px 14px -1px rgba(33,33,33,1) !important;
+//}
+//
+//.mat-checkbox-label {
+//  font-family: IranSans;
+//}
+//
+//.mat-card-header-text {
+//  overflow: hidden;
+//  white-space: nowrap;
+//  text-overflow: ellipsis;
+//}
+//
+//.mat-form-field {
+//  width: 100%;
+//}
+//
+//.selected-list .c-angle-down, .selected-list .c-angle-up {
+//  left: 10px !important;
+//  right: auto !important;
+//}
+//
+//.list-filter input {
+//  padding: 0 30px !important;
+//}
+//
+//.selected-list .c-list .c-token {
+//  float: right !important;
+//  border-radius: 5px !important;
+//}
+//
+//.highcharts-background {
+//  fill: none;
+//}
+//rect[fill-opacity='0.5'] {
+//  fill: transparent !important;
+//}
+//
+//text.highcharts-credits {
+//  display: none;
+//}
+//
+//mat-datepicker-toggle.mat-datepicker-toggle {
+//  float: left;
+//  margin-top: 18px;
+//}
+//
+//.nb-theme-default .form-control {
+//  font-size: 1rem;
+//  font-family: IranSans !important;
+//}
+//
+//.mat-select {
+//  font-family: IranSans;
+//}
+//
+//.mat-option {
+//  font-family: IranSans;
+//}
+//
+//.mat-tab-label .mat-tab-label-content {
+//  direction: rtl;
+//}
+//.mat-checkbox-layout .mat-checkbox-label {
+//  padding: 0 7px;
+//  font-family: IranSans;
+//}
+//.mat-form-field-underline {
+//  display: none;
+//}
+//.mat-form-field-label {
+//  left: -5px !important;
+//  color: #0f456d !important;
+//}
+//.mat-form-field-appearance-legacy.mat-form-field-can-float .mat-input-server:focus+.mat-form-field-label-wrapper .mat-form-field-label, .mat-form-field-appearance-legacy.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+//  -webkit-transform: translateY(-1.78125em) scale(.75) perspective(100px) translateZ(.001px);
+//  transform: translateY(-1.78125em) scale(.75) perspective(100px) translateZ(.001px) !important;
+//  -ms-transform: translateY(-1.78125em) scale(.75);
+//  width: 133.33333%;
+//}
+//.mat-form-field-appearance-legacy .mat-form-field-label {
+//  top: 1.78125em !important;
+//}
+//.form-control {
+//  display: block !important;
+//  width: 100% !important;
+//  padding: .375rem .75rem !important;
+//  font-size: 1rem !important;
+//  line-height: 1.5 !important;
+//  color: #495057 !important;
+//  background-color: #fff !important;
+//  background-clip: padding-box !important;
+//  border: 1px solid #ced4da !important;
+//  border-radius: .25rem !important;
+//  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out !important;
+//  font-family: IranSans;
+//}
+//.mat-form-field {
+//  width: 100%;
+//  text-align: right !important;
+//  font-family: IranSans;
+//}
+//.example-form {
+//  min-width: 150px;
+//  max-width: 500px;
+//  width: 100%;
+//}
+//
+//.example-full-width {
+//  width: 100%;
+//}
+//
+//.mat-select-value {
+//  font-family: IranSans;
+//}
+//
+//.pure-checkbox input[type=checkbox] + label:before {
+//  right: -25px;
+//  left: auto !important;
+//}
+//
+//.pure-checkbox input[type=checkbox] + label:after {
+//  right: -22px;
+//  left: auto !important;
+//}
+//
+//.dropdown-list ul li {
+//  text-align: right !important;
+//}
+//
+//.select-all {
+//  padding: 10px 55px !important;
+//  text-align: right !important;
+//}
+//
+//.mat-sort-header-container {
+//  display:flex;
+//  justify-content:center;
+//}
+//
+//.menu-item a {
+//  font-family: IranSans;
+//}
+//
+//.mat-calendar-body-label {
+//  font-family: IranSans;
+//}
+//
+//.menu-item:first-child {
+//  font-family: IranSans;
+//}
+//
+//.btn-primary {
+//  background-image: linear-gradient(40deg,#45cafc,#303f9f) !important;
+//  font-family: IranSans;
+//}
+//
+//mat-select {
+//  direction: rtl;
+//  text-align: justify;
+//}
+//
+//.highcharts-label-box {
+//  width: 0 !important;
+//}
+//
+//.highcharts-data-labels {
+//  font-family: IranSans;
+//}
+//
+//
+//
+//
+//
+//
+
+.mat-card-header-text {
+  width: 100%;
+}
+
+.noUi-horizontal .noUi-handle {
+  width: 25px !important;
+  height: 15px !important;
+  top: -3px !important;
+}
+
+.noUi-handle:after, .noUi-handle:before {
+  top: 0px !important;
+}
+
+.noUi-horizontal {
+  height: 10px !important;
+}
+
+.mat-tab-dashboard .mat-tab-header {
+  direction: ltr !important;
+}
+
+.speed4OnTimeChart .highcharts-pane {
+  fill: #cbf3ff;
+}
+
+.tempp text[text-anchor="start"] {
+  display: none;
+}
+
+.tempp text[text-anchor="middle"] {
+  font-size: 14px;
+}
+
+.green-band {
+  fill: rgb(192, 0, 0);
+  fill-opacity: 1;
+}
+
+.yellow-band {
+  fill: rgb(255, 69, 0);
+  fill-opacity: 1;
+}
+
+.red-band {
+  fill: rgb(255, 255, 0);
+  fill-opacity: 1;
+}
+
+.sabz-band {
+  fill: rgb(51, 204, 51);
+  fill-opacity: 1;
+}
+
+.speed4OnTimeChart .highcharts-container {
+  fill: #000 !important;
+}
+
+//.highcharts-background {
+//  fill: none;
+//}
+
+.mat-select-value-text {
+  font-family: IranSans;
+}
+
+.contract-tabs .mat-tab-body {
+  padding: 30px;
+}
+
+.pish-left-box .mat-checkbox-label {
+  text-align: right;
+}
+
+.change-dis .mat-list-item-content {
+  padding: 0 !important;
+}
+
+.dis-ico .mat-list-item-content {
+  display: block !important;
+}
+
+.pure-checkbox input[type=checkbox] + label {
+  width: 100%;
+}
+
+.list-filter input {
+  padding-right: 35px !important;
+}
+
+mat-card-subtitle.mat-card-subtitle {
+  direction: rtl;
+  text-align: right;
+}
+
+.selected-list .c-angle-down, .selected-list .c-angle-up {
+  left: 10px !important;
+  right: auto !important;
+}
+
+.mat-tooltip {
+  background: rgba(31, 53, 100, 0.7) !important;
+  font-family: IranSans !important;
+  direction: rtl;
+  text-align: right;
+  color: #fff !important;
+}
+
+.dropdown-list ul li {
+  text-align: right !important;
+}
+
+.select-all {
+  text-align: right !important;
+}
+
+.dash-header, .main-content-all {
+  font-family: IranSans;
+}
+
+.mat-list-text {
+  font-family: IranSans;
+}
+
+mat-panel-title.mat-expansion-panel-header-title {
+  font-family: IranSans;
+}
+
+.mat-option:hover {
+  background: #e4ebff !important;;
+}
+
+.mat-option-text {
+  text-align: left !important;
+  padding-left: 5px;
+}
+
+mat-list-item {
+  direction: rtl;
+  text-align: justify;
+}
+
+.mat-card:not([class*=mat-elevation-z]) {
+  box-shadow: -3px 4px 1px -1px rgba(0, 0, 0, .2), 2px 4px 1px 0 rgba(0, 0, 0, .14), -3px 6px 3px 0 rgba(0, 0, 0, .12);
+}
+
+label.mat-checkbox-layout {
+  margin-top: 5px;
+}
+
+.version-field .mat-form-field-wrapper {
+  padding: 0 !important;
+}
+
+.version-field .mat-form-field-infix {
+  //padding: 0;
+}
+
+// Wizard
+
+.mat-form-field-label {
+  font-size: 17px;
+}
+
+.fa-plus-circle {
+  float: right;
+  cursor: pointer;
+  font-size: 30px;
+  color: rgba(10, 171, 18, 0.85);
+}
+
+.fa-plus-circle:hover {
+  color: rgba(42, 197, 43, 0.92);
+}
+
+.mat-horizontal-stepper-header-container {
+  direction: rtl;
+}
+
+#hot-display-license-info {
+  display: none;
+}
+
+.handsontable thead th .relative {
+  font-family: Shabnam;
+  direction: rtl;
+}
+
+.pish-left-box .mat-checkbox-label {
+  width: 100%;
+}
+
+.pish-left-box label.mat-checkbox-layout {
+  width: 100%;
+}
+
+.mat-step-header .mat-step-label.mat-step-label-active {
+  margin-right: 5px;
+  font-family: Shabnam;
+}
+
+.mat-fab .mat-button-wrapper {
+  padding: 0 !important;
+}
+
+text.highcharts-credits {
+  display: none;
+}
+
+.mat-stepper-horizontal {
+  min-height: 805px;
+}
+
+.mat-option-text {
+  text-align: justify !important;
+  direction: rtl !important;
+}
+
+//html {
+//  background: #9a9a9a;
+//}
+//.handsontable .htDimmed {
+//  background: rgba(112, 255, 247, 0.42) !important;
+//}
+.mat-tab-label .mat-tab-label-content {
+  direction: rtl;
+}
+
+.mat-checkbox-layout .mat-checkbox-label {
+  padding: 0 7px;
+  font-family: Shabnam;
+}
+
+.mat-form-field-underline {
+  display: none;
+}
+
+.mat-form-field-label {
+  left: -5px !important;
+  color: #0f456d !important;
+}
+
+.mat-form-field-appearance-legacy.mat-form-field-can-float .mat-input-server:focus + .mat-form-field-label-wrapper .mat-form-field-label, .mat-form-field-appearance-legacy.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+  -webkit-transform: translateY(-1.78125em) scale(.75) perspective(100px) translateZ(.001px);
+  transform: translateY(-1.78125em) scale(.75) perspective(100px) translateZ(.001px) !important;
+  -ms-transform: translateY(-1.78125em) scale(.75);
+  width: 133.33333%;
+}
+
+.mat-form-field-appearance-legacy .mat-form-field-label {
+  top: 1.78125em !important;
+}
+
+.form-control {
+  display: block !important;
+  width: 100% !important;
+  padding: .375rem .75rem !important;
+  font-size: 1rem !important;
+  line-height: 1.5 !important;
+  color: #495057 !important;
+  background-color: #fff !important;
+  background-clip: padding-box !important;
+  border: 1px solid #ced4da !important;
+  border-radius: .25rem !important;
+  transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out !important;
+  font-family: Shabnam;
+}
+
+.mat-form-field {
+  width: 100%;
+  text-align: right !important;
+  font-family: Shabnam;
+}
+
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+.form-group {
+  text-align: right;
+}
+
+.mat-tab-body-content {
+  overflow: hidden !important;
+}
+
+.form-control:disabled {
+  background-color: #f1f1f1 !important;
+}
+
+.mat-option-text {
+  font-family: IranSans;
+  text-align: right;
+  direction: rtl;
+}
+
+.handsontable .htRight {
+  text-align: center !important;
+  font-family: IranSans;
+}
+
+td.htDimmed {
+  font-family: IranSans;
+}
+
+.handsontable .relative {
+  font-family: IranSans;
+}
+
+.ng-touched.ng-invalid {
+  border-color: #e46363 !important;
+}
+
+.swal2-popup.swal2-modal.swal2-show {
+  font-family: IranSans;
+  direction: rtl;
+}
+
+.mat-tab-label-content {
+  font-family: IranSans;
+}
+
+.example-tooltip {
+  background: transparent;
+  color: rgba(31, 65, 141, 0.16) !important;
+  font-family: IranSans;
+  font-size: 15px;
+  color: #fff !important;
+}
+
+.example-tooltip-Del {
+  background: #dadadab0;
+  padding: 6px;
+  border-radius: 4px;
+  margin: 1px 16px !important;
+  color: #1f418d !important;
+  font-family: IranSans;
+  font-size: 13px;
+  direction: rtl;
+  text-align: right;
+}
+
+.mat-dialog-container {
+  border-radius: 4px !important;
+}
+
+.mat-radio-label-content {
+  font-family: IranSans !important;
+}
+
+.mat-radio-label-content {
+  padding-right: 4px !important;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+tspan {
+  font-family: IranSans;
+}
+
+.handsontable input, .handsontable textarea {
+  font-family: IranSans !important;
+}
+
+.mat-dialog-container {
+  font-family: IranSans !important;
+}
+
+.ht_master tr > td:nth-of-type(odd) {
+  background-color: #FFEBF0;
+}
+
+.ht_master tr > td:nth-of-type(even) {
+  background-color: rgba(74, 231, 92, 0.17);
+}
+
+/* Specific column (B) */
+.ht_master tr > td:nth-child(2) {
+  background-color: rgba(112, 255, 247, 0.42) !important;
+}
+
+mat-card.mat-card {
+  font-family: IranSans;
+}
+
+.highchart-Tooltip {
+  direction: rtl;
+  text-align: right;
+  font-family: IranSans;
+}
+
+text {
+  font-family: IranSans !important;
+}
+
+//.mat-horizontal-stepper-header{
+//  pointer-events: none !important;
+//}
+.mat-step-header .mat-step-icon-not-touched {
+  background-color: #35b4bb;
+}
+
+.mat-step-header .mat-step-icon {
+  color: #28ff78;
+}
+
+.mat-step-header {
+  font-family: IranSans;
+}
+
+mat-step-header[ng-reflect-selected=true] .mat-step-icon {
+  background: #0747cd !important;
+  color: #ffffff;
+}
+
+mat-step-header[ng-reflect-state=edit] .mat-step-icon {
+  background: #c15959 !important;
+  color: #ffffff;
+}
+
+mat-step-header[ng-reflect-state=done] .mat-step-icon {
+  background: #188b33db !important;
+  color: #ffffff;
+}
+
+.mat-horizontal-stepper-header-container {
+  background: #a2ceff42;
+  box-shadow: 0px 1px 14px 0px #0a1252;
+  margin-bottom: 25px;
+}
+
+mat-step-header[ng-reflect-selected=true] {
+  background: rgba(216, 229, 237, 0.47);
+}
+
+#download .mat-fab.mat-accent {
+  background: linear-gradient(40deg, #7082ff, #8900cc) !important;
+}
+
+#download2 .mat-fab.mat-accent {
+  background: linear-gradient(40deg, #FFBF70, #CC7000) !important;
+}
+
+.nextButton {
+  background-color: #007bff !important;
+  font-family: IranSans !important;
+}
+
+.mat-raised-button {
+  font-family: IranSans;
+}
+
+.mat-tab-label-active {
+  background: #d0dbe8;
+}
+
+.mat-tab-label-active div button {
+  opacity: 1 !important;
+}
+
+.last-button-row {
+  padding-top: 55px;
+  padding-bottom: 30px;
+}
+
+.mat-tab-label {
+  color: #000 !important;
+  opacity: 1 !important;
+}
+
+.mat-tab-label div button {
+  opacity: 0.7;
+}
+
+.mat-tab-header {
+  direction: rtl;
+  background: #fff;
+}
+
+.deliverableButton {
+  background: #b5378c !important;
+  border-color: #b5378c !important;
+}
+
+.deliverableButton:hover {
+  background: #a91479 !important;
+}
+
+@media only screen and (max-width: 1450px) and (min-width: 400px) {
+  .mat-step-label {
+    white-space: initial !important;
+    font-size: 12px !important;
+    text-align: right !important;
+  }
+  .handsontable th {
+    font-size: 12px !important;
+  }
+}
+
+.mat-step-label {
+  white-space: initial !important;
+  text-align: right !important;
+}
+
+.handsontable th {
+  white-space: pre-wrap !important;
+}
+
+.mat-select-disabled {
+  background: #f1f1f1 !important;
+}
+
+.mat-checkbox-disabled .mat-checkbox-label {
+  color: #7b7b7b !important;
+}
+
+.mat-checkbox-disabled.mat-checkbox-checked .mat-checkbox-background, .mat-checkbox-disabled.mat-checkbox-indeterminate .mat-checkbox-background {
+  background-color: rgba(255, 64, 129, 0.6) !important;
+}
+
+.mat-checkbox-disabled .mat-checkbox-frame {
+  border-color: #f6dbe4 !important;
+}
+
+.handsontable .htDimmed {
+  color: #777;
+  background-color: #c4fffc !important;
+}
+
+.handsontable th, .handsontable td {
+  font-family: IranSans !important;
+  text-align: center !important;
+}
+
+.fa-times-circle:before {
+  color: #d31818;
+}
+
+.fa-check-circle:before {
+  color: #44c383;
+}
+
+.mat-calendar-table-header th {
+  font-family: IranSans;
+}
+
+.mat-calendar-body-label {
+  font-family: IranSans;
+}
+
+.mat-calendar-period-button {
+  font-family: IranSans;
+}
+
+.mat-calendar-body-cell-content {
+  font-family: IranSans;
+}
+
+.swal2-footer {
+  display: block !important;
+}

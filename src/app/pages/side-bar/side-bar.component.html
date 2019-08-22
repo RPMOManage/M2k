@@ -1,0 +1,20 @@
+<mat-card [ngClass]="!isIcon ? '' :  'card-icon'">
+  <mat-list role="list" *ngIf="!isIcon">
+    <mat-list-item *ngFor="let men of menu" [ngClass]="selectedMenu === men.ID ? 'active change-dis' : 'change-dis'" role="listitem" (click)="onClickItem(men)">
+      <i class="fas fa-file-contract" [ngClass]="selectedMenu === men.ID ? men.Icon + ' active' :  men.Icon"></i>
+      <span class="men-title">{{ men.TitleFa }}</span>
+    </mat-list-item>
+  </mat-list>
+  <mat-list role="list" *ngIf="isIcon">
+    <mat-list-item *ngFor="let men of menu" [ngClass]="selectedMenu === men.ID ? 'active change-dis dis-ico' : 'change-dis dis-ico'" role="listitem" (click)="onClickItem(men)">
+      <i class="fas fa-file-contract" [ngClass]="selectedMenu === men.ID ? men.Icon + ' active' :  men.Icon" [matTooltip]="men.TitleFa" matTooltipShowDelay="750"></i>
+    </mat-list-item>
+  </mat-list>
+  <div class="row contract-button">
+    <div class="col-md-12">
+      <button (click)="onClickButtonPish()" matTooltip="ایجاد پیش قرارداد" matTooltipClass="example-tooltip" mat-fab [ngClass]="!isIcon ? 'plusBtn' : 'plusBtn plusBtn-isIcon'">
+        <i class="fa fa-plus"></i>
+      </button>
+    </div>
+  </div>
+</mat-card>

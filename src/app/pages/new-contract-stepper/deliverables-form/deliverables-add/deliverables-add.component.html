@@ -1,0 +1,92 @@
+<div class="row">
+  <div class="col-md-12">
+    <h3>احجام کلی {{ passedData.serviceRealName }}</h3>
+  </div>
+</div>
+<hr>
+<div class="row">
+  <form [formGroup]="addDeliverablesForm">
+    <div class="row"
+         *ngFor="let addForm of addDeliverablesForm.get('name_Deliverable').value; let i = index">
+      <div style="text-align: center;" class="col-md-1">
+        <span style="border: 2px solid #4d7b79;padding: 0px 7px;border-radius: 4px;line-height: 80px;">{{ i + 1 }}</span>
+      </div>
+      <div class="col-md-3">
+        <mat-form-field *ngIf="deliverables" formArrayName="name_Deliverable">
+          <mat-select class="form-control" (selectionChange)="changeSelected($event, i)" placeholder="تحویل شدنی"
+                      [formControlName]="i">
+            <mat-option *ngFor="let del of deliverables" [value]="del.Id">
+              {{ del.Name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-md-2">
+        <div *ngIf="possibleOperationTypes[i]" formArrayName="operationTypes_deliverables">
+          <mat-form-field>
+            <mat-select class="form-control" placeholder="نوع عملیات" [formControlName]="i">
+              <mat-option *ngFor="let operation of possibleOperationTypes[i]" [value]="operation.Id">
+                {{ operation.Name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div *ngIf="possibleOperationTypes[i]" formArrayName="value_Deliverable">
+          <div style="margin-top: -10px;" class="form-group">
+            <label [for]="'value_Deliverable' + i" *ngIf="getMeasureUnit(addDeliverablesForm.get('name_Deliverable').value[i])">مقدار ({{ getMeasureUnit(addDeliverablesForm.get('name_Deliverable').value[i]) }})</label>
+            <label [for]="'value_Deliverable' + i" *ngIf="!getMeasureUnit(addDeliverablesForm.get('name_Deliverable').value[i])">مقدار</label>
+            <!--<input currencyMask autocomplete="off"-->
+                   <!--(keyup)="valueChanged()"-->
+                   <!--[options]="{ suffix: ' ' + getMeasureUnit(addDeliverablesForm.get('name_Deliverable').value[i]) + ' ', thousands: ',', prefix: '', decimal: '', precision: 0 }" class="form-control"-->
+                   <!--[formControlName]="i" type="text" class="form-control" [id]="'value_Deliverable' + i"-->
+                   <!--aria-describedby="AgentName_StakeholdersContract" placeholder="مقدار">-->
+            <input autocomplete="off"
+                   (keyup)="valueChanged()"
+                   [formControlName]="i" type="text" class="form-control" [id]="'value_Deliverable' + i"
+                   aria-describedby="AgentName_StakeholdersContract" placeholder="مقدار">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3" *ngIf="passedData.zoneShow">
+        <mat-form-field *ngIf="zones && possibleOperationTypes[i]" formArrayName="zone_deliverables">
+          <mat-select class="form-control" placeholder="ناحیه ها" [formControlName]="i" multiple>
+            <mat-option *ngFor="let zone of zones" [value]="zone.Id">
+              {{ zone.Name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div *ngIf="!isReadOnly" class="col-md-1">
+        <div class="trasha" (click)="onDeleteDeliverable(i)">
+          <i class="fas fa-times"></i>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<hr>
+<div *ngIf="!isReadOnly" class="row">
+  <div class="col-md-12">
+    <button class="plusBtn" (click)="onAddd({ id: null }, null, null, null, false, 0)" mat-fab>
+      <i class="fas fa-plus"></i>
+    </button>
+  </div>
+</div>
+<div *ngIf="hasDup" class="row" style="background: #ea8181;border-radius: 3px;margin: 20px 0px;padding: 10px;">
+  <div class="col-md-4"></div>
+  <div class="col-md-4" style="margin-bottom: 0;text-align: center">
+    <p>داده ها دارای مشکل می باشند!</p>
+  </div>
+  <div class="col-md-4"></div>
+</div>
+<div *ngIf="!isReadOnly" style="direction: ltr;margin-top: 100px;" class="row">
+  <div class="col-md-4"></div>
+  <div class="col-md-4" *ngIf="!passedData.isChange">
+    <!--<button style="width: 100%" *ngIf="deliverablesForm.name_Deliverable" class="btn btn-primary deliverableButton" #dd (click)="showForm()">اعمال تغییرات</button>-->
+    <!--<button style="width: 100%" *ngIf="!deliverablesForm.name_Deliverable" class="btn btn-primary deliverableButton" #dd (click)="showForm()">تایید</button>-->
+    <button style="width: 100%" class="btn btn-primary deliverableButton" #dd (click)="showForm()">تایید</button>
+  </div>
+  <div class="col-md-4"></div>
+</div>

@@ -1,0 +1,41 @@
+.mat-fab {
+  line-height: 20px;
+  width: 30px;
+  height: 30px;
+}
+#addRow .mat-fab.mat-accent {
+  background: linear-gradient(40deg, #56f1a2, #064c05) !important;
+}
+.plusBtn {
+  float: right;
+}
+
+.col-md-1 {
+  max-width: 2.333333%;
+}
+
+.col-md-1:last-child {
+  max-width: 5.333333%;
+  margin-right: 20px;
+}
+
+#description {
+  direction: rtl;
+  font-family: IranSans;
+  border-bottom: 2px solid #517d9c;
+  padding: 10px 0px;
+  margin: 0 !important;
+}
+.conteiner {
+  border: 2px solid #517d9c;
+  padding: 5px 0px;
+  border-radius: 5px;
+  box-shadow: 3px -1px 12px 1px #c5c5c5;
+  background: #fff;
+}
+.fa-expand-arrows-alt {
+  padding: 4px;
+  border-bottom: 2px solid #517d9c;
+  border-right: 2px solid #517d9c;
+  border-bottom-right-radius: 5px;
+}

@@ -1,0 +1,393 @@
+<h2 *ngIf="passedData.tabIndex === 0">افزودن سند درخواست</h2>
+<h2 *ngIf="passedData.tabIndex === 1">افزودن سند پرداخت</h2>
+<hr>
+<div class="row" style="direction: rtl;padding: 0 15px;" *ngIf="this.passedData.duty">
+  <div class="col-md-2"></div>
+  <div class="col-md-4" style="text-align: right;">
+    <p>
+      <span>تاریخ انعقاد : </span>
+      <span>{{ this.passedData.contract.DeclareDate }}</span>
+    </p>
+  </div>
+  <div class="col-md-4" style="text-align: left">
+    <p>
+      <span>مبلغ قرارداد : </span>
+      <span>{{ this.passedData.contract.Cost | separator }}</span>
+    </p>
+  </div>
+  <div class="col-md-2"></div>
+</div>
+<div class="row" style="direction: rtl;padding: 0 15px;" *ngIf="!this.passedData.duty">
+  <div class="col-md-2"></div>
+  <div class="col-md-4" style="text-align: right;">
+    <p>
+      <span>تاریخ انعقاد : </span>
+      <span>{{ contractDeclareDate }}</span>
+    </p>
+  </div>
+  <div class="col-md-4" style="text-align: left">
+    <p>
+      <span>مبلغ قرارداد : </span>
+      <span>{{ contractCost | separator }}</span>
+    </p>
+  </div>
+  <div class="col-md-2"></div>
+</div>
+<div class="row" style="direction: rtl;min-height: 650px;margin: 0;padding-bottom: 30px;" *ngIf="checking">
+  <div class="col-md-2"></div>
+  <div class="col-md-8">
+    <mat-card class="example-card">
+      <mat-card-content style="min-height: 50px;padding-top: 15px;font-family: IranSans;">
+        <form [formGroup]="formGp">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <mat-form-field>
+                  <input formControlName="LetterDate" autocomplete="off" class="form-control" (focus)="LetterDate.open()" matInput [matDatepicker]="LetterDate" placeholder="تاريخ نامه" [(ngModel)]="selectedLetterDate">
+                  <mat-datepicker-toggle matSuffix [for]="LetterDate"></mat-datepicker-toggle>
+                  <mat-datepicker #LetterDate></mat-datepicker>
+                  <!--<input class="form-control" matInput formControlName="LetterDate"-->
+                         <!--placeholder="تاريخ نامه" required (keyup)="onDateChange($event, 1)">-->
+                  <mat-error style="text-align: right;" *ngIf="selectedLetterDate.format('jYYYY/jM/jD') === 'Invalid date' && formGp.get('LetterDate').touched">
+                    * وارد کردن این فیلد الزامی می باشد<strong>!</strong>
+                  </mat-error>
+                  <mat-error style="text-align: justify;direction: rtl" *ngIf="formGp.get('LetterDate').hasError('minlength')">
+                    * حداقل 5 کاراکتر وارد نمایید<strong>!</strong>
+                  </mat-error>
+                  <p style="text-align: justify;direction: rtl;color: #b43434;line-height: 45px;" *ngIf="isLetterDateValid === false">
+                    * تاریخ باید بعد از شروع قرارداد باشد<strong>!</strong>
+                  </p>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <mat-form-field>
+                  <input *ngIf="passedData.tabIndex === 0" formControlName="Date1" autocomplete="off" class="form-control" (focus)="Date1.open()" matInput [matDatepicker]="Date1" placeholder="تاريخ تاييد سند" [(ngModel)]="selectedDate1">
+                  <input *ngIf="passedData.tabIndex === 1" formControlName="Date1" autocomplete="off" class="form-control" (focus)="Date1.open()" matInput [matDatepicker]="Date1" placeholder="تاريخ پرداخت" [(ngModel)]="selectedDate1">
+                  <mat-datepicker-toggle matSuffix [for]="Date1"></mat-datepicker-toggle>
+                  <mat-datepicker #Date1></mat-datepicker>
+                  <!--<input class="form-control" matInput formControlName="Date1"-->
+                  <!--placeholder="تاريخ تاييد سند" required (keyup)="onDateChange($event, 0)">-->
+                  <mat-error style="text-align: right;" *ngIf="selectedDate1.format('jYYYY/jM/jD') === 'Invalid date' && formGp.get('Date1').touched">
+                    * وارد کردن این فیلد الزامی می باشد<strong>!</strong>
+                  </mat-error>
+                  <mat-error style="text-align: justify;direction: rtl" *ngIf="formGp.get('Date1').hasError('minlength')">
+                    * حداقل 5 کاراکتر وارد نمایید<strong>!</strong>
+                  </mat-error>
+                  <p style="text-align: justify;direction: rtl;color: #b43434;line-height: 45px;" *ngIf="isDate1Valid === false">
+                    * تاریخ باید بعد از شروع قرارداد باشد<strong>!</strong>
+                  </p>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <mat-form-field>
+                  <input class="form-control" type="number" matInput formControlName="FiscalYear" autocomplete="off"
+                         placeholder="سال مالي" required>
+                  <mat-error style="text-align: right;" *ngIf="formGp.get('FiscalYear').hasError('required')">
+                    * وارد کردن این فیلد الزامی می باشد<strong>!</strong>
+                  </mat-error>
+                  <mat-error style="text-align: justify;direction: rtl" *ngIf="formGp.get('FiscalYear').hasError('minlength')">
+                    * حداقل 5 کاراکتر وارد نمایید<strong>!</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <mat-form-field>
+                  <mat-select class="form-control" formControlName="FinancialRequestType" [placeholder]="financialRequestTypeTitle" [required]="passedData.tabIndex === 0 ? true : false" (selectionChange)="onSelectionTypeChange()">
+                    <mat-option value="null" *ngIf="passedData.tabIndex === 1" > </mat-option>
+                    <mat-option *ngFor="let financialRequestType of financialRequestTypes" [value]="financialRequestType.ID">
+                      {{ financialRequestType.Title }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error style="text-align: right;" *ngIf="formGp.get('FinancialRequestType').hasError('required')">
+                    * وارد کردن این فیلد الزامی می باشد<strong>!</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <mat-form-field>
+                  <input class="form-control" matInput formControlName="VoucherNum" autocomplete="off"
+                         placeholder="شماره سند" required>
+                  <mat-error style="text-align: right;" *ngIf="formGp.get('VoucherNum').hasError('required')">
+                    * وارد کردن این فیلد الزامی می باشد<strong>!</strong>
+                  </mat-error>
+                  <mat-error style="text-align: justify;direction: rtl" *ngIf="formGp.get('VoucherNum').hasError('minlength')">
+                    * حداقل 5 کاراکتر وارد نمایید<strong>!</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="passedData.tabIndex === 1">
+            <div class="col-md-6">
+              <div class="form-group">
+                <mat-form-field>
+                  <mat-select class="form-control" formControlName="PaymentType" placeholder="نوع پرداخت" required>
+                    <mat-option *ngFor="let financialPaymentType of financialPaymentTypes" [value]="financialPaymentType.ID">
+                      {{ financialPaymentType.Title }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error style="text-align: right;" *ngIf="formGp.get('PaymentType').hasError('required')">
+                    * وارد کردن این فیلد الزامی می باشد<strong>!</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col-md-6" >
+              <div class="form-group">
+                <mat-form-field *ngIf="costResources">
+                  <mat-select class="form-control" formControlName="CostResource" placeholder="محل تامین اعتبار" required>
+                    <mat-option *ngFor="let costResource of costResources" [value]="costResource.ID">
+                      {{ costResource.Name }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error style="text-align: right;" *ngIf="formGp.get('CostResource').hasError('required')">
+                    * وارد کردن این فیلد الزامی می باشد<strong>!</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <mat-form-field>
+                  <input class="form-control"  type="number" matInput formControlName="GrossAmount" autocomplete="off"
+                         placeholder="مبلغ ناخالص  (غیر تجمعی)" required (keyup)="onGrossAmountChange()">
+                  <mat-error style="text-align: right;" *ngIf="formGp.get('GrossAmount').hasError('required')">
+                    * وارد کردن این فیلد الزامی می باشد<strong>!</strong>
+                  </mat-error>
+                  <mat-error style="text-align: justify;direction: rtl" *ngIf="formGp.get('GrossAmount').hasError('min')">
+                    * مبلغ نمی تواند منفی باشد!<strong>!</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col-md-4"></div>
+            <div class="col-md-12">
+              <p style="text-align: justify;direction: rtl;color: #b43434;line-height: 45px;" *ngIf="isGorssAmountValid === false">
+                * مبلغ کل صورت وضعیت ها نمی تواند از مبلغ کل قرارداد ({{ contractCost }}) بیشتر باشد <strong>!</strong>
+              </p>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <mat-form-field>
+                  <input class="form-control" matInput formControlName="Deposits"  type="number" autocomplete="off"
+                         placeholder="کسر سپرده های بیمه و حسن انجام کار" (keyup)="onCalculateTotalDeductions()">
+                  <mat-error style="text-align: justify;direction: rtl" *ngIf="formGp.get('Deposits').hasError('min')">
+                    * مبلغ نمی تواند منفی باشد!<strong>!</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <mat-form-field>
+                  <input class="form-control" matInput formControlName="PayableInsurance"  type="number" autocomplete="off"
+                         placeholder="کسر بيمه پرداختي" (keyup)="onCalculateTotalDeductions()">
+                  <mat-error style="text-align: justify;direction: rtl" *ngIf="formGp.get('PayableInsurance').hasError('min')">
+                    * مبلغ نمی تواند منفی باشد!<strong>!</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <mat-form-field>
+                  <input class="form-control" matInput formControlName="PrepaidDepreciation"  type="number" autocomplete="off"
+                         placeholder="کسر استهلاک پيش پرداخت قانونی" (keyup)="onCalculateTotalDeductions()">
+                  <mat-error style="text-align: justify;direction: rtl" *ngIf="formGp.get('PrepaidDepreciation').hasError('min')">
+                    * مبلغ نمی تواند منفی باشد!<strong>!</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <mat-form-field>
+                  <input class="form-control" matInput formControlName="MaterialPrepaidDepreciation"  type="number" autocomplete="off"
+                         placeholder="کسر استهلاک پیش پرداخت مواد و کالا" (keyup)="onCalculateTotalDeductions()">
+                  <mat-error style="text-align: justify;direction: rtl" *ngIf="formGp.get('MaterialPrepaidDepreciation').hasError('min')">
+                    * مبلغ نمی تواند منفی باشد!<strong>!</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <mat-form-field>
+                  <input class="form-control" matInput formControlName="Tax"  type="number" autocomplete="off"
+                         placeholder="کسر ماليات" (keyup)="onCalculateTotalDeductions()">
+                  <mat-error style="text-align: justify;direction: rtl" *ngIf="formGp.get('Tax').hasError('min')">
+                    * مبلغ نمی تواند منفی باشد!<strong>!</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <mat-form-field>
+                  <input class="form-control" matInput formControlName="Fine"  type="number" autocomplete="off"
+                         placeholder="کسر جريمه" (keyup)="onCalculateTotalDeductions()">
+                  <mat-error style="text-align: justify;direction: rtl" *ngIf="formGp.get('Fine').hasError('min')">
+                    * مبلغ نمی تواند منفی باشد!<strong>!</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <mat-form-field>
+                  <input class="form-control" matInput formControlName="OtherDeductions"  type="number" autocomplete="off"
+                         placeholder="سایر کسور" (keyup)="onCalculateTotalDeductions()">
+                  <mat-error style="text-align: justify;direction: rtl" *ngIf="formGp.get('OtherDeductions').hasError('min')">
+                    * مبلغ نمی تواند منفی باشد!<strong>!</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col-md-4"></div>
+          </div>
+          <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <mat-form-field>
+                  <input class="form-control" matInput formControlName="TotalDeductionsDisabled"  type="number" autocomplete="off"
+                         placeholder="جمع کسورات">
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col-md-4"></div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <mat-form-field>
+                  <input class="form-control" matInput formControlName="NetAmountDisabled"  type="number" autocomplete="off"
+                         placeholder="مبلغ خالص">
+                  <p style="text-align: justify;direction: rtl;color: #b43434;line-height: 45px;" *ngIf="formGp.get('NetAmount').hasError('min')">
+                    * مبلغ نمی تواند منفی باشد<strong>!</strong>
+                  </p>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col-md-4"></div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <mat-form-field>
+                  <input class="form-control" matInput formControlName="VAT"  type="number" autocomplete="off"
+                         placeholder="مالیات بر ارزش افزوده">
+                  <mat-error style="text-align: justify;direction: rtl" *ngIf="formGp.get('VAT').hasError('min')">
+                    * مبلغ نمی تواند منفی باشد!<strong>!</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <mat-form-field>
+                  <input class="form-control" matInput formControlName="EmployerInsurance"  type="number" autocomplete="off"
+                         placeholder="بيمه سهم کارفرما">
+                  <mat-error style="text-align: justify;direction: rtl" *ngIf="formGp.get('EmployerInsurance').hasError('min')">
+                    * مبلغ نمی تواند منفی باشد!<strong>!</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <mat-form-field>
+                  <input class="form-control" matInput formControlName="TreasuryBillsProfit"  type="number" autocomplete="off"
+                         placeholder="سود اسناد خزانه">
+                  <mat-error style="text-align: justify;direction: rtl" *ngIf="formGp.get('EmployerInsurance').hasError('min')">
+                    * مبلغ نمی تواند منفی باشد!<strong>!</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <mat-form-field>
+                      <textarea
+                        class="form-control"
+                        matInput
+                        matTextareaAutosize
+                        matAutosizeMinRows="3"
+                        matAutosizeMaxRows="10"
+                        formControlName="VoucherDescription"
+                        placeholder="شرح سند">
+            </textarea>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="row validation-box" *ngIf="!isFormValid">
+          <div class="col-md-2"></div>
+          <div class="col-md-8">
+            <h6>اطلاعات دارای اشکال است</h6>
+            <hr>
+            <ul *ngIf="!isNetAmountValid || !isGrossAmountValid" style="direction: rtl;text-align: right;">
+              <li>
+                <p>مجموع مبلغ سند های درخواستی باید بزرگتر یا مساوی مجموع مبلغ سند های پرداختی باشد(خالص یا ناخالص)!</p>
+              </li>
+            </ul>
+            <ul *ngIf="!isDateValid" style="direction: rtl;text-align: right;">
+              <p style="color: #8c34da;">یکی از موارد زیر دارای اشکال می باشد : </p>
+              <li>
+                <p>تاریخ تایید سند و تاریخ نامه باید بعد از انعقاد قرارداد باشد!</p>
+              </li>
+              <li>
+                <p>تاریخ نامه ، تاریخ پرداخت یا تاریخ تایید سند باید از امروز به قبل باشند! </p>
+              </li>
+              <li>
+                <p>تاریخ تایید سند یا تاریخ پرداخت باید از تاریخ نامه به بعد باشند!</p>
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+          <div class="col-md-4"></div>
+          <div class="col-md-4">
+            <!--<button style="width: 100%;" [mat-dialog-close]="{form: formGp, isDate1Valid: isDate1Valid, isLetterDateValid: isLetterDateValid, isGorssAmountValid: isGorssAmountValid}" class="btn btn-primary">بروزرسانی اطلاعات</button>-->
+            <button style="width: 100%;" (click)="checkForm()" class="btn btn-primary" *ngIf="!isReadOnly && !passedData.isDuty">بروزرسانی اطلاعات</button>
+            <button style="width: 100%;" (click)="checkDutyForm()" class="btn btn-primary" *ngIf="!isReadOnly && passedData.isDuty">بروزرسانی اطلاعات</button>
+          </div>
+          <div class="col-md-4"></div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="col-md-2"></div>
+</div>

@@ -1,0 +1,378 @@
+<div class="row">
+  <div class="col-md-12">
+    <mat-card style="margin-bottom: 13px;margin-top: 0px;min-height: 0;padding: 12px;">
+      <h3 style="height: 100%">
+        <span style="color: #ae506e;font-size: 15px;">پیش قرارداد </span>
+        <span *ngIf="contractsForm">{{ contractsForm.get('FullTitle_Contract').value }}</span>
+      </h3>
+    </mat-card>
+  </div>
+</div>
+<mat-card>
+  <div>
+    <div class="step-header">
+      <div style="direction: rtl;height: 70px;" class="steps-form-2">
+        <div style="height: 100%;" class="steps-row-2 setup-panel-2 d-flex justify-content-between">
+          <div class="steps-step-2">
+            <div
+              (click)="stepChange(0)"
+              class="step-design"
+              [ngStyle]="firstStep === 0 ? {background: 'rgba(206, 217, 223, 0.47)'} : {}"
+            >
+              <div class="numberCircle"></div>
+              <span class="stepTitle">اطلاعات پایه قرارداد</span>
+              <div *ngIf="stepSituation.contractForm.exist">
+                <i *ngIf="!stepSituation.contractForm.default" class="fas fa-times-circle"></i>
+                <i *ngIf="stepSituation.contractForm.default" class="fas fa-check-circle"></i>
+              </div>
+            </div>
+          </div>
+          <div class="steps-step-2">
+            <div
+              (click)="stepChange(1)"
+              class="step-design"
+              [ngStyle]="styleObject(1)"
+            >
+              <div class="numberCircle"></div>
+              <span class="stepTitle">محل تامین اعتبار</span>
+              <div *ngIf="stepSituation.costAssignedResource.exist">
+                <i *ngIf="!stepSituation.costAssignedResource.default" [ngStyle]="iconStyleObject()" class="fas fa-times-circle"></i>
+                <i *ngIf="stepSituation.costAssignedResource.default" [ngStyle]="iconStyleObject()" class="fas fa-check-circle"></i>
+              </div>
+            </div>
+          </div>
+          <div class="steps-step-2">
+            <div
+              (click)="stepChange(2)"
+              class="step-design"
+              [ngStyle]="styleObject(2)"
+            >
+              <div class="numberCircle"></div>
+              <span class="stepTitle">ذینفعان اصلی</span>
+              <div *ngIf="stepSituation.stakeHolders.exist">
+                <i *ngIf="!stepSituation.stakeHolders.default" [ngStyle]="iconStyleObject()" class="fas fa-times-circle"></i>
+                <i *ngIf="stepSituation.stakeHolders.default" [ngStyle]="iconStyleObject()" class="fas fa-check-circle"></i>
+              </div>
+            </div>
+          </div>
+          <div class="steps-step-2" *ngIf="isProgress">
+            <div
+              (click)="stepChange(3)"
+              class="step-design"
+              [ngStyle]="styleObject(3)"
+            >
+              <div class="numberCircle"></div>
+              <span class="stepTitle">درصد پیشرفت</span>
+              <div *ngIf="stepSituation.planActsProp.exist">
+                <i *ngIf="!stepSituation.planActsProp.default" [ngStyle]="iconStyleObject()" class="fas fa-times-circle"></i>
+                <i *ngIf="stepSituation.planActsProp.default" [ngStyle]="iconStyleObject()" class="fas fa-check-circle"></i>
+              </div>
+            </div>
+          </div>
+          <div class="steps-step-2">
+            <div
+              (click)="stepChange(4)"
+              class="step-design"
+              [ngStyle]="styleObject(4)"
+            >
+              <div class="numberCircle"></div>
+              <span class="stepTitle">برنامه جریان نقدینگی</span>
+              <div *ngIf="stepSituation.cashFlowPlan.exist">
+                <i *ngIf="!stepSituation.cashFlowPlan.default" [ngStyle]="iconStyleObject()" class="fas fa-times-circle"></i>
+                <i *ngIf="stepSituation.cashFlowPlan.default" [ngStyle]="iconStyleObject()" class="fas fa-check-circle"></i>
+              </div>
+            </div>
+          </div>
+          <div *ngFor="let del of deliverablesForm;let i = index" class="steps-step-2">
+            <div
+              *ngIf="checkDelShow(del) === true"
+              (click)="stepChange(5 + i)"
+              class="step-design"
+              [ngStyle]="styleObject(5 + i)"
+            >
+              <div class="numberCircle"></div>
+              <span class="stepTitle">{{ getServiceName(del.serviceId) }}</span>
+              <div *ngIf="stepSituation.deliverables[i]">
+                <i *ngIf="!stepSituation.deliverables[i].default" [ngStyle]="iconStyleObject()" class="fas fa-times-circle"></i>
+                <i *ngIf="stepSituation.deliverables[i].default" [ngStyle]="iconStyleObject()" class="fas fa-check-circle"></i>
+              </div>
+            </div>
+          </div>
+          <div class="steps-step-2" *ngIf="isFinancial">
+            <div
+              (click)="stepChange(10)"
+              class="step-design"
+              [ngStyle]="styleObject(10)"
+            >
+              <div class="numberCircle"></div>
+              <span class="stepTitle">اطلاعات مالی</span>
+              <div *ngIf="stepSituation.financialRequests.exist">
+                <i *ngIf="!stepSituation.financialRequests.default" [ngStyle]="iconStyleObject()" class="fas fa-times-circle"></i>
+                <i *ngIf="stepSituation.financialRequests.default" [ngStyle]="iconStyleObject()" class="fas fa-check-circle"></i>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="contractDataForm">
+            <div *ngIf="contractDataForm.OldProjectId" class="steps-step-2" id="step-changes">
+              <div
+                (click)="stepChange(11)"
+                class="step-design"
+                [ngStyle]="styleObject(11)"
+              >
+                <div class="numberCircle"></div>
+                <span class="stepTitle">تغییرات زمان پایان و مبلغ</span>
+                <div *ngIf="stepSituation.finalStep.exist">
+                  <i *ngIf="!stepSituation.finalStep.default" [ngStyle]="iconStyleObject()" class="fas fa-times-circle"></i>
+                  <i *ngIf="stepSituation.finalStep.default" [ngStyle]="iconStyleObject()" class="fas fa-check-circle"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="steps-step-2">
+            <div
+              (click)="stepChange(12)"
+              class="step-design"
+              [ngStyle]="styleObject(12)"
+            >
+              <div class="numberCircle"></div>
+              <span class="stepTitle">تایید نهایی</span>
+              <div *ngIf="stepSituation.finalStep.exist">
+                <i *ngIf="!stepSituation.finalStep.default" [ngStyle]="iconStyleObject()" class="fas fa-times-circle"></i>
+                <i *ngIf="stepSituation.finalStep.default" [ngStyle]="iconStyleObject()" class="fas fa-check-circle"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <div [ngStyle]="firstStep === 0 ? {display: 'block'} : {display: 'none'}" class="row setup-content-2" id="step-1">
+      <div class="col-md-12">
+        <app-contract-form (formData)="checkContractsFormValidation($event)" (addCost)="addCost($event)" *ngIf="contractDataForm !== undefined" [formGp]="contractsForm"
+                           (addContractService)="addContractService($event)"></app-contract-form>
+        <div *ngIf="!isReadOnly" class="row nextBackButtons">
+          <div class="col-md-4">
+            <button class="nextButtonLeft" color="primary" type="button" (click)="stepChange(1)" st mat-raised-button>
+              <p>
+                <i class="fas fa-chevron-circle-left"></i>
+                <span style="float: right;">بعدی</span>
+              </p>
+            </button>
+          </div>
+          <div class="col-md-4"></div>
+          <div class="col-md-4 text-right">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div [ngStyle]="firstStep === 1 ? {display: 'block'} : {display: 'none'}" class="row setup-content-2" id="step-2">
+      <div class="col-md-12" *ngIf="firstStep === 1">
+        <app-assigned-cost-resources-form (formData)="checkAssignedCostResourcesFormValidation($event)" [formGp]="assignedCostResourcesForm" (addHobby)="addHobby($event)"
+                                          (deleteHobby)="deleteHobby($event)"></app-assigned-cost-resources-form>
+        <div *ngIf="!isReadOnly" class="row nextBackButtons">
+          <div class="col-md-4">
+            <button class="nextButtonLeft" color="primary" type="button" (click)="stepChange(2)" st mat-raised-button>
+              <p>
+                <i class="fas fa-chevron-circle-left"></i>
+                <span style="float: right;">بعدی</span>
+              </p>
+            </button>
+          </div>
+          <div class="col-md-4"></div>
+          <div *ngIf="!isReadOnly" class="col-md-4 text-right">
+            <button class="nextButtonRight" color="primary" type="button" (click)="stepChange(0)" st mat-raised-button>
+              <p>
+                <i class="fas fa-chevron-circle-right"></i>
+                <span style="float: left;">قبلی</span>
+              </p>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div [ngStyle]="firstStep === 2 ? {display: 'block'} : {display: 'none'}" class="row setup-content-2" id="step-3">
+      <div class="col-md-12" *ngIf="firstStep === 2">
+        <app-stake-holders-form *ngIf="rolesControl.length > 0" (rolesControl)="rolesControl" (formData)="checkStakeHoldersFormValidation($event)" mainTitle="ارکان اصلی" idGenerator="0" [formGp]="pillarStakeHoldersForm"
+                                (addStakeHoldersForm)="addPillarStakeHoldersForm()"
+                                (deleteStakeHoldersForm)="deleteStakeHoldersForm($event, true)"></app-stake-holders-form>
+        <hr>
+        <app-stake-holders-form (formData)="checkStakeHoldersFormValidation($event)" mainTitle="ارکان فرعی" idGenerator="2" [formGp]="nopillarStakeHoldersForm"
+                                (addStakeHoldersForm)="addNoPillarStakeHoldersForm()"
+                                (deleteStakeHoldersForm)="deleteStakeHoldersForm($event, false)"></app-stake-holders-form>
+        <div *ngIf="!isReadOnly" class="row nextBackButtons">
+          <div class="col-md-4">
+            <button class="nextButtonLeft" color="primary" type="button" (click)="stepChange(3)" st mat-raised-button>
+              <p>
+                <i class="fas fa-chevron-circle-left"></i>
+                <span style="float: right;">بعدی</span>
+              </p>
+            </button>
+          </div>
+          <div class="col-md-4"></div>
+          <div *ngIf="!isReadOnly" class="col-md-4 text-right">
+            <button class="nextButtonRight" color="primary" type="button" (click)="stepChange(1)" st mat-raised-button>
+              <p>
+                <i class="fas fa-chevron-circle-right"></i>
+                <span style="float: left;">قبلی</span>
+              </p>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div [ngStyle]="firstStep === 3 ? {display: 'block'} : {display: 'none'}" class="row setup-content-2" id="step-4">
+      <div class="col-md-12" *ngIf="firstStep === 3">
+        <app-plan-acts-prop-form [contractServices2]="contractServices" instance="planActsPropTable" (RemoveColumnAdded)="RemoveColumnAdded($event)"
+                                 (tableData)="checkPlanActPropValidation($event)"></app-plan-acts-prop-form>
+        <div *ngIf="!isReadOnly" class="row nextBackButtons">
+          <div class="col-md-4">
+            <button class="nextButtonLeft" color="primary" type="button" (click)="stepChange(4)" st mat-raised-button>
+              <p>
+                <i class="fas fa-chevron-circle-left"></i>
+                <span style="float: right;">بعدی</span>
+              </p>
+            </button>
+          </div>
+          <div class="col-md-4"></div>
+          <div *ngIf="!isReadOnly" class="col-md-4 text-right">
+            <button class="nextButtonRight" color="primary" type="button" (click)="stepChange(2)" st mat-raised-button>
+              <p>
+                <i class="fas fa-chevron-circle-right"></i>
+                <span style="float: left;">قبلی</span>
+              </p>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div [ngStyle]="firstStep === 4 ? {display: 'block'} : {display: 'none'}" class="row setup-content-2" id="step-7">
+      <div class="col-md-12" *ngIf="firstStep === 4">
+        <app-cash-flow-plan (tableData)="checkCashFlowPlanFormValidation($event)"></app-cash-flow-plan>
+        <div *ngIf="!isReadOnly" class="row nextBackButtons">
+          <div class="col-md-4">
+            <button class="nextButtonLeft" color="primary" type="button" (click)="stepChange(5)" st mat-raised-button>
+              <p>
+                <i class="fas fa-chevron-circle-left"></i>
+                <span style="float: right;">بعدی</span>
+              </p>
+            </button>
+          </div>
+          <div class="col-md-4"></div>
+          <div *ngIf="!isReadOnly" class="col-md-4 text-right">
+            <button class="nextButtonRight" color="primary" type="button" (click)="stepChange(3)" st mat-raised-button>
+              <p>
+                <i class="fas fa-chevron-circle-right"></i>
+                <span style="float: left;">قبلی</span>
+              </p>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngFor="let del of deliverablesForm;let i = index" [ngStyle]="firstStep === (5 + i) ? {display: 'block'} : {display: 'none'}" class="row setup-content-2" id="step-6">
+      <div class="col-md-12" *ngIf="firstStep === (5 + i)">
+        <div>
+          <app-deliverables-form *ngIf="zones" [zones]="zones" (tableData)="checkDeliverablesValidation($event, i)" [deliverablesForm]="deliverablesForm[getDeliverableFormIndex(del.serviceId)]" [ind]="0"
+                                 [serviceIndex]="i" [serviceName]="del.serviceId"></app-deliverables-form>
+          <div *ngIf="!isReadOnly" class="row nextBackButtons">
+            <div class="col-md-4">
+              <button class="nextButtonLeft" color="primary" type="button" (click)="stepChange(6 + i, null, true)" st mat-raised-button>
+                <p>
+                  <i class="fas fa-chevron-circle-left"></i>
+                  <span style="float: right;">بعدی</span>
+                </p>
+              </button>
+            </div>
+            <div class="col-md-4"></div>
+            <div *ngIf="!isReadOnly" class="col-md-4 text-right">
+              <button class="nextButtonRight" color="primary" type="button" (click)="stepChange(4 + i)" st mat-raised-button>
+                <p>
+                  <i class="fas fa-chevron-circle-right"></i>
+                  <span style="float: left;">قبلی</span>
+                </p>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="contractDataForm">
+      <div [ngStyle]="firstStep === 10 ? {display: 'block'} : {display: 'none'}" class="row setup-content-2" id="step-8">
+        <div class="col-md-12" *ngIf="firstStep === 10">
+          <app-financial-table></app-financial-table>
+          <div *ngIf="!isReadOnly" class="row nextBackButtons">
+            <div class="col-md-4">
+              <button class="nextButtonLeft" color="primary" type="button" (click)="stepChange(12)" st mat-raised-button>
+                <p>
+                  <i class="fas fa-chevron-circle-left"></i>
+                  <span style="float: right;">بعدی</span>
+                </p>
+              </button>
+            </div>
+            <div class="col-md-4"></div>
+            <div *ngIf="!isReadOnly" class="col-md-4 text-right">
+              <button class="nextButtonRight" color="primary" type="button" (click)="stepChange(7)" st mat-raised-button>
+                <p>
+                  <i class="fas fa-chevron-circle-right"></i>
+                  <span style="float: left;">قبلی</span>
+                </p>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="contractDataForm">
+      <div *ngIf="contractDataForm.OldProjectId" [ngStyle]="firstStep === 11 ? {display: 'block'} : {display: 'none'}" class="row setup-content-2" id="step-9">
+        <div class="col-md-12" *ngIf="firstStep === 11">
+          <app-custom-changes (tableData)="checkCustomChangesValidation($event)"></app-custom-changes>
+          <div *ngIf="!isReadOnly" class="row nextBackButtons">
+            <div class="col-md-4">
+              <button class="nextButtonLeft" color="primary" type="button" (click)="stepChange(12)" st mat-raised-button>
+                <p>
+                  <i class="fas fa-chevron-circle-left"></i>
+                  <span style="float: right;">بعدی</span>
+                </p>
+              </button>
+            </div>
+            <div class="col-md-4"></div>
+            <div *ngIf="!isReadOnly" class="col-md-4 text-right">
+              <button class="nextButtonRight" color="primary" type="button" (click)="stepChange(10)" st mat-raised-button>
+                <p>
+                  <i class="fas fa-chevron-circle-right"></i>
+                  <span style="float: left;">قبلی</span>
+                </p>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div [ngStyle]="firstStep === 12 ? {display: 'block'} : {display: 'none'}" class="row setup-content-2" id="step-10">
+      <div class="col-md-12" *ngIf="firstStep === 12">
+        <form [formGroup]="finalApprovalFormGroup">
+          <ng-template matStepLabel>تایید نهایی</ng-template>
+          <app-final-approval-form [formGp]="finalApprovalFormGroup"
+                                   (checkAllValidations)="onCheckAllValidations($event)" [text]="text" [finalValid]="finalValid" (formData)="checkFinalApprovalFormValidation($event)"></app-final-approval-form>
+          <div class="row nextBackButtons">
+            <div class="col-md-4">
+            </div>
+            <div class="col-md-4"></div>
+            <div *ngIf="!isReadOnly" class="col-md-4 text-right">
+              <button class="nextButtonRight" color="primary" type="button" (click)="stepChange(11)" st mat-raised-button>
+                <p>
+                  <i class="fas fa-chevron-circle-right"></i>
+                  <span style="float: left;">قبلی</span>
+                </p>
+              </button>
+            </div>
+          </div>
+          <div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <br>
+    <hr>
+  </div>
+</mat-card>

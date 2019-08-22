@@ -1,0 +1,47 @@
+.fa-edit {
+  color: #169ada;
+  cursor: pointer;
+}
+
+.fa-edit:hover {
+  color: #1376a8;
+}
+
+th {
+  text-align: center !important;
+  font-family: IranSans !important;
+}
+
+table {
+  text-align: center !important;
+  font-family: IranSans !important;
+}
+
+.nav-link {
+  cursor: pointer;
+}
+
+button {
+  font-family: IranSans;
+}
+
+.nav-tabs {
+  font-family: IranSans;
+}
+
+.fa-trash-alt {
+  color: #da225b;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.fa-trash-alt:hover {
+  color: #a41846;
+  cursor: pointer;
+}
+
+.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+  background-color: #e9f1ff !important;
+}
+
+

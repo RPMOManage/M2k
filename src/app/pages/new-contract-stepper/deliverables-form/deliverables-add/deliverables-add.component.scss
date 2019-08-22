@@ -1,0 +1,50 @@
+.row {
+  direction: rtl;
+  width: 100%;
+}
+
+.line {
+  line-height: 60px;
+}
+
+h3 {
+  text-align: center;
+}
+
+label {
+  font-size: 13px;
+  color: #0f456d !important;
+  font-family: IranSans;
+  padding-right: 5px;
+  margin-bottom: .4rem !important;
+}
+
+form {
+  width: 100%;
+}
+
+.mat-fab {
+  line-height: 20px;
+  width: 30px;
+  height: 30px;
+}
+
+.mat-fab.mat-accent {
+  background: linear-gradient(40deg, #56f1a2, #064c05) !important;
+}
+
+.plusBtn {
+  float: right;
+  margin-right: -4px;
+}
+
+.trasha.ng-star-inserted {
+  margin-top: 36px;
+  color: #bb1414;
+}
+
+.fa-times {
+  cursor: pointer;
+  color: #df245f;
+  margin-top: 31px;
+}

@@ -1,0 +1,593 @@
+<div class="row" style="direction: rtl;">
+  <div class="col-md-12">
+    <!--<div class="filter-box" style="margin-top: 0;">-->
+    <!--<div class="header-box">-->
+    <!--<span style="float: right;">فیلتر های اعمال شده : </span>-->
+    <!--<span style="float: left;color: #ff5075;font-size: 14px;cursor: pointer;" (click)="onRemoveTag('all')">حذف</span>-->
+    <!--</div>-->
+    <!--<div class="main-box">-->
+    <!--<div class="row">-->
+    <!--<div class="col-md-12">-->
+    <!--<span class="badge badge-light not-selectable" (click)="onRemoveTag('startDate')" *ngIf="startDateVal !== null">-->
+    <!--<span class="float-right">-->
+    <!--<span>{{ startDateVal.format('YYYY/MM/DD') }}</span>-->
+    <!--<span> تاریخ شروع : </span>-->
+    <!--</span>-->
+    <!--<i class="fas fa-times float-left"></i>-->
+    <!--</span>-->
+    <!--<span class="badge badge-light not-selectable" (click)="onRemoveTag('finishDate')" *ngIf="finishDateVal !== null">-->
+    <!--<span class="float-right">-->
+    <!--<span>{{ finishDateVal.format('YYYY/MM/DD') }}</span>-->
+    <!--<span> تاریخ پایان :</span>-->
+    <!--</span>-->
+    <!--<i class="fas fa-times float-left"></i>-->
+    <!--</span>-->
+    <!--<span class="badge badge-light not-selectable" (click)="onRemoveTag('finishActDate')" *ngIf="finishActDateVal !== null">-->
+    <!--<span class="float-right">-->
+    <!--<span>{{ finishActDateVal.format('YYYY/MM/DD') }}</span>-->
+    <!--<span> تاریخ اتمام واقعی :</span>-->
+    <!--</span>-->
+    <!--<i class="fas fa-times float-left"></i>-->
+    <!--</span>-->
+    <!--&lt;!&ndash;<span class="badge badge-light not-selectable" (click)="onRemoveTag('contractCost')" *ngIf="someRange[0] !== 0 || someRange[1] !== 15">&ndash;&gt;-->
+    <!--<span class="badge badge-light not-selectable">-->
+    <!--<span class="float-right">-->
+    <!--<span> از </span>-->
+    <!--<span> {{ 15 - someRange[1] }} </span>-->
+    <!--<span> تا </span>-->
+    <!--<span> {{ 15 - someRange[0] }} </span>-->
+    <!--<span>ریال</span>-->
+    <!--</span>-->
+    <!--<i class="fas fa-times float-left"></i>-->
+    <!--</span>-->
+    <!--&lt;!&ndash;<span class="badge badge-light not-selectable" (click)="onRemoveTag('progressRange')" *ngIf="progressRange[0] !== 0 || progressRange[1] !== 100">&ndash;&gt;-->
+    <!--<span class="badge badge-light not-selectable">-->
+    <!--<span class="float-right">-->
+    <!--<span> از </span>-->
+    <!--<span> {{ 100 - progressRange[1] }} </span>-->
+    <!--<span> تا </span>-->
+    <!--<span> {{ 100 - progressRange[0] }} </span>-->
+    <!--<span>درصد</span>-->
+    <!--</span>-->
+    <!--<i class="fas fa-times float-left"></i>-->
+    <!--</span>-->
+    <!--<span class="badge badge-light not-selectable" (click)="onRemoveTag('finishContract')" *ngIf="finishContract">-->
+    <!--<span class="float-right">-->
+    <!--<span>اتمام یافته</span>-->
+    <!--</span>-->
+    <!--<i class="fas fa-times float-left"></i>-->
+    <!--</span>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="filter-box">-->
+    <!--<div class="header-box"><span>فیلتر تاریخ : </span></div>-->
+    <!--<div class="main-box">-->
+    <!--<div class="row">-->
+    <!--<div class="col-md-12">-->
+    <!--<div class="form-group">-->
+    <!--<mat-form-field>-->
+    <!--<input (dateChange)="onDateChange('startDate')" autocomplete="off" class="form-control" matInput [matDatepicker]="startDate" placeholder="تاریخ شروع" [(ngModel)]="startDateVal">-->
+    <!--<mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>-->
+    <!--<mat-datepicker #startDate></mat-datepicker>-->
+    <!--</mat-form-field>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="col-md-12">-->
+    <!--<div class="form-group">-->
+    <!--<mat-form-field>-->
+    <!--<input (dateChange)="onDateChange('finishDate')" autocomplete="off" class="form-control" matInput [matDatepicker]="finishDate" placeholder="تاریخ پایان" [(ngModel)]="finishDateVal">-->
+    <!--<mat-datepicker-toggle matSuffix [for]="finishDate"></mat-datepicker-toggle>-->
+    <!--<mat-datepicker #finishDate></mat-datepicker>-->
+    <!--</mat-form-field>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="col-md-12">-->
+    <!--<div class="form-group">-->
+    <!--<mat-form-field>-->
+    <!--<input (dateChange)="onDateChange('finishActDate')" autocomplete="off" class="form-control" matInput [matDatepicker]="finishActDate" placeholder="تاریخ اتمام واقعی" [(ngModel)]="finishActDateVal">-->
+    <!--<mat-datepicker-toggle matSuffix [for]="finishActDate"></mat-datepicker-toggle>-->
+    <!--<mat-datepicker #finishActDate></mat-datepicker>-->
+    <!--</mat-form-field>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="filter-box">-->
+    <!--<div class="header-box"><span>جستجو : </span></div>-->
+    <!--<div class="main-box">-->
+    <!--<div class="row">-->
+    <!--<div class="col-md-8">-->
+    <!--<div class="form-group">-->
+    <!--&lt;!&ndash;<mat-form-field>&ndash;&gt;-->
+    <!--<input class="form-control"-->
+    <!--placeholder="جستجو" #nameit style="font-family: IranSans">-->
+    <!--&lt;!&ndash;</mat-form-field>&ndash;&gt;-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="col-md-4">-->
+    <!--<button class="btn btn-primary" style="font-family: IranSans" (click)="onSearch(nameit)">جستجو</button>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <span style="float: left;color: #ff5075;font-size: 14px;cursor: pointer;margin-top: -35px;margin-left: 20px;" (click)="onRemoveTag('all')">حذف همه</span>
+    <div class="filter-box">
+      <div class="header-box">
+        <span>مبلغ قرارداد (میلیون ریال) : </span>
+        <span style="float: left;color: #ff5075;font-size: 14px;cursor: pointer;" (click)="onRemoveTag('c')">حذف</span>
+      </div>
+      <div class="main-box">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <div class="row">
+                <div class="col-md-12">
+                  <nouislider [connect]="true" [min]="0" [max]="maxContractCost" [step]="maxContractCost / 100" [(ngModel)]="costRange" (change)="onSliderChanges('c')"></nouislider>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <span> از </span>
+                    <span> {{((maxContractCost - costRange[1]) / 1000000).toFixed() | separator }} </span>
+                  </div>
+                </div>
+                <div class="col-md-6" style="text-align: right;">
+                  <div>
+                    <span> تا </span>
+                    <span> {{((maxContractCost - costRange[0]) / 1000000).toFixed() | separator  }} </span>
+                  </div>
+                </div>
+              </div>
+              <!--</mat-form-field>-->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="filter-box">
+      <div class="header-box">
+        <span>انحراف پیشرفت : </span>
+        <span style="float: left;color: #ff5075;font-size: 14px;cursor: pointer;" (click)="onRemoveTag('pd')">حذف</span>
+      </div>
+      <div class="main-box">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <div class="row">
+                <div class="col-md-12">
+                  <nouislider [connect]="true" [min]="minPDeviation" [max]="maxPDeviation" [step]="maxPDeviation / 100" [(ngModel)]="pDRange" (change)="onSliderChanges('pd')"></nouislider>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <span> از </span>
+                    <span> {{(maxPDeviation - pDRange[1] + minPDeviation).toFixed(2) }} </span>
+                    <span>درصد</span>
+                  </div>
+                </div>
+                <div class="col-md-6" style="text-align: right;">
+                  <div>
+                    <span> تا </span>
+                    <span> {{(minPDeviation - pDRange[0] + maxPDeviation).toFixed(2) }} </span>
+                    <span>درصد</span>
+                  </div>
+                </div>
+              </div>
+              <!--</mat-form-field>-->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="filter-box">
+      <div class="header-box">
+        <span>انحراف پرداخت : </span>
+        <span style="float: left;color: #ff5075;font-size: 14px;cursor: pointer;" (click)="onRemoveTag('payd')">حذف</span>
+      </div>
+      <div class="main-box">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <div class="row">
+                <div class="col-md-12">
+                  <nouislider [connect]="true" [min]="minPayDeviation" [max]="maxPayDeviation" [step]="1" [(ngModel)]="payDRange" (change)="onSliderChanges('payd')"></nouislider>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <span> از </span>
+                    <span> {{(maxPayDeviation - payDRange[1] + minPayDeviation).toFixed(2) }} </span>
+                    <span>درصد</span>
+                  </div>
+                </div>
+                <div class="col-md-6" style="text-align: right;">
+                  <div>
+                    <span> تا </span>
+                    <span> {{(minPayDeviation - payDRange[0] + maxPayDeviation).toFixed(2) }} </span>
+                    <span>درصد</span>
+                  </div>
+                </div>
+              </div>
+              <!--</mat-form-field>-->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="filter-box">
+      <div class="header-box">
+        <span>انحراف زمانی : </span>
+        <span style="float: left;color: #ff5075;font-size: 14px;cursor: pointer;" (click)="onRemoveTag('td')">حذف</span>
+      </div>
+      <div class="main-box">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <div class="row">
+                <div class="col-md-12">
+                  <nouislider [connect]="true" [min]="minTDeviation" [max]="maxTDeviation" [step]="maxTDeviation / 100" [(ngModel)]="tDRange" (change)="onSliderChanges('td')"></nouislider>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <span> از </span>
+                    <span> {{(maxTDeviation - tDRange[1] + minTDeviation).toFixed(2) }} </span>
+                    <span>درصد</span>
+                  </div>
+                </div>
+                <div class="col-md-6" style="text-align: right;">
+                  <div>
+                    <span> تا </span>
+                    <span> {{(minTDeviation - tDRange[0] + maxTDeviation).toFixed(2) }} </span>
+                    <span>درصد</span>
+                  </div>
+                </div>
+              </div>
+              <!--</mat-form-field>-->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="filter-box">
+      <div class="header-box">
+        <span>سرعت : </span>
+        <span style="float: left;color: #ff5075;font-size: 14px;cursor: pointer;" (click)="onRemoveTag('speed')">حذف</span>
+      </div>
+      <div class="main-box">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <div class="row">
+                <div class="col-md-12">
+                  <nouislider [connect]="true" [min]="minSpeed" [max]="maxSpeed" [step]="maxSpeed / 100" [(ngModel)]="speedRange" (change)="onSliderChanges('speed')"></nouislider>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <span> از </span>
+                    <span> {{(maxSpeed - speedRange[1] + minSpeed).toFixed(2) }} </span>
+                  </div>
+                </div>
+                <div class="col-md-6" style="text-align: right;">
+                  <div>
+                    <span> تا </span>
+                    <span> {{(minSpeed - speedRange[0] + maxSpeed).toFixed(2) }} </span>
+                  </div>
+                </div>
+              </div>
+              <!--</mat-form-field>-->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="filter-box">
+      <div class="header-box">
+        <span>درصد پیشرفت برنامه ای : </span>
+        <span style="float: left;color: #ff5075;font-size: 14px;cursor: pointer;" (click)="onRemoveTag('pp')">حذف</span>
+      </div>
+      <div class="main-box">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <div class="row">
+                <div class="col-md-12">
+                  <nouislider [connect]="true" [min]="0" [max]="100" [step]="1" [(ngModel)]="ppRange" (change)="onSliderChanges('pp')"></nouislider>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <span> از </span>
+                    <span> {{ 100 - ppRange[1] }} </span>
+                    <span>درصد</span>
+                  </div>
+                </div>
+                <div class="col-md-6" style="text-align: right;">
+                  <div>
+                    <span> تا </span>
+                    <span> {{ 100 - ppRange[0] }} </span>
+                    <span>درصد</span>
+                  </div>
+                </div>
+              </div>
+              <!--</mat-form-field>-->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="filter-box">
+      <div class="header-box">
+        <span>درصد پیشرفت مالی : </span>
+        <span style="float: left;color: #ff5075;font-size: 14px;cursor: pointer;" (click)="onRemoveTag('pf')">حذف</span>
+      </div>
+      <div class="main-box">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <div class="row">
+                <div class="col-md-12">
+                  <nouislider [connect]="true" [min]="0" [max]="100" [step]="1" [(ngModel)]="pfRange" (change)="onSliderChanges('pf')"></nouislider>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <span> از </span>
+                    <span> {{ 100 - pfRange[1] }} </span>
+                    <span>درصد</span>
+                  </div>
+                </div>
+                <div class="col-md-6" style="text-align: right;">
+                  <div>
+                    <span> تا </span>
+                    <span> {{ 100 - pfRange[0] }} </span>
+                    <span>درصد</span>
+                  </div>
+                </div>
+              </div>
+              <!--</mat-form-field>-->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="filter-box">
+      <div class="header-box">
+        <span>درصد پیشرفت واقعی : </span>
+        <span style="float: left;color: #ff5075;font-size: 14px;cursor: pointer;" (click)="onRemoveTag('pa')">حذف</span>
+      </div>
+      <div class="main-box">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <div class="row">
+                <div class="col-md-12">
+                  <nouislider [connect]="true" [min]="0" [max]="100" [step]="1" [(ngModel)]="paRange" (change)="onSliderChanges('pa')"></nouislider>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <span> از </span>
+                    <span> {{ 100 - paRange[1] }} </span>
+                    <span>درصد</span>
+                  </div>
+                </div>
+                <div class="col-md-6" style="text-align: right;">
+                  <div>
+                    <span> تا </span>
+                    <span> {{ 100 - paRange[0] }} </span>
+                    <span>درصد</span>
+                  </div>
+                </div>
+              </div>
+              <!--</mat-form-field>-->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="filter-box">
+      <div class="header-box">
+        <span>جستجو در مدیر پروژه ها : </span>
+        <span style="float: left;color: #ff5075;font-size: 14px;cursor: pointer;" (click)="onRemoveTag('pm')">حذف</span>
+      </div>
+      <div class="main-box">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <!--<mat-form-field>-->
+              <app-selective-search-filter *ngIf="pms.length > 0" [type]="'pm'" [pms]="pms"></app-selective-search-filter>
+              <!--</mat-form-field>-->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="filter-box" *ngIf="type === 'compContracts'">
+      <div class="header-box">
+        <span>فیلتر تاریخ شروع : </span>
+        <span style="float: left;color: #ff5075;font-size: 14px;cursor: pointer;" (click)="onRemoveTag('Date')">حذف</span>
+      </div>
+      <div class="main-box">
+        <div class="row">
+          <div class="col-md-10">
+            <div class="form-group">
+              <!--<mat-form-field>-->
+              <input (dateChange)="onDateChange('fromDate')" autocomplete="off" class="form-control" matInput [matDatepicker]="startDate" placeholder="از تاریخ" [(ngModel)]="startDateVal">
+              <mat-datepicker #startDate></mat-datepicker>
+              <!--</mat-form-field>-->
+            </div>
+          </div>
+          <div class="col-md-2">
+            <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+          </div>
+          <div class="col-md-10">
+            <div class="form-group">
+              <!--<mat-form-field>-->
+              <input (dateChange)="onDateChange('toDate')" autocomplete="off" class="form-control" matInput [matDatepicker]="finishActDate" placeholder="تا تاریخ" [(ngModel)]="finishActDateVal">
+              <mat-datepicker #finishActDate></mat-datepicker>
+              <!--</mat-form-field>-->
+            </div>
+          </div>
+          <div class="col-md-2">
+            <mat-datepicker-toggle matSuffix [for]="finishActDate"></mat-datepicker-toggle>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="filter-box" *ngIf="type === 'compContracts'">
+      <div class="header-box">
+        <span>جستجو در سرویس ها : </span>
+        <span style="float: left;color: #ff5075;font-size: 14px;cursor: pointer;" (click)="onRemoveTag('service')">حذف</span>
+      </div>
+      <div class="main-box">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <!--<mat-form-field>-->
+              <app-selective-search-filter *ngIf="contractServices.length > 0" [type]="'service'" [contractServices]="contractServices"></app-selective-search-filter>
+              <!--</mat-form-field>-->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="filter-box" *ngIf="type === 'compContracts'">
+      <div class="header-box">
+        <span>جستجو در ناحیه ها : </span>
+        <span style="float: left;color: #ff5075;font-size: 14px;cursor: pointer;" (click)="onRemoveTag('zone')">حذف</span>
+      </div>
+      <div class="main-box">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <!--<mat-form-field>-->
+              <app-selective-search-filter *ngIf="zones.length > 0" [type]="'zone'" [zones]="zones"></app-selective-search-filter>
+              <!--</mat-form-field>-->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="filter-box" *ngIf="type === 'compContracts'">
+      <div class="header-box">
+        <span>جستجو در کارفرماها : </span>
+        <span style="float: left;color: #ff5075;font-size: 14px;cursor: pointer;" (click)="onRemoveTag('rai')">حذف</span>
+      </div>
+      <div class="main-box">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <!--<mat-form-field>-->
+              <app-selective-search-filter *ngIf="raiParts.length > 0" [type]="'rai'" [raiParts]="raiParts"></app-selective-search-filter>
+              <!--</mat-form-field>-->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="filter-box" *ngIf="type === 'compContracts'">
+      <div class="header-box">
+        <span>جستجو در مسئول اطلاعات : </span>
+        <span style="float: left;color: #ff5075;font-size: 14px;cursor: pointer;" (click)="onRemoveTag('importer')">حذف</span>
+      </div>
+      <div class="main-box">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <!--<mat-form-field>-->
+              <app-selective-search-filter *ngIf="importers.length > 0" [type]="'importer'" [importers]="importers"></app-selective-search-filter>
+              <!--</mat-form-field>-->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="filter-box" *ngIf="type === 'compContracts'">
+      <div class="header-box">
+        <span>جستجو در واحد سازمانی ها : </span>
+        <span style="float: left;color: #ff5075;font-size: 14px;cursor: pointer;" (click)="onRemoveTag('unit')">حذف</span>
+      </div>
+      <div class="main-box">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <!--<mat-form-field>-->
+              <app-selective-search-filter *ngIf="units.length !== 0" [type]="'unit'" [units]="units" [contracts]="contracts"></app-selective-search-filter>
+              <!--</mat-form-field>-->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="filter-box">
+      <div class="header-box"><span> نوع قرارداد : </span></div>
+      <div class="main-box">
+        <div class="row">
+          <div class="col-md-12">
+            <mat-checkbox class="not-selectable" [checked]="finishContract" (change)="onCheck($event, 'cType', 'normal')">قرارداد ها</mat-checkbox>
+          </div>
+          <div class="col-md-12">
+            <mat-checkbox class="not-selectable" [checked]="finishContract" (change)="onCheck($event, 'cType', 'special')">پروژه های خاص</mat-checkbox>
+          </div>
+          <!--<mat-slide-toggle-->
+          <!--class="example-margin"-->
+          <!--color="primary">-->
+          <!--قرارداد های خاص-->
+          <!--</mat-slide-toggle>-->
+        </div>
+      </div>
+    </div>
+    <div class="filter-box" *ngIf="type === 'duties'">
+      <div class="header-box"><span> وضعیت وظیفه : </span></div>
+      <div class="main-box">
+        <div class="row">
+          <div class="col-md-12">
+            <mat-checkbox class="not-selectable" [checked]="finishContract" (change)="onCheck($event, 'dutyStatus', 'real')">جاری</mat-checkbox>
+          </div>
+          <div class="col-md-12">
+            <mat-checkbox class="not-selectable" [checked]="finishContract" (change)="onCheck($event, 'dutyStatus', 'doing')">در حال انجام</mat-checkbox>
+          </div>
+          <div class="col-md-12">
+            <mat-checkbox class="not-selectable" [checked]="finishContract" (change)="onCheck($event, 'dutyStatus', 'expired')">منقضی</mat-checkbox>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="filter-box" *ngIf="type === 'duties'">
+      <div class="header-box"><span> نوع وظیفه : </span></div>
+      <div class="main-box">
+        <div class="row">
+          <div class="col-md-12">
+            <mat-checkbox class="not-selectable" [checked]="finishContract" (change)="onCheck($event, 'type', 'progress')">درصد پیشرفت</mat-checkbox>
+          </div>
+          <div class="col-md-12">
+            <mat-checkbox class="not-selectable" [checked]="finishContract" (change)="onCheck($event, 'type', 'physical')">پیشرفت فیزیکی</mat-checkbox>
+          </div>
+          <div class="col-md-12">
+            <mat-checkbox class="not-selectable" [checked]="finishContract" (change)="onCheck($event, 'type', 'deliverable')">Deliverable</mat-checkbox>
+          </div>
+          <div class="col-md-12">
+            <mat-checkbox class="not-selectable" [checked]="finishContract" (change)="onCheck($event, 'type', 'finance')">مالی</mat-checkbox>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="filter-box" *ngIf="type === 'tempContracts' || type === 'changes' || type === 'duties'">
+      <div class="header-box"><span> وضعیت تایید : </span></div>
+      <div class="main-box">
+        <div class="row">
+          <div class="col-md-12">
+            <mat-checkbox class="not-selectable" [checked]="finishContract" (change)="onCheck($event, 'approval', 'importer')">در حال تکمیل</mat-checkbox>
+          </div>
+          <div class="col-md-12">
+            <mat-checkbox class="not-selectable" [checked]="finishContract" (change)="onCheck($event, 'approval', 'pm')">منتظر تایید مدیر پروژه</mat-checkbox>
+          </div>
+          <div class="col-md-12">
+            <mat-checkbox class="not-selectable" [checked]="finishContract" (change)="onCheck($event, 'approval', 'pmo')">منتظر تایید PMO</mat-checkbox>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--<div class="filter-box">-->
+    <!--<div class="header-box"><span>Header 4</span></div>-->
+    <!--<div class="main-box"></div>-->
+    <!--</div>-->
+  </div>
+</div>

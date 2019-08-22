@@ -1,0 +1,37 @@
+.row {
+  direction: rtl;
+}
+
+.label {
+  margin-bottom: 15px;
+  margin-right: 18px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #0f456d;
+}
+
+.example-h3 {
+  direction: rtl;
+  text-align: right;
+  font-family: IranSans;
+}
+
+div {
+  font-family: IranSans !important;
+}
+
+button {
+  cursor: pointer;
+}
+
+.alert {
+  direction: rtl;
+  text-align: right;
+  font-family: IranSans;
+}
+
+h3 {
+  border-bottom: 1px solid #e6e8f3;
+  padding-bottom: 12px;
+  text-align: center !important;
+}

@@ -1,0 +1,44 @@
+<div class="row">
+  <div class="col-md-12">
+    <h3>{{ passedData.title }}</h3>
+    <h6>تحویل شدنی ها</h6>
+  </div>
+</div>
+<div class="row" *ngIf="filteredContracts">
+  <div class="col-md-12">
+    <table class="table table-bordered" style="direction: rtl;">
+      <thead>
+      <tr>
+        <th>عنوان عملیات</th>
+        <th>تحویل شدنی</th>
+        <th>واحد</th>
+        <!--<th>برنامه ای</th>-->
+        <th>واقعی</th>
+        <!--<th>انحراف</th>-->
+        <th>تعداد پروژه ها</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let del of onChangeTable()">
+        <td>{{ getContractProgress(del, 'op') }}</td>
+        <td>{{ getContractProgress(del, 'del') }}</td>
+        <td>{{ getContractProgress(del, 'MeasureUnit') }}</td>
+        <!--<td>{{ getContractProgress(del, 'plan') }}</td>-->
+        <td>{{ getContractProgress(del, 'act') }}</td>
+        <!--<td style="direction: ltr;">{{ getContractProgress(del, 'deviation') }}%</td>-->
+        <td>{{ getContractLengths(del) }}</td>
+      </tr>
+      <!--<tr>-->
+        <!--<td>جمع</td>-->
+        <!--<td>{{ passedData.lastRecord.length }}</td>-->
+        <!--<td>{{ passedData.lastRecord.costs | separator }}</td>-->
+        <!--<td>{{ passedData.lastRecord.plan }}</td>-->
+        <!--<td>{{ passedData.lastRecord.act }}</td>-->
+        <!--<td>{{ passedData.lastRecord.dp }}</td>-->
+        <!--<td>{{ passedData.lastRecord.dt }}</td>-->
+        <!--<td>{{ passedData.lastRecord.sp }}</td>-->
+      <!--</tr>-->
+      </tbody>
+    </table>
+  </div>
+</div>

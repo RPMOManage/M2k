@@ -1,0 +1,88 @@
+.main-card {
+  min-height: 600px;
+}
+
+.table {
+  padding: 15px;
+  font-family: IranSans;
+  text-align: center;
+}
+
+.fa-edit, .fa-eye {
+  color: #169ada;
+  cursor: pointer;
+}
+
+.fa-edit:hover {
+  color: #1376a8;
+}
+
+.fa-eye:hover {
+  color: #1376a8;
+}
+
+.unDone {
+  background: #ff00005c;
+}
+
+
+.done {
+  background: #00ff5a59;
+}
+
+.unDone-f {
+  background: #c9e6ff7a;
+}
+
+
+.delayed {
+  background: rgba(23, 255, 94, 0.16);
+}
+
+.unDone-b, .unDone-b1 {
+  background: #ff00002e;
+}
+
+
+.canceled {
+  background: rgba(41, 21, 255, 0.22);
+}
+
+.now, .unDone-b td {
+  font-weight: bold;
+  border-top: 3px solid #0a7ca1;
+  border-bottom: 3px solid #0a7ca1;
+}
+
+.now, .unDone-b td:first-child {
+  border-right: 3px solid #0a7ca1;
+}
+
+.now, .unDone-b td:last-child {
+  border-left: 3px solid #0a7ca1;
+}
+
+.isPM td {
+  font-weight: bold;
+  border-top: 3px solid #7d3479;
+  border-bottom: 3px solid #7d3479;
+}
+
+.isPM td:first-child {
+  border-right: 3px solid #7d3479;
+}
+
+.isPM td:first-child {
+  border-right: 3px solid #7d3479;
+}
+
+.isPM td:last-child {
+  border-left: 3px solid #7d3479;
+}
+
+.fa-star {
+  position: absolute;
+  margin-right: -25px;
+  color: #f1cc00;
+  margin-top: 2px;
+}

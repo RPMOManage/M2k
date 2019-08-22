@@ -1,0 +1,47 @@
+<div class="row row-spinner" style="padding: 15px 0;margin: 0;">
+  <mat-spinner diameter="60" *ngIf="!spinnerChecking"></mat-spinner>
+</div>
+<div class="conteiner">
+  <div class="row" id="description">
+    <div style="text-align: right;" class="col-md-2"><span>تاریخ انعقاد : </span><span *ngIf="contractDates.declare">{{ contractDates.declare }}</span></div>
+    <div style="text-align: right;" class="col-md-2"><span>تاریخ شروع : </span><span *ngIf="contractDates.start">{{ contractDates.start }}</span></div>
+    <div style="text-align: right;" class="col-md-2"><span>تاریخ پایان : </span><span *ngIf="contractDates.finish">{{ contractDates.finish }}</span></div>
+  </div>
+  <div class="row" style="direction: ltr;">
+    <div class="col-md-4">
+      <i class="fas fa-expand-arrows-alt" (click)="showChart()" style="cursor: pointer;color: #a6a6a6;"></i>
+      <div [chart]="chart"></div>
+    </div>
+    <div class="col-md-8">
+      <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-11">
+          <hot-table [colHeaders]="true"
+                     [data]="data"
+                     [hotId]="instance"
+                     [settings]="options"
+          ></hot-table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row" style="direction: rtl;padding: 0 15px;">
+    <div *ngIf="!isReadOnly" id="addRow" class="col-md-1">
+      <button (click)="addRowPopUp()" matTooltip="افزودن رکورد" matTooltipClass="example-tooltip" class="plusBtn" mat-fab>
+        <i class="fa fa-plus"></i>
+      </button>
+    </div>
+    <div id="delete" class="col-md-1" *ngIf="!isReadOnly">
+      <button (click)="deleteRowPopUp()" matTooltip="حذف رکورد" matTooltipClass="example-tooltip" class="plusBtn" mat-fab>
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div id="download" class="col-md-1">
+      <button (click)="getCSV()" matTooltip="دانلود بصورت اکسل" matTooltipClass="example-tooltip" class="plusBtn" mat-fab>
+        <i class="far fa-file-excel"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<br>

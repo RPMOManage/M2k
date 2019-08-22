@@ -1,0 +1,126 @@
+<div class="row">
+  <div class="col-md-12">
+    <h3 class="example-h3">ایجاد {{ currentTitle }} جدید</h3>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <form *ngIf="newContractStartForm" [formGroup]="newContractStartForm">
+      <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+          <div class="form-group">
+            <mat-radio-group>
+              <mat-radio-button *ngFor="let title of titleNames" [value]="title" [checked]="title.id  === 0" (change)="onChangeTitle($event)">{{ title.name }}</mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </div>
+        <div class="col-md-2"></div>
+      </div>
+      <div class="row" *ngIf="currentTitle === titleNames [1].name">
+        <div class="col-md-12">
+          <div class="alert alert-secondary" role="alert">
+            <span style="font-weight: bold;">توجه</span> : پروژه خاص پروژه هایی هستند که متناظر با یک قرارداد نیستند! ( جزئی از یه قرارداد کلی یا ترکیب چند قرارداد هستند )
+          </div>
+        </div>
+      </div>
+      <div class="row">
+
+        <div class="col-md-2">
+        </div>
+
+        <div class="col-md-8">
+          <!--FullTitle_Contract-->
+          <div class="form-group">
+            <mat-form-field>
+              <input class="form-control" matInput formControlName="ContractName" [placeholder]="'عنوان کامل ' + currentTitle" required>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="col-md-2"></div>
+      </div>
+      <hr>
+      <div class="row">
+
+        <div class="col-md-2"></div>
+
+        <div class="col-md-8" *ngIf="contractServices">
+          <!--ShortTitle_Contract-->
+          <div class="row">
+            <div class="label">انتخاب خدمات {{ currentTitle }} *</div>
+            <div style="text-align: right;" class="col-md-12" *ngFor="let service of newContractStartForm.get('ContractNatureId').controls;let i = index">
+              <div formArrayName="ContractNatureId">
+                <div class="form-group">
+                  <mat-checkbox
+                    [formControlName]="i"
+                    class="example-margin">{{ contractServices[i].Name }}
+                  </mat-checkbox>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-2"></div>
+
+      </div>
+      <hr>
+      <div class="row">
+
+        <div class="col-md-2"></div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <mat-form-field>
+              <mat-select class="form-control" (selectionChange)="unitChange($event, true)" placeholder="واحد سازمانی" formControlName="Id_Unit" name="Id_Unit" required>
+                <mat-option *ngFor="let unit of units" [value]="unit.Id">
+                  {{ unit.Name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <mat-form-field>
+              <mat-select class="form-control" placeholder="گروه متولی" formControlName="Id_SubUnit" name="subUnits" required>
+                <mat-option *ngFor="let subUnit of subUnitsNames" [value]="subUnit.Id">
+                  {{ subUnit.Name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="col-md-2"></div>
+
+      </div>
+      <!--<hr>-->
+      <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+          <div class="form-group">
+            <mat-form-field class="example-full-width">
+              <input class="form-control" type="text" placeholder="مدیر پروژه" aria-label="Number" matInput formControlName="ContractPMId" [matAutocomplete]="auto" required>
+              <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                  {{ option.User.Title}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="col-md-2"></div>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-4"></div>
+  <div class="col-md-4">
+    <button style="width: 100%;" class="btn btn-primary" (click)="onSubmitForm()">ایجاد پیش {{ currentTitle }}</button>
+  </div>
+  <div class="col-md-4"></div>
+</div>
+

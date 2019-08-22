@@ -1,0 +1,67 @@
+<mat-card style="margin-top: 25px;">
+  <div class="row">
+    <div class="col-md-12" style="border-bottom: 1px solid #f0f0f0;">
+      <h5 *ngIf="change.Json.ChangeCost">
+        <span>مبلغ جدید قرارداد : </span>
+        <span>{{ change.Json.ChangeCost.Cost | separator }} ریال</span>
+      </h5>
+      <h5 *ngIf="!change.Json.ChangeCost">
+        <span>مبلغ قرارداد : </span>
+        <span>{{ contract.Cost | separator }} ریال</span>
+      </h5>
+    </div>
+  </div>
+</mat-card>
+<mat-card style="margin-top: 25px;">
+  <div class="row">
+    <div class="col-md-12" style="border-bottom: 1px solid #f0f0f0;">
+      <h5>
+        <span style="float: right;">تغییر برآورد خدمات به : </span>
+      </h5>
+    </div>
+    <div class="col-md-12">
+      <form *ngIf="formGp && services && servicesNameIds" [formGroup]="formGp">
+        <div class="row">
+          <div class="col-md-4" *ngFor="let cn of formGp.get('Costs').controls;let i = index;">
+            <div formArrayName="Costs">
+              <div class="form-group">
+                <mat-form-field class="example-full-width">
+                  <input [formControlName]="i" class="form-control" type="number" matInput [placeholder]="'مبلغ بابت ' + getServiceNames(i)" required>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4"></div>
+          <div class="col-md-4">
+            <span
+              *ngIf="formGp.get('Costs').value.length > 1"
+              style="text-align: left;font-family: IranSans;text-align: right">جمع : </span>
+            <span *ngIf="formGp.get('Costs').value.length > 1">
+              <span *ngIf="change.Json.ChangeCost" [ngClass]="
+              (formGp.get('Costs').value.reduce(getSum) === change.Json.ChangeCost.Cost &&
+               !formGp.get('Costs').value.includes(null)) ? 'sh' : 'sh2'">
+                {{ formGp.get('Costs').value.reduce(getSum) | separator }}  <span style="font-family: IranSans">ریال</span>
+              </span>
+              <span *ngIf="!change.Json.ChangeCost" [ngClass]="
+              (formGp.get('Costs').value.reduce(getSum) === contract.Cost &&
+               !formGp.get('Costs').value.includes(null)) ? 'sh' : 'sh2'">
+                {{ formGp.get('Costs').value.reduce(getSum) | separator }}  <span style="font-family: IranSans">ریال</span>
+              </span>
+            </span>
+          </div>
+          <div class="col-md-4"></div>
+        </div>
+        <br>
+        <div class="row last-button-row">
+          <div class="col-md-4"></div>
+          <div class="col-md-4">
+            <button class="btn btn-primary" (click)="onSubmitClick()">ثبت اطلاعات</button>
+          </div>
+          <div class="col-md-4"></div>
+        </div>
+      </form>
+    </div>
+  </div>
+</mat-card>

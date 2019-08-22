@@ -1,0 +1,72 @@
+<div class="row">
+  <div class="col-md-12">
+      <h5>
+        <span>تاریخ انعقاد قرارداد : </span>
+        <span>{{ declareDate }}</span>
+      </h5>
+  </div>
+</div>
+<hr>
+<div class="row">
+  <div class="col-md-6">
+    <h5>تغییرات مبلغ قرارداد</h5>
+    <div class="row" style="direction: ltr;">
+      <div class="col-md-12">
+        <hot-table [settings]="options"  [hotId]="costInstance"></hot-table>
+      </div>
+    </div>
+    <div class="row" style="direction: rtl;padding: 0 15px;">
+      <div id="addRow" class="col-md-1">
+        <button (click)="addRowPopUp(costInstance)" matTooltip="افزودن رکورد" matTooltipClass="example-tooltip" class="plusBtn" mat-fab>
+          <i class="fa fa-plus"></i>
+        </button>
+      </div>
+      <div id="download" class="col-md-1">
+        <button (click)="getCSV(costInstance)" matTooltip="دانلود بصورت اکسل" matTooltipClass="example-tooltip" class="plusBtn" mat-fab>
+          <i class="far fa-file-excel"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <h5>تغییرات تاریخ پایان قرارداد</h5>
+    <div class="row" style="direction: ltr;">
+      <div class="col-md-12">
+        <hot-table [settings]="finishDateOptions"  [hotId]="finishDateInstance"></hot-table>
+      </div>
+    </div>
+    <div class="row" style="direction: rtl;padding: 0 15px;">
+      <div id="addRow2" class="col-md-1">
+        <button (click)="addRowPopUp(finishDateInstance)" matTooltip="افزودن رکورد" matTooltipClass="example-tooltip" class="plusBtn" mat-fab>
+          <i class="fa fa-plus"></i>
+        </button>
+      </div>
+      <div id="download2" class="col-md-1">
+        <button (click)="getCSV(finishDateInstance)" matTooltip="دانلود بصورت اکسل" matTooltipClass="example-tooltip" class="plusBtn" mat-fab>
+          <i class="far fa-file-excel"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<hr>
+<div class="row" style="direction: ltr;">
+  <div class="col-md-12">
+    <h5>برنامه درصد پیشرفت بازبینی شده</h5>
+  </div>
+  <div class="col-md-4">
+    <div [chart]="chart"></div>
+  </div>
+  <div class="col-md-8">
+    <hot-table [settings]="progressPlanExtensionOptions"  [hotId]="progressPlanExtensionInstance"></hot-table>
+  </div>
+</div>
+<div class="row" style="visibility: hidden;">
+  <div class="form-group">
+    <mat-form-field class="example-full-width">
+      <input matInput [matDatepicker]="CustomChangesDatePicker" placeholder="Choose a date" [(ngModel)]="selectedCustomChangesDatePicker">
+      <mat-datepicker-toggle matSuffix [for]="CustomChangesDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker touchUi #CustomChangesDatePicker></mat-datepicker>
+    </mat-form-field>
+  </div>
+</div>

@@ -1,0 +1,200 @@
+<!--<mat-card style="margin-top: 25px;">-->
+  <!--<div class="row">-->
+    <!--<div class="col-md-12" style="border-bottom: 1px solid #f0f0f0;">-->
+      <!--<h5>-->
+        <!--<span style="float: right;">مبلغ فعلی قرارداد</span>-->
+      <!--</h5>-->
+    <!--</div>-->
+    <!--<div class="col-md-12">-->
+      <!--<table class="table table-bordered lastDuty" *ngIf="costCodes">-->
+        <!--<thead>-->
+        <!--<th>ردیف</th>-->
+        <!--<th>تاریخ ابلاغ</th>-->
+        <!--<th>مبلغ قرارداد</th>-->
+        <!--<th>واحد پول</th>-->
+        <!--<th *ngIf="showEqCost()">مبلغ ارزی</th>-->
+        <!--</thead>-->
+        <!--<tbody>-->
+        <!--<tr *ngFor="let costCode of costCodes; let i = index">-->
+          <!--<td>{{ i + 1 }}</td>-->
+          <!--<td>{{ costCode.DDate }}</td>-->
+          <!--<td>{{ costCode.Cost }}</td>-->
+          <!--<td>-->
+            <!--<span *ngIf="costCode.EqCost === -1">ریال</span>-->
+            <!--<span *ngIf="costCode.EqCost !== -1">واحد ارزی</span>-->
+          <!--</td>-->
+          <!--<td *ngIf="costCode.EqCost !== -1">{{ costCode.EqCost }}</td>-->
+          <!--<td *ngIf="costCode.EqCost === -1 && showEqCost()">ندارد</td>-->
+        <!--</tr>-->
+        <!--</tbody>-->
+      <!--</table>-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</mat-card>-->
+<mat-card style="margin-top: 25px;">
+  <div class="row">
+    <div class="col-md-12" style="border-bottom: 1px solid #f0f0f0;">
+      <h5>
+        <span style="float: right;" *ngIf="isPillar">تغییر ذینفعان اصلی به : </span>
+        <span style="float: right;" *ngIf="!isPillar">تغییر ذینفعان فرعی به : </span>
+      </h5>
+    </div>
+    <div class="col-md-12">
+      <div *ngFor="let dm of ' '.repeat(formGp.length).split(''); let fm = index">
+        <form *ngIf="formGp[fm]" [formGroup]="formGp[fm]">
+          <div class="row">
+            <div class="col-md-2">
+          <span *ngIf="idGenerator && !isReadOnly && fm > 2 || +idGenerator === 2" style="padding-left: 5px;z-index: 999;" (click)="deleteForm(fm)"><i
+            style="color: #d65a5a;margin: 15px 0px;cursor: pointer;" class="fas fa-times"></i></span>
+            </div>
+            <div class="col-md-8">
+              <mat-accordion>
+                <mat-expansion-panel [expanded]="fm === 0">
+                  <mat-expansion-panel-header [ngClass]="
+              (formGp[fm].get('OragnizationName_StakeholdersCon').hasError('required')
+              && formGp[fm].get('OragnizationName_StakeholdersCon').touched
+               ) ? 'pinky' : ''">
+                    <mat-panel-title>
+                      <span style="margin-left: 40px;border: 2px solid #4d7b79;padding: 0px 7px;border-radius: 4px;">{{ fm + 1 }}</span><span
+                      style="padding-left: 5px;">نام سازمان / شرکت :</span>
+                      <span style="color: #da3272;">{{ formGp[fm].get('OragnizationName_StakeholdersCon').value }}</span>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                      <span style="padding-left: 5px;">نام نماینده :</span>
+                      <span style="color: #da3272;">{{ formGp[fm].get('AgentName_StakeholdersContract').value }}</span>
+                    </mat-panel-description>
+                    <mat-panel-description>
+                    </mat-panel-description>
+                  </mat-expansion-panel-header>
+                  <hr>
+                  <div class="row">
+
+                    <div class="col-md-2"></div>
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label [for]="'OragnizationName_StakeholdersCon' + fm + 1 * idGenerator">نام سازمان / شرکت *</label>
+                        <input formControlName="OragnizationName_StakeholdersCon" type="text" class="form-control"
+                               [id]="'OragnizationName_StakeholdersCon' + fm + 1 * idGenerator"
+                               aria-describedby="OragnizationName_StakeholdersCon" placeholder="نام سازمان / شرکت" required>
+                      </div>
+                    </div>
+
+                    <div class="col-md-2" [ngClass]="formGp[fm].get('Role_StakeholdersContract').value === 'سایر' ? 'col-md-2' : 'col-md-4'">
+                      <div class="form-group">
+                        <label [for]="'Role_StakeholdersContract' + fm + 1 * idGenerator">نقش قراردادی *</label>
+                        <select (change)="onRoleSelectionChange($event, fm)" formControlName="Role_StakeholdersContract" class="form-control"
+                                [id]="'Role_StakeholdersContract' + fm + 1 * idGenerator" required>
+                          <option *ngFor="let role of stackHoldersRoles" [value]="role">{{ role }}</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-2">
+                      <div *ngIf="formGp[fm].get('Role_StakeholdersContract').value === 'سایر'" class="form-group">
+                        <label [for]="'Role_Other_StakeholdersContract' + fm + 1 * idGenerator">سایر *</label>
+                        <input formControlName="Role_Other_StakeholdersContract" #role type="text" class="form-control"
+                               [id]="'Role_Other_StakeholdersContract' + fm + 1 * idGenerator"
+                               aria-describedby="Role_Other_StakeholdersContract" placeholder="سایر" required>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-2"></div>
+
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label [for]="'AgentName_StakeholdersContract' + fm + 1 * idGenerator">نام نماینده *</label>
+                        <input formControlName="AgentName_StakeholdersContract" type="text" class="form-control"
+                               [id]="'AgentName_StakeholdersContract' + fm + 1 * idGenerator"
+                               aria-describedby="AgentName_StakeholdersContract" placeholder="نام نماینده" required>
+                      </div>
+                    </div>
+
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label [for]="'Id_ContractAgentPostions' + fm + 1 * idGenerator">سمت نماینده *</label>
+                        <select formControlName="Id_ContractAgentPostions" class="form-control"
+                                [id]="'Id_ContractAgentPostions' + fm + 1 * idGenerator" required>
+                          <option *ngFor="let position of agentPositions" [value]="position.Id">{{ position.Name }}</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-2"></div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-2"></div>
+
+                    <div class="col-md-4">
+                      <div style="direction: ltr" class="row">
+                        <div style="padding-right: 0;" class="col-md-3">
+                          <div class="form-group">
+                            <label [for]="'pish_PhoneNumber_StakeholdersContract' + fm + 1 * idGenerator">کد شهر *</label>
+                            <input formControlName="pish_PhoneNumber_StakeholdersContract" type="text" class="form-control"
+                                   [id]="'pish_PhoneNumber_StakeholdersContract' + fm + 1 * idGenerator"
+                                   aria-describedby="pish_PhoneNumber_StakeholdersContract" placeholder="پیش شماره"
+                                   required>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label [for]="'PhoneNumber_StakeholdersContract' + fm + 1 * idGenerator">تلفن *</label>
+                            <input formControlName="PhoneNumber_StakeholdersContract" type="text" class="form-control"
+                                   [id]="'PhoneNumber_StakeholdersContract' + fm + 1 * idGenerator"
+                                   aria-describedby="PhoneNumber_StakeholdersContract" placeholder="تلفن" required>
+                          </div>
+                        </div>
+                        <div style="padding-left: 0;" class="col-md-3">
+                          <div class="form-group">
+                            <label [for]="'int_PhoneNumber_StakeholdersContract' + fm + 1 * idGenerator">داخلی</label>
+                            <input formControlName="int_PhoneNumber_StakeholdersContract" type="text" class="form-control"
+                                   [id]="'int_PhoneNumber_StakeholdersContract' + fm + 1 * idGenerator"
+                                   aria-describedby="int_PhoneNumber_StakeholdersContract" placeholder="داخلی">
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label [for]="'Email_StakeholdersContract' + fm + 1 * idGenerator">ایمیل (اختیاری)</label>
+                        <input formControlName="Email_StakeholdersContract" type="text" class="form-control"
+                               [id]="'Email_StakeholdersContract' + fm + 1 * idGenerator"
+                               aria-describedby="Email_StakeholdersContract" placeholder="ایمیل (اختیاری)">
+                      </div>
+                    </div>
+                    <div class="col-md-2"></div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-2"></div>
+
+                    <div class="col-md-8">
+                      <div class="form-group">
+                        <label [for]="'Address_StakeholdersContract' + fm + 1 * idGenerator">آدرس</label>
+                        <input formControlName="Address_StakeholdersContract" type="text" class="form-control"
+                               [id]="'Address_StakeholdersContract' + fm + 1 * idGenerator"
+                               aria-describedby="Address_StakeholdersContract" placeholder="آدرس">
+                      </div>
+                    </div>
+
+                    <div class="col-md-2"></div>
+                  </div>
+                </mat-expansion-panel>
+              </mat-accordion>
+            </div>
+            <div class="col-md-2"></div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="row last-button-row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+      <br>
+      <button class="plusBtn" (click)="onAddNullForm()" mat-fab>
+        <i class="fas fa-plus"></i>
+      </button>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+</mat-card>

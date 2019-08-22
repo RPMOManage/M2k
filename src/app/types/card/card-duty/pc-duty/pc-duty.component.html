@@ -1,0 +1,67 @@
+<mat-card style="margin-top: 25px;">
+  <div class="row">
+    <div class="col-md-12" style="border-bottom: 1px solid #f0f0f0;">
+      <h5>
+        <span style="float: right;">آخرین اطلاعات تایید شده</span>
+      </h5>
+    </div>
+    <div class="col-md-12">
+      <table class="table table-bordered lastDuty" *ngIf="contract && services">
+        <thead>
+        <th>تاریخ</th>
+        <th *ngFor="let last of contract.LastPC">{{ getServiceName(last.Service) }}</th>
+        </thead>
+        <tbody>
+        <tr>
+          <td>{{ getDate(contract.LastPC[0].Date) }}</td>
+          <td *ngFor="let last of contract.LastPC">% {{ (last.ActPC * 100).toFixed(2) }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</mat-card>
+<!--<mat-card style="min-height: 300px;margin-top: 25px;" *ngFor="let duty of duties;let i = index">-->
+<mat-card style="min-height: 300px;margin-top: 25px;">
+  <form [formGroup]="formGp" *ngIf="formGp">
+    <div class="row">
+      <!--<div class="col-md-1">-->
+      <!--<p class="counter-num">{{ i + 1 }}.</p>-->
+      <!--</div>-->
+      <div class="col-md-2">
+        <mat-form-field class="example-full-width">
+          <input formControlName="Date" autocomplete="off" class="form-control" (focus)="Date.open()" matInput [matDatepicker]="Date" placeholder="تاریخ" [(ngModel)]="selectedDate">
+          <mat-datepicker-toggle matSuffix [for]="Date"></mat-datepicker-toggle>
+          <mat-datepicker #Date></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="col-md-3" *ngFor="let serviceCost of mainServices;let i = index">
+        <div formArrayName="ServicesValue">
+          <mat-form-field class="example-full-width">
+            <input [formControlName]="i" class="form-control" type="number" matInput [placeholder]="' درصد پیشرفت ' + serviceCost.Name">
+          </mat-form-field>
+          <!--<div class="form-group">-->
+          <!--<label [for]="i">درصد پیشرفت</label>-->
+          <!--<input currencyMask-->
+          <!--[options]="{ suffix: ' درصد ', thousands: ',', prefix: '', decimal: '', precision: 0 }"-->
+          <!--[formControlName]="i" class="form-control" [id]="i" placeholder="درصد پیشرفت">-->
+          <!--</div>-->
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="isPM">
+      <div class="col-md-12">
+        <mat-checkbox (change)="onChangeChecked($event)" [checked]="isChecked" [disabled]="isReadOnly">اطلاعات فوق مورد تایید می باشد!</mat-checkbox>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-md-4"></div>
+      <div class="col-md-4">
+        <button class="btn btn-primary" (click)="onSubmitClick()" *ngIf="!isReadOnly && isPM" [disabled]="!isChecked">ثبت اطلاعات</button>
+        <button class="btn btn-primary" (click)="onSubmitClick()" *ngIf="!isReadOnly && !isPM">ثبت اطلاعات</button>
+      </div>
+      <div class="col-md-4"></div>
+    </div>
+  </form>
+</mat-card>

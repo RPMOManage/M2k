@@ -1,0 +1,80 @@
+mat-card {
+  min-height: 60px;
+  font-family: IranSans;
+  direction: rtl;
+  text-align: justify;
+}
+
+h5 {
+  height: 30px;
+  color: #0f165a;
+}
+
+h6 {
+  font-size: 20px;
+  font-size: 14px;
+  color: #152385;
+}
+
+.percent-circle {
+  text-align: center;
+  margin-top: -118px;
+  z-index: 1;
+  display: block;
+  position: absolute;
+  width: 87%;
+  font-family: IranSans;
+  font-weight: bold;
+  direction: rtl;
+  cursor: default;
+  color: #0b1b36;
+  font-size: 21px;
+  margin-right: 25px;
+}
+
+.percent-circle:hover {
+  color: #173971;
+}
+
+.counter-num {
+  height: 100%;
+  line-height: 75px;
+  text-align: center;
+  font-size: 20px;
+  border-left: 1px solid;
+  border-top-left-radius: 80px;
+  border-bottom-left-radius: 80px;
+  order-color: #d4d2f8;
+}
+
+.btn {
+  width: 100%;
+}
+
+.lastDuty th, td {
+  text-align: center;
+}
+
+.mat-fab {
+  line-height: 20px;
+  width: 30px;
+  height: 30px;
+}
+
+.mat-fab.mat-accent {
+  background: linear-gradient(40deg, #56f1a2, #064c05) !important;
+}
+
+.plusBtn {
+  float: right;
+}
+
+.sh {
+  font-family: IranSans;
+  color: #5cb85c;
+}
+
+.mat-fab.mat-accent:disabled {
+  cursor: not-allowed;
+  opacity: .5;
+}

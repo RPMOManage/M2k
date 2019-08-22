@@ -1,0 +1,98 @@
+button {
+  width: 100%;
+  font-family: IranSans;
+}
+
+table {
+  direction: rtl;
+  text-align: center;
+  font-family: IranSans;
+}
+
+thead {
+  color: #181123;
+  background-color: rgba(67, 179, 224, 0.86);
+}
+
+h3 {
+  text-align: center;
+  font-family: shabnam;
+}
+
+a {
+  cursor: pointer;
+  color: #005999 !important;
+}
+
+a:hover {
+  color: #3af !important;
+}
+
+.notApproved {
+  border: 1px solid #b04958;
+  background: #fff3f4;
+}
+
+.notApproved:hover {
+  border: 1px solid #8a313e;
+  background: #d7bdca;
+}
+
+.Approved {
+  border: 1px solid #6ab073;
+  background: #edffef;
+}
+
+.Approved:hover {
+  border: 1px solid #568f5e;
+  background: #b0d3b0;
+}
+
+.mainContent {
+  text-align: right;
+  font-family: IranSans;
+  direction: rtl;
+}
+
+.mainContent th {
+  direction: ltr !important;
+}
+
+h3.name {
+  direction: rtl;
+  text-align: right !important;
+  font-family: IranSans;
+}
+
+.greenBox {
+  border: 1px solid #6ab073;
+  padding: 25px;
+  margin: 10px 0;
+  border-radius: 3px;
+  background: #edffef;
+}
+
+.redBox {
+  border: 1px solid #b04958;
+  padding: 25px;
+  margin: 10px 0;
+  border-radius: 3px;
+  background: #fff3f4;
+}
+
+.btn-success:disabled {
+  cursor: not-allowed;
+}
+
+.btn-danger:disabled {
+  cursor: not-allowed;
+}
+
+.form-control:disabled {
+  cursor: not-allowed;
+}
+
+textarea[readonly] {
+  background-color: #f1f1f1 !important;
+  cursor: not-allowed;
+}

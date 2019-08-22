@@ -1,0 +1,180 @@
+<div class="row" *ngIf="contract">
+  <div class="col-md-12">
+    <mat-card style="margin-bottom: 13px;margin-top: 0px;min-height: 0;padding: 12px;">
+      <h3 style="height: 100%">
+        <span style="color: #ae506e;font-size: 15px;">درخواست تغییر قرارداد </span>
+        <span>{{ contract.Title }}</span>
+      </h3>
+    </mat-card>
+  </div>
+</div>
+<button class="btn btn-primary" (click)="onChangeClicked()">Check Change</button>
+<div class="row" *ngIf="contractID && change && contract">
+  <!--<div class="col-md-1"></div>-->
+  <div class="col-md-12">
+    <mat-card>
+      <div class="step-header">
+        <div style="direction: rtl;height: 70px;" class="steps-form-2">
+          <div style="height: 100%;" class="steps-row-2 setup-panel-2 d-flex justify-content-between">
+            <div class="steps-step-2" *ngIf="onCheckAllowed(1)">
+              <div
+                (click)="stepChange(1)"
+                class="step-design"
+                [ngStyle]="styleObject(1)"
+              >
+                <div class="numberCircle"></div>
+                <span class="stepTitle">مبلغ</span>
+              </div>
+            </div>
+            <div class="steps-step-2" *ngIf="onCheckAllowed(2)">
+              <div
+                (click)="stepChange(2)"
+                class="step-design"
+                [ngStyle]="styleObject(2)"
+              >
+                <div class="numberCircle"></div>
+                <span class="stepTitle">تاریخ پایان</span>
+              </div>
+            </div>
+            <div class="steps-step-2" *ngIf="onCheckAllowed(6)">
+              <div
+                (click)="stepChange(6)"
+                class="step-design"
+                [ngStyle]="styleObject(6)"
+              >
+                <div class="numberCircle"></div>
+                <span class="stepTitle">خدمات</span>
+              </div>
+            </div>
+            <div class="steps-step-2" *ngIf="onCheckAllowed(7)">
+              <div
+                (click)="stepChange(7)"
+                class="step-design"
+                [ngStyle]="styleObject(7)"
+              >
+                <div class="numberCircle"></div>
+                <span class="stepTitle">برآورد خدمات</span>
+              </div>
+            </div>
+            <div class="steps-step-2" *ngIf="onCheckAllowed(8)">
+              <div
+                (click)="stepChange(8)"
+                class="step-design"
+                [ngStyle]="styleObject(8)"
+              >
+                <div class="numberCircle"></div>
+                <span class="stepTitle">محل تامین اعتبار</span>
+              </div>
+            </div>
+            <div class="steps-step-2" *ngIf="onCheckAllowed(9)">
+              <div
+                (click)="stepChange(9)"
+                class="step-design"
+                [ngStyle]="styleObject(9)"
+              >
+                <div class="numberCircle"></div>
+                <span class="stepTitle">احجام کلی کار</span>
+              </div>
+            </div>
+            <div class="steps-step-2" *ngIf="onCheckAllowed(10)">
+              <div
+                (click)="stepChange(10)"
+                class="step-design"
+                [ngStyle]="styleObject(10)"
+              >
+                <div class="numberCircle"></div>
+                <span class="stepTitle">درصد پیشرفت</span>
+              </div>
+            </div>
+            <div class="steps-step-2" *ngIf="onCheckAllowed(14)">
+              <div
+                (click)="stepChange(14)"
+                class="step-design"
+                [ngStyle]="styleObject(14)"
+              >
+                <div class="numberCircle"></div>
+                <span class="stepTitle">جریان نقدینگی</span>
+              </div>
+            </div>
+            <div class="steps-step-2" *ngIf="onCheckAllowed(15)">
+              <div
+                (click)="stepChange(15)"
+                class="step-design"
+                [ngStyle]="styleObject(15)"
+              >
+                <div class="numberCircle"></div>
+                <span class="stepTitle">ذینفعان</span>
+              </div>
+            </div>
+            <div class="steps-step-2" *ngIf="onCheckAllowed(100)">
+              <div
+                (click)="stepChange(100)"
+                class="step-design"
+                [ngStyle]="styleObject(100)"
+              >
+                <div class="numberCircle"></div>
+                <span class="stepTitle">تایید نهایی</span>
+              </div>
+            </div>
+            <!--<div class="steps-step-2" *ngFor="let deliverableStep of deliverableSteps; let i = index">-->
+            <!--<div-->
+            <!--(click)="stepChange(4)"-->
+            <!--class="step-design"-->
+            <!--[ngStyle]="styleObject(4)"-->
+            <!--&gt;-->
+            <!--<div class="numberCircle"></div>-->
+            <!--<span class="stepTitle">{{ deliverableStep.Name }}</span>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--<div class="steps-step-2" *ngIf="onCheckAllowed(10)">-->
+            <!--<div-->
+            <!--(click)="stepChange(7)"-->
+            <!--class="step-design"-->
+            <!--[ngStyle]="styleObject(7)"-->
+            <!--&gt;-->
+            <!--<div class="numberCircle"></div>-->
+            <!--<span class="stepTitle">تغییر درصد پیشرفت</span>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--<div *ngIf="onCheckAllowed(13)">-->
+            <!--<div class="steps-step-2" *ngFor="let contractService of contractServices; let i = index">-->
+            <!--<div-->
+            <!--(click)="stepChange(8 + i)"-->
+            <!--class="step-design"-->
+            <!--[ngStyle]="styleObject(8 + i)"-->
+            <!--&gt;-->
+            <!--<div class="numberCircle"></div>-->
+            <!--<span class="stepTitle">تغییر تحویل شدنی {{ contractService }}</span>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--</div>-->
+          </div>
+        </div>
+      </div>
+      <span style="font-family: IranSans; float: right; position: absolute;right: 40px; margin: 10px 2px;">
+        <span>تاریخ وقوع تغییر : </span>
+        <span>{{ change.DDate }}</span>
+      </span>
+      <div class="step-content">
+        <app-change-cost *ngIf="tabIndex === 1" [contractID]="contractID" [versionID]="versionID" [change]="change" (changeTabIndex)="onChangeTabIndex()"></app-change-cost>
+        <app-change-finish-date *ngIf="tabIndex === 2" [contractID]="contractID" [versionID]="versionID" [contract]="contract" [change]="change" (changeTabIndex)="onChangeTabIndex()"></app-change-finish-date>
+        <app-change-service *ngIf="tabIndex === 6" [contractID]="contractID" [versionID]="versionID" [contract]="contract" [change]="change" (changeTabIndex)="onChangeTabIndex()"></app-change-service>
+        <app-change-service-cost *ngIf="tabIndex === 7" [contractID]="contractID" [versionID]="versionID" [contract]="contract" [change]="change" (changeTabIndex)="onChangeTabIndex()"></app-change-service-cost>
+        <app-change-assigned-cost-resources-date *ngIf="tabIndex === 8" [contractID]="contractID" [versionID]="versionID" [contract]="contract" [change]="change" (changeTabIndex)="onChangeTabIndex()"></app-change-assigned-cost-resources-date>
+        <app-total-value *ngIf="tabIndex === 9" [contractID]="contractID" [versionID]="versionID" [contract]="contract" [change]="change" (changeTabIndex)="onChangeTabIndex()"></app-total-value>
+        <app-change-pc *ngIf="tabIndex === 10 || tabIndex === 11" [contractID]="contractID" [versionID]="versionID" [contract]="contract" [change]="change" [instance]="instance" (changeTabIndex)="onChangeTabIndex()"></app-change-pc>
+        <app-change-cash-flow *ngIf="tabIndex === 14" [contractID]="contractID" [versionID]="versionID" [contract]="contract" [change]="change" (changeTabIndex)="onChangeTabIndex()"></app-change-cash-flow>
+        <app-change-stakeholder *ngIf="tabIndex === 15" [contractID]="contractID" [versionID]="versionID" [change]="change" (changeTabIndex)="onChangeTabIndex()"></app-change-stakeholder>
+        <app-change-final *ngIf="tabIndex === 100" [contractID]="contractID" [versionID]="versionID" [change]="change" (changeTabIndex)="onChangeTabIndex()" (write)="onWrite()"></app-change-final>
+        <!--<p *ngIf="tabIndex === 7 || tabIndex === 8" style="direction: ltr;text-align: center;color: #bb1e4d;">Mykonos...</p>-->
+        <!--<app-change-pc *ngIf="tabIndex === 7" [contractID]="contractID" [versionID]="versionID" [contract]="contract"></app-change-pc>-->
+        <!--<div *ngFor="let deliverableStep of deliverableSteps; let i = index">-->
+        <!--<app-change-deliverable *ngIf="tabIndex === i" [contractID]="contractID" [versionID]="versionID" [contract]="contract" [change]="change" [serviceID]="deliverableStep.ServiceID" [services]="services"></app-change-deliverable>-->
+        <!--</div>-->
+      </div>
+      <hr>
+      <!--<button class="btn btn-danger" (click)="onClickButton()">Back</button>-->
+    </mat-card>
+  </div>
+  <!--<div class="col-md-1"></div>-->
+</div>

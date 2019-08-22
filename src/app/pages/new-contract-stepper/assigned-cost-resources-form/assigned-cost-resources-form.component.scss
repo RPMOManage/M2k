@@ -1,0 +1,52 @@
+.trasha.ng-star-inserted {
+  margin-top: 36px;
+  color: #bb1414;
+}
+
+.fa-times {
+  cursor: pointer;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+.form-group {
+  text-align: right;
+}
+
+.mat-fab {
+  line-height: 20px;
+  width: 30px;
+  height: 30px;
+}
+
+.mat-fab.mat-accent {
+  background: linear-gradient(40deg, #56f1a2, #064c05) !important;
+}
+
+.plusBtn {
+  float: right;
+}
+
+.sh {
+  font-family: IranSans;
+  color: #5cb85c;
+}
+
+.sh2 {
+  font-family: IranSans;
+  color: #da4a71;
+}
+
+label {
+  font-family: IranSans;
+}
+
+hr {
+  border-top: 1px solid rgba(38, 92, 212, 0.58) !important;
+}

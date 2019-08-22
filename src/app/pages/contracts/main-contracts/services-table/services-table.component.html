@@ -1,0 +1,46 @@
+<div class="row">
+  <div class="col-md-12">
+    <h3>{{ passedData.title }}</h3>
+    <h6>خدمات</h6>
+  </div>
+</div>
+<div class="row" *ngIf="filteredContracts">
+  <div class="col-md-12">
+    <table class="table table-bordered" style="direction: rtl;">
+      <thead>
+      <tr>
+        <th>نوع سرویس</th>
+        <th>تعداد</th>
+        <th>مبلغ (میلیون ریال)</th>
+        <th>پیشرفت برنامه ای</th>
+        <th>پیشرفت واقعی</th>
+        <th>انحراف پیشرفت</th>
+        <th>انحراف زمانی</th>
+        <th>سرعت</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let service of onChangeTable()">
+        <td>{{ getServiceName(service) }}</td>
+        <td>{{ getContractLengths(service) }}</td>
+        <td>{{ getContractCosts(service) | separator }}</td>
+        <td>{{ getContractProgress(service, 'plan') }}</td>
+        <td>{{ getContractProgress(service, 'act') }}</td>
+        <td>{{ getContractProgress(service, 'dp') }}</td>
+        <td>{{ getContractProgress(service, 'dt') }}</td>
+        <td>{{ getContractProgress(service, 'sp') }}</td>
+      </tr>
+      <tr>
+        <td>جمع</td>
+        <td>{{ passedData.lastRecord.length }}</td>
+        <td>{{ passedData.lastRecord.costs | separator }}</td>
+        <td>{{ passedData.lastRecord.plan }}</td>
+        <td>{{ passedData.lastRecord.act }}</td>
+        <td>{{ passedData.lastRecord.dp }}</td>
+        <td>{{ passedData.lastRecord.dt }}</td>
+        <td>{{ passedData.lastRecord.sp }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

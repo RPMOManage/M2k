@@ -1,0 +1,172 @@
+h3 {
+  font-family: IranSans;
+  text-align: center;
+  direction: rtl;
+  //border-bottom: 1px solid #e4e8ff;
+  //margin-bottom: 20px;
+  font-size: 17px;
+  font-weight: bold;
+  height: 7px;
+}
+
+h5 {
+  font-family: IranSans;
+  text-align: right;
+  direction: rtl;
+  border-bottom: 1px solid #42596138;
+  padding-bottom: 5px;
+  font-size: 16px !important;
+  margin-bottom: 0;
+  font-weight: bold;
+}
+
+mat-card {
+  min-height: 410px;
+}
+
+.table tr {
+  text-align: justify;
+  direction: rtl;
+  font-family: IranSans;
+}
+
+.table th {
+  font-weight: normal;
+  background: #f4ffe9;
+}
+
+.table {
+  background: #fff;
+}
+
+.contract-tabs table th, td {
+  text-align: center;
+  direction: rtl;
+  font-family: IranSans;
+}
+
+.contract-tabs {
+  margin-top: 20px;
+  //border-top: 1px solid #0d1e4e;
+  min-height: 500px;
+}
+
+.percent-circle {
+  text-align: center;
+  margin-top: -83px;
+  z-index: 20;
+  display: -webkit-box;
+  position: absolute;
+  width: 77%;
+  font-family: IranSans;
+  font-weight: bold;
+  direction: rtl;
+  cursor: default;
+  color: #0b1b36;
+  font-size: 16px;
+  margin-right: 65px;
+}
+
+.percent-circle:hover {
+  color: #173971;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+.table th, .table td {
+  padding: 4px 7px;
+}
+
+.fa-tasks {
+  float: right;
+  color: #55b0ca;
+  cursor: pointer;
+  font-size: 20px;
+  margin-right: 20px;
+}
+
+.fa-exchange-alt {
+  color: #55b0ca;
+}
+
+.fa-exchange-alt:hover {
+  color: #408599;
+}
+
+.fa-tasks:hover {
+  float: right;
+  color: #408599;
+}
+
+.fas {
+  cursor: pointer;
+}
+
+.fa-chevron-right:hover {
+  color: #7586b7 !important;
+}
+
+.fa-chevron-left:hover {
+  color: #7586b7 !important;
+}
+
+p {
+  font-size: 14px;
+}
+
+i.fas.fa-random {
+  float: right;
+  color: #ae55ca;
+  cursor: pointer;
+  font-size: 20px;
+  margin-right: 20px;
+}
+
+i.fas.fa-random:hover {
+  color: #8e3299;
+}
+
+i.fas.fa-tachometer-alt {
+  float: right;
+  color: #ca3635;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+i.fas.fa-tachometer-alt:hover {
+  color: #991f39;
+}
+
+@media screen and (min-width: 1300px) and (max-width: 1700px) {
+  .table th, .table td {
+    padding: 3px;
+  }
+
+  .percent-circle {
+    text-align: center;
+    margin-top: -83px;
+    z-index: 20;
+    display: -webkit-box;
+    position: absolute;
+    width: 77%;
+    font-family: IranSans;
+    font-weight: bold;
+    direction: rtl;
+    cursor: default;
+    color: #0b1b36;
+    font-size: 16px;
+    margin-right: 43px;
+  }
+}
+
+.selected-icon:before {
+  border-radius: 22px;
+  box-shadow: rgba(73, 28, 129, 0.51) 0 -1px 20px 4px, inset transparent 0 -1px 0px 0px, transparent 0 2px 0px;
+}
+
+th {
+  width: 140px;
+}

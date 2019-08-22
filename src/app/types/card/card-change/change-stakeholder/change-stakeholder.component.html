@@ -1,0 +1,17 @@
+<div class="row">
+  <div class="col-md-12">
+    <app-change-stakeholder-form [contractID]="contractID" [versionID]="versionID" [isPillar]="true" (changeFrom)="onChangeForm($event)" [stakeHoldersPillarData]="stakeHoldersPillarData"></app-change-stakeholder-form>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <app-change-stakeholder-form [contractID]="contractID" [versionID]="versionID" [isPillar]="false" (changeFrom)="onChangeForm($event)" [stakeHoldersNotPillarData]="stakeHoldersNotPillarData"></app-change-stakeholder-form>
+  </div>
+</div>
+<div class="row last-button-row">
+  <div class="col-md-4"></div>
+  <div class="col-md-4">
+    <button class="btn btn-primary" (click)="onSubmitClick()">ثبت اطلاعات</button>
+  </div>
+  <div class="col-md-4"></div>
+</div>

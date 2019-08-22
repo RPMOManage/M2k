@@ -1,0 +1,194 @@
+<div class="row" *ngIf="!flipped">
+  <div class="col-md-12">
+      <mat-card style="margin-bottom: 13px;margin-top: 0px;min-height: 0;padding: 12px;">
+        <h3 style="height: 100%">
+          <span>داشبورد سبد</span>
+          <span style="float: right;width: 300px;position: absolute;right: 15px;top: 14px;">
+          <i class="fas fa-file-contract" matTooltip="کارت های قراردادها" [ngClass]="viewType === 'contracts' ? 'fas fa-file-contract selected-icon' : 'fas fa-file-contract'" (click)="onChangeType('contracts')"></i>
+          <i class="fas fa-chart-pie" matTooltip="نمودار های قراردادها" [ngClass]="viewType === 'chart' ? 'fas fa-chart-pie selected-icon' : 'fas fa-chart-pie'" (click)="onChangeType('chart')"></i>
+          <i class="fas fa-table" matTooltip="جدول قراردادها" [ngClass]="viewType === 'table' ? 'fas fa-table selected-icon' : 'fas fa-table'" (click)="onChangeType('table')"></i>
+          </span>
+        </h3>
+      </mat-card>
+      <div class="row" style="margin-top: -10px;">
+        <div class="col-md-9">
+          <!--<div class="row">-->
+          <!--<div class="col-md-12">-->
+          <!--<div>-->
+          <!--<app-card-filter-bar *ngIf="filteredContracts.length > 0" [contract]="filteredContracts" (searching)="onSearch($event)" [type]="compType" [tableShow]="tableShow" (tableShowing)="onChangeTableShow($event)"></app-card-filter-bar>-->
+          <!--</div>-->
+          <!--</div>-->
+          <!--</div>-->
+          <div *ngIf="tableShow === 'chart'">
+            <div class="row" style="margin-bottom: 20px;margin-top: 10px;">
+              <div class="col-md-6">
+                <mat-card>
+                  <mat-card-header id="content-chart-1">
+                    <mat-card-title>مقایسه وزن ریالی</mat-card-title>
+                  </mat-card-header>
+                  <mat-card-content>
+                    <div [chart]="rialWeightedChart"></div>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+              <div class="col-md-6">
+                <mat-card>
+                  <mat-card-header id="content-chart-0">
+                    <mat-card-title>مقایسه سرعت های ماهیانه</mat-card-title>
+                  </mat-card-header>
+                  <mat-card-content>
+                    <div [chart]="speedChart"></div>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+            </div>
+            <div class="row" style="margin-bottom: 20px;">
+              <div class="col-md-6">
+                <mat-card>
+                  <mat-card-header id="content-chart-2">
+                    <mat-card-title>مقایسه پیشرفت برنامه ای و پیشرفت واقعی</mat-card-title>
+                  </mat-card-header>
+                  <mat-card-content>
+                    <div [chart]="progressChart"></div>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+              <div class="col-md-6">
+                <mat-card>
+                  <mat-card-header id="content-chart-3">
+                    <mat-card-title>مقایسه انحراف پرداخت و انحراف پیشرفت</mat-card-title>
+                  </mat-card-header>
+                  <mat-card-content>
+                    <div [chart]="timeDeviationChart"></div>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+            </div>
+          </div>
+          <div class="row" style="margin-top: 10px;">
+            <div class="col-md-12">
+              <div class="row table-contract" *ngIf="tableShow === 'table'">
+                <div class="col-md-12">
+                  <!--<span><i class="fas fa-exchange-alt" (click)="toggleTableView()"></i></span>-->
+                  <table class="table table-bordered" *ngIf="!tableFlipped">
+                    <thead style="background: #1b5347;color: #e7f9f5;">
+                    <tr>
+                      <th> عنوان واحد اجرایی</th>
+                      <th>تعداد</th>
+                      <th>مبلغ (میلیون ریال)</th>
+                      <th>پیشرفت مالی</th>
+                      <th>پیشرفت برنامه ای</th>
+                      <th>پیشرفت واقعی</th>
+                      <th>انحراف پیشرفت</th>
+                      <th>انحراف زمانی</th>
+                      <th>انحراف پرداخت</th>
+                      <th>سرعت</th>
+                      <th>عملیات</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let unit of onChangeTable()">
+                      <td style="background: #bbdfd7;">{{ unit.Title }}</td>
+                      <td>{{ getContractLengths(unit.Id) }}</td>
+                      <td>{{ getContractCosts(unit.Id) | separator }}</td>
+                      <td>{{ getContractProgress(unit.Id, 'finance') }}%</td>
+                      <td>{{ getContractProgress(unit.Id, 'plan') }}%</td>
+                      <td>{{ getContractProgress(unit.Id, 'act') }}%</td>
+                      <td>{{ getContractProgress(unit.Id, 'dp') }}%</td>
+                      <td>{{ getContractProgress(unit.Id, 'dt') }}%</td>
+                      <td>{{ getContractProgress(unit.Id, 'dpay') }}%</td>
+                      <td>{{ getContractProgress(unit.Id, 'sp') }}</td>
+                      <td>
+                        <span class="dash-service" matTooltip="سرویس" (click)="onShowServicesTable(unit)">S</span>
+                        <span class="dash-del" matTooltip="تحویل شدنی" (click)="onShowDeliverablesTable(unit)" *ngIf="deliverables && operations">D</span>
+                      </td>
+                    </tr>
+                    <tr *ngIf="contracts" style="font-weight: bold;">
+                      <td style="background: #bbdfd7;">جمع</td>
+                      <td>{{ getContractLengths(null, 'all') }}</td>
+                      <td>{{ getContractCosts(null, 'all') | separator }}</td>
+                      <td>{{ getContractProgress(null, 'finance', true) }}%</td>
+                      <td>{{ getContractProgress(null, 'plan', true) }}%</td>
+                      <td>{{ getContractProgress(null, 'act', true) }}%</td>
+                      <td>{{ getContractProgress(null, 'dp', true) }}%</td>
+                      <td>{{ getContractProgress(null, 'dt', true) }}%</td>
+                      <td>{{ getContractProgress(null, 'dpay', true) }}%</td>
+                      <td>{{ getContractProgress(null, 'sp', true) }}</td>
+                      <td>
+                        <span class="dash-service" matTooltip="سرویس" (click)="onShowServicesTable(null, true)">S</span>
+                        <span class="dash-del" matTooltip="تحویل شدنی" (click)="onShowDeliverablesTable(null)" *ngIf="deliverables && operations">D</span>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                  <div class="row " *ngIf="tableFlipped">
+                    <div class="col-md-6">
+                      <div [chart]="chart"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row" *ngIf="tableShow === 'contracts'">
+                <div class="col-md-4" *ngFor="let contract of contracts">
+                  <app-card [contract]="contract" [type]="compType" [pms]="pms"></app-card>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3" style="padding-left: 3px;">
+          <app-card-filter
+            *ngIf="maxSpeed !== null && maxTDeviation !== null && maxPDeviation !== null && maxPayDeviation !== null && maxContractCost !== null &&
+                        minSpeed !== null && minTDeviation !== null && minPDeviation !== null && minPayDeviation !== null && minContractCost !== null"
+            [maxSpeed]="maxSpeed"
+            [maxTDeviation]="maxTDeviation"
+            [maxPDeviation]="maxPDeviation"
+            [maxPayDeviation]="maxPayDeviation"
+            [maxContractCost]="maxContractCost"
+            [minSpeed]="minSpeed"
+            [minTDeviation]="minTDeviation"
+            [minPDeviation]="minPDeviation"
+            [minPayDeviation]="minPayDeviation"
+            [minContractCost]="minContractCost"
+            [type]="compType"
+            [contracts]="contracts"
+          ></app-card-filter>
+        </div>
+      </div>
+  </div>
+</div>
+<div class="row" *ngIf="flipped">
+  <div class="col-md-12">
+    <div class="flex-centered col-xl-12 col-lg-6 col-md-8 col-sm-12">
+      <h2 class="title">
+                  <span><i class="fas fa-exchange-alt" (click)="toggleView()"></i>
+                  <span>قرارداد های در حال تایید</span>
+                  <span><i class="fas fa-plus-circle"></i></span></span>
+      </h2>
+      <small class="sub-title"></small>
+      <div class="row">
+        <div class="col-md-9">
+          <div class="row">
+            <div class="col-md-12">
+              <div>
+                <app-card-filter-bar [contract]="mainContractsTemp" (searching)="onSearch($event)" [type]="tempType"></app-card-filter-bar>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-4" *ngFor="let contract of contractsTemp">
+                  <app-card [contract]="contract" [type]="tempType"></app-card>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <app-card-filter [type]="tempType"></app-card-filter>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

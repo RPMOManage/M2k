@@ -1,0 +1,128 @@
+<ul class="nav nav-tabs" style="direction: rtl;background: #fff;">
+  <li class="nav-item" (click)="onChangeTabFn(0)">
+    <a class="nav-link" [ngClass]="tabIndex === 0 ? 'active' : ''" id="pills-home-tab" data-toggle="pill" role="tab" aria-controls="pills-home" aria-selected="true">
+      <span>سند های درخواستی</span>
+      <button style="margin-right: 15px;" class="btn btn-danger">
+        <i class="fas fa-hand-holding"></i>
+      </button>
+    </a>
+  </li>
+  <li class="nav-item" (click)="onChangeTabFn(1)">
+    <a class="nav-link" [ngClass]="tabIndex === 1 ? 'active' : ''" id="pills-home-tab2" data-toggle="pill" role="tab" aria-controls="pills-home" aria-selected="true">
+      <span>سند های پرداختی</span>
+      <button style="margin-right: 15px;" class="btn btn-danger">
+        <i class="fas fa-hands"></i>
+      </button>
+    </a>
+  </li>
+  <li style="float: left;position: absolute;left: 138px;margin-top: 10px;">
+    <span>مبلغ کل قرارداد (ریال) : </span>
+    <span>{{ contractCost | separator }}</span>
+  </li>
+</ul>
+
+<div class="row" *ngIf="tabIndex === 0" style="background: #fff;">
+  <div class="col-md-12" style="margin-top: 10px;" *ngIf="!isReadOnly">
+    <button class="btn btn-primary" (click)="onAddFinancial(element, true)">افزودن سند درخواستی</button>
+  </div>
+  <div class="col-md-12">
+    <!--<mat-form-field>-->
+      <!--<input class="form-control" matInput (keyup)="applyFilter($event.target.value)" placeholder="چستجو...">-->
+    <!--</mat-form-field>-->
+
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 100%;">
+
+      <ng-container matColumnDef="ID">
+        <th mat-header-cell *matHeaderCellDef> ردیف</th>
+        <td mat-cell *matCellDef="let element;let i = index"> {{i + 1}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="RequestType" *ngIf="tabIndex === 0">
+        <th mat-header-cell *matHeaderCellDef> نوع سند درخواستی</th>
+        <td mat-cell *matCellDef="let element"> {{element.FinancialRequestType.Title}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="ApprovedDate" *ngIf="tabIndex === 0">
+        <th mat-header-cell *matHeaderCellDef> تاریخ تایید درخواست</th>
+        <td mat-cell *matCellDef="let element"> {{element.Date1}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="GrossAmount">
+        <th mat-header-cell *matHeaderCellDef> مبلغ ناخالص</th>
+        <td mat-cell *matCellDef="let element"> {{element.GrossAmount | separator}}</td>
+      </ng-container>
+      <ng-container matColumnDef="NetAmount">
+        <th mat-header-cell *matHeaderCellDef> مبلغ خالص</th>
+        <td mat-cell *matCellDef="let element"> {{element.NetAmount | separator}}</td>
+      </ng-container>
+      <ng-container matColumnDef="Edit">
+        <th mat-header-cell *matHeaderCellDef> عملیات</th>
+        <td mat-cell *matCellDef="let element">
+          <a (click)="onAddFinancial(element, false)">
+            <i class="far fa-edit"></i>
+          </a>
+          <a (click)="onDeleteFinancial(element, 0)" *ngIf="!isReadOnly">
+            <i class="fas fa-trash-alt"></i>
+          </a>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+</div>
+<div class="row" *ngIf="tabIndex === 1" style="background: #fff;">
+  <div class="col-md-12" style="margin-top: 10px;" *ngIf="!isReadOnly">
+    <button class="btn btn-primary" (click)="onAddFinancial(element, true)">افزودن سند پرداختی</button>
+  </div>
+  <div class="col-md-12">
+    <!--<mat-form-field>-->
+      <!--<input class="form-control" matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">-->
+    <!--</mat-form-field>-->
+
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 100%;">
+
+      <ng-container matColumnDef="ID">
+        <th mat-header-cell *matHeaderCellDef> ردیف</th>
+        <td mat-cell *matCellDef="let element;let i = index"> {{i + 1}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="RequestType">
+        <th mat-header-cell *matHeaderCellDef> نوع پرداخت</th>
+        <td mat-cell *matCellDef="let element"> {{getPaymentTypeName(element.PaymentType)}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="ApprovedDate">
+        <th mat-header-cell *matHeaderCellDef> تاریخ پرداخت</th>
+        <td mat-cell *matCellDef="let element"> {{element.Date1}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="CostResource">
+        <th mat-header-cell *matHeaderCellDef> محل تامین اعتبار</th>
+        <td mat-cell *matCellDef="let element"> {{getCostResourceName(element.CostResource)}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="GrossAmount">
+        <th mat-header-cell *matHeaderCellDef> مبلغ ناخالص</th>
+        <td mat-cell *matCellDef="let element"> {{element.GrossAmount | separator}}</td>
+      </ng-container>
+      <ng-container matColumnDef="NetAmount">
+        <th mat-header-cell *matHeaderCellDef> مبلغ خالص</th>
+        <td mat-cell *matCellDef="let element"> {{element.NetAmount | separator}}</td>
+      </ng-container>
+      <ng-container matColumnDef="Edit">
+        <th mat-header-cell *matHeaderCellDef> عملیات</th>
+        <td mat-cell *matCellDef="let element">
+          <a (click)="onAddFinancial(element, false)">
+            <i class="far fa-edit"></i>
+          </a>
+          <a (click)="onDeleteFinancial(element, 1)"  *ngIf="!isReadOnly">
+            <i class="fas fa-trash-alt"></i>
+          </a>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+</div>

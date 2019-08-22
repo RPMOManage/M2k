@@ -1,0 +1,114 @@
+h2 {
+  text-align: center;
+  border-bottom: 1px solid #e0e1ff;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+}
+
+.col-md-3 {
+  text-align: right !important;
+}
+
+.col-md-3 span {
+  float: right;
+  width: 20px;
+  line-height: 35px;
+}
+
+.mat-card {
+  min-height: 800px;
+  direction: rtl;
+  text-align: right;
+}
+
+.mat-list-base {
+  border: 2px solid #1b5347;
+  border-radius: 5px;
+  cursor: default;
+}
+
+.mat-list-item {
+  border-bottom: 1px solid #dde6f0;
+  margin-bottom: -1px;
+  font-family: IranSans;
+  font-size: 14px;
+  height: 70px;
+  line-height: 68px;
+  overflow: hidden;
+}
+
+.contract-title {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  color: #0066c0;
+  cursor: pointer;
+}
+
+.contract-title:hover {
+  color: #425961;
+  text-decoration: underline;
+}
+
+.mat-list-item:last-child {
+  border-bottom-color: #314e8f;
+}
+
+.col-md-1 {
+  text-align: center;
+}
+
+.col-md-1, .col-md-2, .col-md-3 {
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  text-align: center;
+}
+.col-md-8 {
+    text-align: right;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.fas {
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.fa-tachometer-alt {
+  color: #34717d;
+}
+
+.fa-tachometer-alt:hover {
+  color: #224a52;
+}
+
+
+.fa-tasks {
+  color: #7d3479;
+}
+
+.fa-tasks:hover {
+  color: #51224e;
+}
+
+.fa-random {
+  color: #b94040;
+}
+
+
+.fa-random:hover {
+  color: #792a2a;
+}
+
+h3 {
+  font-family: IranSans;
+  text-align: center;
+  direction: rtl;
+  font-size: 17px;
+  font-weight: bold;
+  height: 7px;
+}

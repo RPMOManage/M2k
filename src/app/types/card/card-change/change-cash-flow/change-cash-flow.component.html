@@ -1,0 +1,61 @@
+<mat-card style="margin-top: 25px;">
+  <div class="row">
+    <div class="col-md-12" style="border-bottom: 1px solid #f0f0f0;">
+      <h5>
+        <span style="float: right;">جریان نقدینگی فعلی قرارداد</span>
+      </h5>
+    </div>
+    <div class="col-md-12">
+      <table class="table table-bordered lastDuty table-hover" *ngIf="cashFlowPlans">
+        <thead>
+        <th>ردیف</th>
+        <th>تاریخ</th>
+        <th>مبلغ</th>
+        </thead>
+        <tbody>
+        <tr *ngFor="let cashFlowPlan of cashFlowPlans; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ cashFlowPlan.Date }}</td>
+          <td>{{ cashFlowPlan.Cost | separator }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</mat-card>
+<mat-card style="margin-top: 25px;">
+  <div class="row">
+    <div class="col-md-12" style="border-bottom: 1px solid #f0f0f0;">
+      <h5>
+        <span style="float: right;">تغییر جریان نقدینگی به : </span>
+      </h5>
+    </div>
+    <div class="col-md-12" style="direction: ltr;">
+      <hot-table style="width: 100%" [settings]="options" [hotId]="instance"></hot-table>
+    </div>
+  </div>
+  <div class="row" style="direction: rtl">
+    <div id="addRow" class="col-md-1">
+      <button (click)="addRowPopUp()" matTooltip="افزودن رکورد" matTooltipClass="example-tooltip" class="plusBtn" mat-fab>
+        <i class="fa fa-plus"></i>
+      </button>
+    </div>
+    <div id="delete" class="col-md-1">
+      <button (click)="deleteRowPopUp()" matTooltip="حذف رکورد" matTooltipClass="example-tooltip" class="plusBtn" mat-fab>
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div id="download" class="col-md-1">
+      <button (click)="getCSV()" matTooltip="دانلود بصورت اکسل" matTooltipClass="example-tooltip" class="plusBtn" mat-fab>
+        <i class="far fa-file-excel"></i>
+      </button>
+    </div>
+  </div>
+  <div class="row last-button-row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+      <button class="btn btn-primary" (click)="onSubmitClick()">ثبت اطلاعات</button>
+    </div>
+    <div class="col-md-4"></div>
+  </div>
+</mat-card>

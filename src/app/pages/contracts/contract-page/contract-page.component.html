@@ -1,0 +1,427 @@
+<div class="row" *ngIf="contract">
+  <div class="col-md-12">
+    <mat-card style="margin-bottom: 13px;margin-top: 0px;min-height: 0;padding: 12px;">
+      <h3 style="height: 100%">
+        <span>{{ contract.Title }}</span>
+        <span style="float: right;width: 300px;position: absolute;right: 15px;top: 14px;">
+          <i class="fas fa-tachometer-alt" matTooltip="داشبورد" [ngClass]="flappedIndex === 0 ? 'fas fa-tachometer-alt selected-icon' : 'fas fa-tachometer-alt'" (click)="onFlapping(0)"></i>
+          <i class="fas fa-tasks" matTooltip="وظایف ورود اطلاعات" [ngClass]="flappedIndex === 1 ? 'fas fa-tasks selected-icon' : 'fas fa-tasks'" (click)="onFlapping(1)"></i>
+          <i class="fas fa-random" matTooltip="درخواست های تغییر" [ngClass]="flappedIndex === 2 ? 'fas fa-random selected-icon' : 'fas fa-random'" (click)="onFlapping(2)"></i>
+          </span>
+      </h3>
+      <span style="float: left;width: 330px;position: absolute;left: 5px;top: 5px;" *ngIf="contractServices && services && flappedIndex === 0">
+          <span style="float: right;line-height: 34px;">بر اساس خدمات : </span>
+          <mat-select style="float: left;width: 60% !important;direction: rtl; text-align: right;height: 34px;" class="form-control" placeholder="سرویس ها" (selectionChange)="onSelect($event)" [(value)]="selectedService">
+            <mat-option *ngFor="let service of contractServices" [value]="service.ID" [disabled]="service.ID === 4 || service.ID === 5 || service.ID === 6">
+              {{ service.Title }}
+            </mat-option>
+          </mat-select>
+        </span>
+    </mat-card>
+  </div>
+  <div class="col-md-3" *ngIf="flappedIndex === 0">
+    <mat-card>
+      <h5 style="border-bottom: 0">اطلاعات کلی</h5>
+      <table class="table table-bordered">
+        <tbody>
+        <tr>
+          <th>واحد سازمانی</th>
+          <td>{{ contract.Unit.Title }}</td>
+        </tr>
+        <tr>
+          <th>گروه متولی</th>
+          <td>{{ contract.SubUnit.Title }}</td>
+        </tr>
+        <tr>
+          <th>طرف قرارداد</th>
+          <td><p>{{ contract.Contractor.Title }}</p></td>
+        </tr>
+        <tr>
+          <th>شماره قرارداد</th>
+          <td>{{ contract.Number }}</td>
+        </tr>
+        <tr>
+          <th>مدیر پروژه</th>
+          <td>{{ contract.PM.Title }}</td>
+        </tr>
+        <tr>
+          <th>مسئول اطلاعات</th>
+          <td>{{ contract.Importer.Title }}</td>
+        </tr>
+        <tr>
+          <th>تاریخ شروع</th>
+          <td>{{ contract.StartDate }}</td>
+        </tr>
+        <tr>
+          <th>تاریخ پایان</th>
+          <td>{{ contract.FinishDate }}</td>
+        </tr>
+        <tr>
+          <th>مبلغ</th>
+          <td>{{ contract.Cost | separator }}</td>
+        </tr>
+        <!--<tr>-->
+        <!--<th>ورژن</th>-->
+        <!--<td class="version-field">-->
+        <!--<mat-form-field>-->
+        <!--<mat-select class="form-control" placeholder="ورژن مورد نظر خود را انتخاب کنید..." [(ngModel)]="selectedVersion.ID">-->
+        <!--<mat-option *ngFor="let version of versions" [value]="version">-->
+        <!--{{ version }}-->
+        <!--</mat-option>-->
+        <!--</mat-select>-->
+        <!--</mat-form-field>-->
+        <!--</td>-->
+        <!--</tr>-->
+        </tbody>
+      </table>
+    </mat-card>
+  </div>
+  <div class="col-md-3" *ngIf="flappedIndex === 0">
+    <mat-card>
+      <h5>مثلت پیشرفت</h5>
+      <div class="row" style="background: #fff;border-radius: 7px;margin: 0;text-align: center">
+        <div class="col-md-12" *ngIf="polarChart">
+          <div [chart]="polarChart"></div>
+        </div>
+        <div class="col-md-12" *ngIf="!polarChart">
+          <p style="color: orangered;line-height: 100px;">اطلاعاتی موجود نیست!</p>
+        </div>
+        <!--<div class="col-md-4">-->
+        <!--<div [chart]="actChart"></div>-->
+        <!--<p class="percent-circle" *ngIf="lastPC">{{ lastPC.ActPC.toFixed(2) * 100 }}%</p>-->
+        <!--<p style="direction: rtl; text-align: center;font-family: IranSans;font-size: 12px;">پیشرفت واقعی</p>-->
+        <!--</div>-->
+        <!--<div class="col-md-4">-->
+        <!--<div [chart]="financialChart"></div>-->
+        <!--&lt;!&ndash;<p class="percent-circle" *ngIf="financial">{{ financial.toFixed(2) }}%</p>&ndash;&gt;-->
+        <!--<p class="percent-circle">{{ 80 }}%</p>-->
+        <!--<p style="direction: rtl; text-align: center;font-family: IranSans;font-size: 12px;">پیشرفت مالی</p>-->
+        <!--</div>-->
+        <!--<div class="col-md-4">-->
+        <!--<div [chart]="planChart">-->
+        <!--</div>-->
+        <!--<p class="percent-circle" *ngIf="lastPC">{{ lastPC.PlanPC.toFixed(2) * 100 }}%</p>-->
+        <!--<p style="direction: rtl; text-align: center;font-family: IranSans;font-size: 12px;">پیشرفت برنامه ای</p>-->
+        <!--</div>-->
+      </div>
+    </mat-card>
+  </div>
+  <div class="col-md-3" *ngIf="flappedIndex === 0">
+    <mat-card style="text-align: center;">
+      <h5>انحرافات</h5>
+      <div class="row" style="background: #fff;border-radius: 7px;margin: 0;" *ngIf="termoChart.length > 0">
+        <div class="col-md-4" *ngIf="termoChart[0]">
+          <fusioncharts
+            [matTooltip]="'انحراف پیشرفت: عبارت است نسبت اختلاف پیشرفت برنامه ای و واقعی پروژه بر پیشرفت برنامه ای پروژه به ازای زمان مشخص'"
+            matTooltipShowDelay="1000"
+            width="75"
+            height="280"
+            type="Thermometer"
+            dataFormat="JSON"
+            [dataSource]="termoChart[0]"
+            class="tempp"
+          ></fusioncharts>
+        </div>
+        <div class="col-md-4" *ngIf="termoChart[1]">
+          <fusioncharts
+            [matTooltip]="'انحراف زمانی : عبارت است نسبت اختلاف مدت زمان برنامه ای و واقعی  پروژه  بر مدت زمان برنامه ای پروژه. به عبارت دیگر این شاخص بیانگر انحراف مدت زمان طی شده واقعی برای رسیدن به درصد پیشرفت فیزیکی با مدت زمانی که باید طبق برنامه به طول می انجامید.'"
+            matTooltipShowDelay="1000"
+            width="75"
+            height="280"
+            type="Thermometer"
+            dataFormat="JSON"
+            [dataSource]="termoChart[1]"
+            class="tempp"
+          ></fusioncharts>
+        </div>
+        <div class="col-md-4" *ngIf="termoChart[2]">
+          <fusioncharts
+            [matTooltip]="'انحراف مالی: عبارت است نسبت اختلاف مطالبات طرف قرارداد و مبلغ پرداخت شده به او بر مطالبات طرف قرارداد'"
+            matTooltipShowDelay="1000"
+            width="75"
+            height="280"
+            type="Thermometer"
+            dataFormat="JSON"
+            [dataSource]="termoChart[2]"
+            class="tempp"
+          ></fusioncharts>
+        </div>
+      </div>
+      <div class="row" style="margin-top: 15px;" *ngIf="termoChart.length > 0">
+        <div class="col-md-4">
+          <p>انحراف پیشرفت</p>
+        </div>
+        <div class="col-md-4">
+          <p>انحراف زمانی</p>
+        </div>
+        <div class="col-md-4">
+          <p>انحراف پرداخت</p>
+        </div>
+      </div>
+      <div class="row" *ngIf="termoChart.length === 0">
+        <div class="col-md-12">
+          <p style="color: orangered;line-height: 100px;">اطلاعاتی موجود نیست!</p>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+  <div class="col-md-3" *ngIf="flappedIndex === 0">
+    <mat-card style="text-align: center" *ngIf="speedFlapped && finishTimeForecastCharts.length > 0">
+      <h5 style="height: 25px;">
+        <span style="float: right;">پیش بینی تاریخ اتمام</span>
+        <span style="float: left;">
+          <i class="fas fa-exchange-alt" (click)="onChangeSpeedFlapped()"></i>
+        </span>
+      </h5>
+      <div class="row" style="background: #fff;border-radius: 7px;margin: 0;">
+        <div class="col-md-6" style="padding: 0;">
+          <div [chart]="finishTimeForecastCharts[0].Data"></div>
+          <p class="percent-circle" *ngIf="finishTimeForecastCharts[0]">{{ finishTimeForecastCharts[0].Label }}</p>
+          <p style="direction: rtl; text-align: center;">30 روزه</p>
+        </div>
+        <div class="col-md-6" style="padding: 0;">
+          <div [chart]="finishTimeForecastCharts[1].Data"></div>
+          <p class="percent-circle" *ngIf="finishTimeForecastCharts[1]">{{ finishTimeForecastCharts[1].Label }}</p>
+          <p style="direction: rtl; text-align: center;">90 روزه</p>
+        </div>
+      </div>
+      <div class="row" style="background: #fff;border-radius: 7px;margin: 0;">
+        <div class="col-md-3"></div>
+        <div class="col-md-6" style="padding: 0;">
+          <div [chart]="finishTimeForecastCharts[2].Data"></div>
+          <p class="percent-circle" *ngIf="finishTimeForecastCharts[2]">{{ finishTimeForecastCharts[2].Label }}</p>
+          <p style="direction: rtl; text-align: center;">طبق برنامه</p>
+        </div>
+        <div class="col-md-3"></div>
+      </div>
+    </mat-card>
+    <mat-card style="text-align: center" *ngIf="!speedFlapped && speedCharts.length > 0">
+      <h5 style="height: 25px;">
+        <span style="float: right;">سرعت سنج ها</span>
+        <span style="float: left;">
+          <i class="fas fa-exchange-alt" (click)="onChangeSpeedFlapped()"></i>
+        </span>
+      </h5>
+      <div class="row" style="background: #fff;border-radius: 7px;margin: 0;">
+        <div class="col-md-6" style="padding: 0;">
+          <div [chart]="speedCharts[0]" matTooltip="نسبت مدت زمان مورد نیاز در برنامه بر مدت زمان واقعی در بازه مشخصی از درصد پیشرفت" matTooltipShowDelay="1000"></div>
+          <p style="margin-bottom: 0;">30 روزه</p>
+        </div>
+        <div class="col-md-6" style="padding: 0;">
+          <div [chart]="speedCharts[1]" matTooltip="نسبت مدت زمان مورد نیاز در برنامه بر مدت زمان واقعی در بازه مشخصی از درصد پیشرفت" matTooltipShowDelay="1000"></div>
+          <p style="margin-bottom: 0;">90 روزه</p>
+        </div>
+      </div>
+      <div class="row" style="background: #fff;border-radius: 7px;margin: 0;">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+          <div class="speed4OnTimeChart" [chart]="speedCharts[2]" matTooltip="نسبت مدت زمان مورد نیاز در برنامه بر مدت زمان واقعی در بازه مشخصی از درصد پیشرفت" matTooltipShowDelay="2000"></div>
+          <p style="margin-bottom: 0;" matTooltip="سرعت مورد نیاز برای اتمام به موقع قرارداد" matTooltipShowDelay="1000">سرعت مورد نیاز</p>
+        </div>
+        <div class="col-md-3"></div>
+      </div>
+    </mat-card>
+    <mat-card style="text-align: center" *ngIf="!speedFlapped && speedCharts.length === 0">
+      <h5 style="height: 25px;">
+        <span style="float: right;">سرعت سنج ها</span>
+      </h5>
+      <p style="color: orangered;line-height: 100px;">اطلاعاتی موجود نیست!</p>
+    </mat-card>
+    <mat-card style="text-align: center" *ngIf="finishTimeForecastCharts.length === 0 && speedFlapped">
+      <h5 style="height: 25px;">
+        <span style="float: right;">سرعت سنج ها</span>
+        <span style="float: left;">
+          <i class="fas fa-exchange-alt" (click)="onChangeSpeedFlapped()"></i>
+        </span>
+      </h5>
+      <p style="color: orangered;line-height: 100px;">اطلاعاتی موجود نیست!</p>
+    </mat-card>
+  </div>
+</div>
+<div class="row" style="margin-top: 15px;" *ngIf="flappedIndex === 0">
+  <div class="col-md-12">
+    <mat-card>
+      <h5 *ngIf="mainChartIndex === 0">نمودار منحنی پیشرفت</h5>
+      <h5 *ngIf="mainChartIndex === 1">نمودار تحویل شدنی</h5>
+      <h5 *ngIf="mainChartIndex === 2">نمودار مالی</h5>
+      <i class="fas fa-chevron-right" style="position: absolute;right: 0;top: 50%;font-size: 30px;color: #c4cde7;" (click)="changeMainChartIndexNext()"></i>
+      <mat-spinner *ngIf="isSpinnerShow"></mat-spinner>
+      <div [chart]="mainChart" *ngIf="mainChartIndex === 0 && pcs.length > 0"></div>
+      <mat-tab-group *ngIf="mainChartIndex === 1 && mainDeliverableCharts.length > 0" class="mat-tab-dashboard">
+        <mat-tab *ngFor="let mainDeliverableChart of mainDeliverableCharts" [label]="getDeliverableName(mainDeliverableChart.DelLabel) + ' | ' + getOperationTypeName(mainDeliverableChart.OpLabel) + ' | ' + getTotalDel(mainDeliverableChart.DelLabel, mainDeliverableChart.OpLabel)">
+          <div [chart]="mainDeliverableChart.Data"></div>
+        </mat-tab>
+      </mat-tab-group>
+      <p style="color: orangered;line-height: 100px;text-align: center;" *ngIf="mainChartIndex === 0 && pcs.length === 0">اطلاعاتی موجود نیست!</p>
+      <p style="color: orangered;line-height: 100px;text-align: center;" *ngIf="mainChartIndex === 1 && mainDeliverableCharts.length === 0">اطلاعاتی موجود نیست!</p>
+      <p style="color: orangered;line-height: 100px;text-align: center;" *ngIf="mainChartIndex === 2 && financialPayments.length === 0 && financialRequests.length === 0">اطلاعاتی موجود نیست!</p>
+      <div [chart]="financialChart" *ngIf="mainChartIndex === 2 && (financialPayments.length > 0 || financialRequests.length > 0)"></div>
+      <i class="fas fa-chevron-left" style="position: absolute;left: 0;top: 50%;font-size: 30px;color: #c4cde7;" (click)="changeMainChartIndexPrevious()"></i>
+    </mat-card>
+  </div>
+</div>
+<!--<div class="row contract-tabs" *ngIf="flappedIndex === 0">-->
+<!--<div class="col-md-12">-->
+<!--<mat-card>-->
+<!--<mat-tab-group>-->
+<!--<mat-tab label="محل تامین اعتبار">-->
+<!--<div class="row">-->
+<!--<div class="col-md-12">-->
+<!--<br>-->
+<!--<mat-form-field>-->
+<!--<input class="form-control" matInput (keyup)="applyFilter($event.target.value)" placeholder="فیلتر">-->
+<!--</mat-form-field>-->
+
+<!--<table style="width: 99%;margin: 7px;" mat-table [dataSource]="dataSource" class="mat-elevation-z8">-->
+
+<!--<ng-container matColumnDef="Id">-->
+<!--<th mat-header-cell *matHeaderCellDef> ردیف</th>-->
+<!--<td mat-cell *matCellDef="let element;let i = index"> {{ i + 1 }}</td>-->
+<!--</ng-container>-->
+
+<!--<ng-container matColumnDef="DDate">-->
+<!--<th mat-header-cell *matHeaderCellDef> تاریخ</th>-->
+<!--<td mat-cell *matCellDef="let element"> {{element.DDate}}</td>-->
+<!--</ng-container>-->
+
+<!--<ng-container matColumnDef="CostResourse">-->
+<!--<th mat-header-cell *matHeaderCellDef> محل تامین اعتبار</th>-->
+<!--<td mat-cell *matCellDef="let element"> {{element.CostResourse.Id}}</td>-->
+<!--</ng-container>-->
+
+<!--<ng-container matColumnDef="Cost">-->
+<!--<th mat-header-cell *matHeaderCellDef> مبلغ تامین اعتبار</th>-->
+<!--<td mat-cell *matCellDef="let element"> {{element.Cost}}</td>-->
+<!--</ng-container>-->
+
+<!--<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>-->
+<!--<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>-->
+<!--</table>-->
+<!--&lt;!&ndash;<table class="table table-bordered">&ndash;&gt;-->
+<!--&lt;!&ndash;<thead>&ndash;&gt;-->
+<!--&lt;!&ndash;<th>ردیف</th>&ndash;&gt;-->
+<!--&lt;!&ndash;<th>تاریخ</th>&ndash;&gt;-->
+<!--&lt;!&ndash;<th>محل تامین اعتبار</th>&ndash;&gt;-->
+<!--&lt;!&ndash;<th>مبلغ تامین اعتبار</th>&ndash;&gt;-->
+<!--&lt;!&ndash;</thead>&ndash;&gt;-->
+<!--&lt;!&ndash;<tbody>&ndash;&gt;-->
+<!--&lt;!&ndash;<tr *ngFor="let costRes of costReses; let i =  index">&ndash;&gt;-->
+<!--&lt;!&ndash;<td>{{ i + 1 }}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;<td>{{ costRes.DDate }}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;<td>{{ costRes.CostResourse.Id }}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;<td>{{ costRes.Cost | separator }}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;</tr>&ndash;&gt;-->
+<!--&lt;!&ndash;</tbody>&ndash;&gt;-->
+<!--&lt;!&ndash;</table>&ndash;&gt;-->
+<!--</div>-->
+<!--</div>-->
+<!--</mat-tab>-->
+<!--<mat-tab label="برنامه جریان نقدینگی">-->
+<!--<div class="row">-->
+<!--<div class="col-md-12">-->
+<!--<table class="table table-bordered">-->
+<!--<thead>-->
+<!--<th>ردیف</th>-->
+<!--<th>تاریخ</th>-->
+<!--<th>مبلغ هزینه برنامه ای</th>-->
+<!--</thead>-->
+<!--<tbody>-->
+<!--<tr *ngFor="let cashFlowPlan of cashFlowPlans; let i =  index">-->
+<!--<td>{{ i + 1 }}</td>-->
+<!--<td>{{ cashFlowPlan.Date }}</td>-->
+<!--<td>{{ cashFlowPlan.Cost | separator }}</td>-->
+<!--</tr>-->
+<!--</tbody>-->
+<!--</table>-->
+<!--</div>-->
+<!--</div>-->
+<!--</mat-tab>-->
+<!--<mat-tab label="ذینفعان اصلی">-->
+<!--<div class="row">-->
+<!--<div class="col-md-12">-->
+<!--<table class="table table-bordered">-->
+<!--<thead>-->
+<!--<th>ردیف</th>-->
+<!--<th>نام سازمان / شرکت</th>-->
+<!--<th>نقش قراردادی</th>-->
+<!--<th>نام نماینده</th>-->
+<!--<th>سمت نماینده</th>-->
+<!--<th>تلفن</th>-->
+<!--<th>ایمیل</th>-->
+<!--<th>آدرس</th>-->
+<!--<th>نوع</th>-->
+<!--</thead>-->
+<!--<tbody>-->
+<!--<tr *ngFor="let stakeHolder of stakeHolders; let i =  index">-->
+<!--<td>{{ i + 1 }}</td>-->
+<!--<td>{{ stakeHolder.OrgName }}</td>-->
+<!--<td>{{ stakeHolder.Role }}</td>-->
+<!--<td>{{ stakeHolder.AgentName }}</td>-->
+<!--<td>{{ stakeHolder.AgentPosition.Id }}</td>-->
+<!--<td>{{ stakeHolder.PhoneNumber }}</td>-->
+<!--<td>{{ stakeHolder.Email }}</td>-->
+<!--<td>{{ stakeHolder.LocationAddress }}</td>-->
+<!--<td>-->
+<!--<span *ngIf="stakeHolder.IsPillar">اصلی</span>-->
+<!--<span *ngIf="!stakeHolder.IsPillar">فرعی</span>-->
+<!--</td>-->
+<!--</tr>-->
+<!--</tbody>-->
+<!--</table>-->
+<!--</div>-->
+<!--</div>-->
+<!--</mat-tab>-->
+<!--<mat-tab label="درصد پیشرفت">-->
+<!--<div class="row" *ngFor="let pc of pcs">-->
+<!--<div class="col-md-12">-->
+<!--<h4 style="direction: rtl;text-align: right;">PCProp : {{ pc.ID }}</h4>-->
+<!--<table class="table table-bordered">-->
+<!--<thead>-->
+<!--<th>ردیف</th>-->
+<!--<th>تاریخ</th>-->
+<!--<th>درصد پیشرفت</th>-->
+<!--</thead>-->
+<!--<tbody>-->
+<!--<tr *ngFor="let data of pc.Data; let i =  index">-->
+<!--<td>{{ i + 1 }}</td>-->
+<!--<td>{{ data.Date }}</td>-->
+<!--<td>{{ data.PC }}</td>-->
+<!--</tr>-->
+<!--</tbody>-->
+<!--</table>-->
+<!--</div>-->
+<!--</div>-->
+<!--</mat-tab>-->
+<!--<mat-tab label="واحد / محصول">-->
+<!--<div class="row">-->
+<!--<div class="col-md-12">-->
+<!--<mat-accordion>-->
+<!--<mat-expansion-panel *ngFor="let delItem of delItems">-->
+<!--<mat-expansion-panel-header>-->
+<!--<mat-panel-title>-->
+<!--{{ delItem }}-->
+<!--</mat-panel-title>-->
+<!--<mat-panel-description>-->
+<!--Currently I am {{panelOpenState ? 'open' : 'closed'}}-->
+<!--</mat-panel-description>-->
+<!--</mat-expansion-panel-header>-->
+<!--<p>I'm visible because I am open</p>-->
+<!--</mat-expansion-panel>-->
+<!--</mat-accordion>-->
+<!--</div>-->
+<!--</div>-->
+<!--</mat-tab>-->
+<!--</mat-tab-group>-->
+<!--</mat-card>-->
+<!--</div>-->
+<!--</div>-->
+<div class="row" *ngIf="flappedIndex === 1 && contract">
+  <div class="col-md-12">
+    <app-contract-duty [contractID]="contractID" [contract]="contract"></app-contract-duty>
+  </div>
+</div>
+<div class="row" *ngIf="flappedIndex === 2">
+  <div class="col-md-12">
+    <app-main-changes [contractID]="contractID" [contract]="contract"></app-main-changes>
+  </div>
+</div>

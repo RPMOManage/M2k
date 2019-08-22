@@ -1,0 +1,16 @@
+<p>
+  calculate works!
+</p>
+<div class="row">
+  <div class="col-md-4"></div>
+  <div class="col-md-4">
+    pcDate : <input type="text" [(ngModel)]="pcDate" (ngModelChange)="onChange($event)">
+    <br>
+    actualCode : <input type="text" [(ngModel)]="actualCode" (ngModelChange)="onChange($event)">
+    <br>
+    planCode : <input type="text" [(ngModel)]="planCode" (ngModelChange)="onChange($event)">
+    <br>
+    Speed : {{ speed }}
+  </div>
+  <div class="col-md-4"></div>
+</div>

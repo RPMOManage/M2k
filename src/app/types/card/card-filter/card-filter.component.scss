@@ -1,0 +1,76 @@
+.filter-box {
+  min-height: 150px;
+  border: 1px solid #d1d1d1b8;
+  margin: 10px;
+  border-radius: 7px;
+  padding: 0 20px;
+  font-family: IranSans;
+  direction: rtl;
+  text-align: justify;
+  background: #fff;
+}
+
+.filter-box:nth-child(1) {
+  margin-top: 0;
+}
+
+.header-box {
+  direction: rtl;
+  text-align: right;
+  padding: 3px 0;
+  border-bottom: 1px solid #d1d1d15e;
+  font-family: IranSans;
+  height: 40px;
+}
+
+.row {
+  direction: rtl;
+}
+
+.dash-header {
+  text-align: right;
+  padding-right: 10px;
+}
+
+.dash-slash {
+  padding: 0 5px;
+  color: #bcc4c5;
+}
+
+.dash-main {
+  min-height: 610px;
+  border: 1px solid #d1d1d1b8;
+}
+
+.badge {
+  padding: 0.55em .6em;
+  margin: 2px 3px;
+  background: transparent;
+  border: 1px solid #dadada;
+  float: right;
+  cursor: pointer;
+}
+
+.badge:hover {
+  background: rgba(5, 169, 170, 0.11);
+}
+
+.fa-times:before {
+  color: #ea4b40;
+}
+
+.fa-times {
+  color: #ea4b40;
+  padding-right: 5px;
+}
+
+.not-selectable {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+

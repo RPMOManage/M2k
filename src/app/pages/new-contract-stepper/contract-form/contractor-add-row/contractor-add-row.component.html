@@ -1,0 +1,80 @@
+<div class="container">
+  <br>
+  <h4>{{ title }}</h4>
+  <hr>
+  <form *ngIf="formGp" [formGroup]="formGp">
+    <div class="row">
+      <div class="col-md-3"></div>
+      <div class="col-md-8">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group" style="direction: rtl;text-align: right;">
+              <mat-radio-group (change)="changed()" formControlName="contractorType" required>
+                <mat-radio-button value="R">{{ contractorTypes[0] }}</mat-radio-button>
+                <mat-radio-button value="L" checked="true">{{ contractorTypes[1] }}</mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <mat-form-field>
+                <input class="form-control" matInput formControlName="contractorName" placeholder="نام طرف قرارداد" required>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div style="direction: ltr" class="row">
+          <div style="padding-right: 0;" class="col-md-3">
+            <div class="form-group">
+              <label for="contractorPish_PhoneNumber">کد شهر *</label>
+              <input formControlName="contractorPish_PhoneNumber" type="text" class="form-control"
+                     id="contractorPish_PhoneNumber"
+                     aria-describedby="contractorPish_PhoneNumber" placeholder="پیش شماره"
+                     required>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="contractorPhoneNumber">تلفن *</label>
+              <input formControlName="contractorPhoneNumber" type="number" class="form-control"
+                     id="contractorPhoneNumber"
+                     aria-describedby="contractorPhoneNumber" placeholder="تلفن" required>
+            </div>
+          </div>
+          <div style="padding-left: 0;" class="col-md-3">
+            <div class="form-group">
+              <label for="contractorInt_PhoneNumber">داخلی</label>
+              <input formControlName="contractorInt_PhoneNumber" type="number" class="form-control"
+                     id="contractorInt_PhoneNumber"
+                     aria-describedby="contractorInt_PhoneNumber" placeholder="داخلی">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <mat-form-field class="example-full-width">
+            <textarea
+              class="form-control"
+              matInput
+              matTextareaAutosize
+              matAutosizeMinRows="3"
+              matAutosizeMaxRows="10"
+              formControlName="contractorAddress"
+              placeholder="آدرس طرف قرارداد"></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <button style="width: 100%;"  #dd [mat-dialog-close]="formGp.value" mat-raised-button color="primary">ثبت</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3"></div>
+    </div>
+  </form>
+</div>

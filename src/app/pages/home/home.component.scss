@@ -1,0 +1,196 @@
+.mat-card-header {
+  border-bottom: 1px solid #1d511317;
+  text-align: center;
+  display: inherit !important;
+}
+
+.mat-card {
+  padding-bottom: 5px !important;
+  min-height: 155px;
+  margin: 10px 0;
+}
+
+.list-counter {
+  padding-left: 7px;
+}
+
+.mat-list-item {
+  font-family: IranSans;
+  border-bottom: 1px solid #1d511317;
+  background: #e8e8e829;
+}
+
+.mat-card-header .mat-card-title {
+  font-size: 17px;
+}
+
+.mat-list-item:last-child {
+  border: none;
+}
+
+.mat-card-content, .mat-card-content .row {
+  //min-height: 130px;
+}
+
+.fas {
+  font-size: 45px !important;
+}
+
+.col-md-4.content-icon {
+  border-left: 1px solid rgba(12, 14, 93, 0.15);
+  border-bottom-right-radius: 3px;
+}
+
+#icon-1 {
+  background: #2a3b8f;
+}
+
+#icon-2 {
+  background: #ae2525;;
+}
+
+#icon-3 {
+  background: #2a868f;
+}
+
+#icon-4 {
+  background: #8f2a75;
+}
+
+mat-card.home-main-card {
+  padding-bottom: 0 !important;
+}
+
+.fa-bullseye {
+  color: #dfe2f3;
+}
+
+.fa-hammer {
+  color: #ffdef2;
+}
+
+.fa-coins {
+  color: #ecffde;
+}
+
+.fa-file-signature {
+  color: #f0e3f1;
+}
+
+.home-main-card .col-md-8, .home-main-card .col-md-4 {
+  text-align: center;
+  line-height: 60px;
+  font-size: 27px;
+}
+
+#content-chart {
+  border: none;
+}
+
+.contract-title {
+  text-align: right;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+  color: #0066c0;
+  cursor: pointer;
+}
+
+.contract-title:hover {
+  color: #425961;
+  text-decoration: underline;
+}
+
+.contract-speed {
+  width: 100px;
+  text-align: left;
+  direction: ltr;
+}
+
+.fa-sort-amount-up, .fa-sort-amount-down {
+  float: right;
+  font-size: 22px !important;
+  cursor: pointer;
+}
+
+.fa-sort-amount-up {
+  color: #3dc68c;
+}
+
+.deviation-up {
+  color: #c63941 !important;
+}
+
+.fa-sort-amount-down {
+  color: #c63941;
+}
+
+.deviation-down {
+  color: #3dc68c !important;
+}
+
+.fa-sort-amount-up:hover {
+  color: #2b8c63;
+}
+
+.deviation-up:hover {
+  color: #8c282e !important;
+}
+
+.fa-sort-amount-down:hover {
+  color: #8c282e;
+}
+
+.deviation-down:hover {
+  color: #2b8c63 !important;
+}
+
+img  {
+  height: 300px;
+  width: 100%;
+  border-radius: 3px;
+}
+
+.fa-chevron-right, .fa-chevron-left {
+  z-index: 999;
+  cursor: pointer;
+  font-size: 35px !important;
+}
+
+.fa-chevron-right:hover {
+  color: #7586b7 !important;
+}
+
+.fa-chevron-left:hover {
+  color: #7586b7 !important;
+}
+
+.mat-list-item {
+  height: 45px !important;
+}
+
+.mat-list-base {
+  padding-top: 0px !important;
+}
+
+.fa-exchange-alt {
+  float: right;
+  color: #55b0ca;
+  cursor: pointer;
+  margin-left: 30px;
+  font-size: 22px !important;
+}
+
+.fa-exchange-alt:hover {
+  float: right;
+  color: #408599;
+}
+
+#main {
+  margin: -5px 0;
+}
+
+.sort-cards .mat-card {
+  min-height: 240px;
+}

@@ -1,0 +1,104 @@
+.fa-edit {
+  color: #169ada;
+  cursor: pointer;
+}
+
+.fa-edit:hover {
+  color: #1376a8;
+}
+
+th {
+  text-align: center !important;
+  font-family: IranSans !important;
+}
+
+table {
+  text-align: center !important;
+  font-family: IranSans !important;
+}
+
+.nav-link {
+  cursor: pointer;
+}
+
+button {
+  font-family: IranSans;
+}
+
+.nav-tabs {
+  font-family: IranSans;
+}
+
+.fa-trash-alt {
+  color: #da225b;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.fa-trash-alt:hover {
+  color: #a41846;
+  cursor: pointer;
+}
+
+.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+  background-color: #e9f1ff !important;
+}
+
+.mat-accordion .mat-expansion-panel:last-of-type {
+  box-shadow: -1px 1px 10px 0px #113974;
+  margin: 20px;
+}
+
+.btn {
+  margin: 10px 0;
+}
+
+.fa-hand-holding, .fa-hands {
+  margin-left: 10px;
+  color: #502b81;
+}
+
+.btn {
+  width: 100%;
+}
+
+.lastDuty th, td {
+  text-align: center;
+}
+
+.mat-fab {
+  line-height: 20px;
+  width: 30px;
+  height: 30px;
+}
+
+.mat-fab.mat-accent {
+  background: linear-gradient(40deg, #56f1a2, #064c05) !important;
+}
+
+.plusBtn {
+  float: right;
+}
+
+.sh {
+  font-family: IranSans;
+  color: #5cb85c;
+}
+
+.mat-table {
+  margin: 10px 0;
+}
+
+.mat-fab.mat-accent:disabled {
+  cursor: not-allowed;
+  opacity: .5;
+}
+
+.fa-eye {
+  color: #169ada;
+  cursor: pointer;
+}
+
+.fa-eye:hover {
+  color: #1376a8;
+}

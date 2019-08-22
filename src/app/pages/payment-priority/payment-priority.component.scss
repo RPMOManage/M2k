@@ -1,0 +1,87 @@
+h2 {
+  text-align: center;
+  border-bottom: 1px solid #e0e1ff;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+}
+
+h3 {
+  font-family: IranSans;
+  text-align: center;
+  direction: rtl;
+  font-size: 17px;
+  font-weight: bold;
+  height: 7px;
+}
+
+.mat-card {
+  min-height: 800px;
+}
+
+.mat-list-base {
+  border: 1px solid #314e8f;
+  border-radius: 2px;
+}
+
+.mat-list-item {
+  border-bottom: 1px solid #dde6f0;
+  margin-bottom: -1px;
+  font-family: IranSans;
+}
+
+.mat-list-item:last-child {
+  border-bottom-color: #314e8f;
+}
+
+.col-md-1 {
+  text-align: center;
+}
+
+.col-md-8 {
+  text-align: right;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.fas {
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.fa-tachometer-alt {
+  color: #34717d;
+}
+
+.fa-tachometer-alt:hover {
+  color: #224a52;
+}
+
+.fa-tasks {
+  color: #7d3479;
+}
+
+.fa-tasks:hover {
+  color: #51224e;
+}
+
+.fa-random {
+  color: #b94040;
+}
+
+.fa-random:hover {
+  color: #792a2a;
+}
+
+.col-md-1, .col-md-3 {
+  font-size: 12px;
+  text-overflow: ellipsis;
+  line-height: 20px;
+}
+
+.mat-list-base {
+  padding-top: 0 !important;
+  border-radius: 5px;
+  border: 2px solid #1b5347 !important;
+}

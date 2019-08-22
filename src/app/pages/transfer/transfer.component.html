@@ -1,0 +1,157 @@
+<br>
+<div class="row" *ngIf="progressBarFirst">
+  <div class="col-md-12">
+    <mat-progress-bar mode="determinate" [value]="progressBarValue"></mat-progress-bar>
+    <span>{{ progressBarValue }} / 100</span>
+  </div>
+</div>
+<hr *ngIf="progressBarFirst">
+<div class="row" *ngIf="contracts.length === 0 && contractsNonProject.length === 0">
+  <div class="col-md-4"></div>
+  <div class="col-md-4" style="text-align: center">
+    <mat-spinner style="margin-left: 41%;"></mat-spinner>
+  </div>
+  <div class="col-md-4"></div>
+  <hr>
+</div>
+<div class="row" *ngIf="contracts.length !== 0 || contractsNonProject.length !== 0">
+  <div class="col-md-4"></div>
+  <div class="col-md-4">
+    <button style="width: 100%;" class="btn btn-primary" (click)="onTransfer()">
+      Transfer
+    </button>
+  </div>
+  <div class="col-md-4"></div>
+</div>
+<hr *ngIf="contracts.length !== 0 || contractsNonProject.length !== 0">
+
+
+<div class="row" style="direction: rtl;">
+  <div class="col-md-12" style="text-align: right;">
+    <div class="row" style="background: #acd5be;max-height: 35px;">
+      <div class="col-md-2">
+        <a style="cursor: pointer;" (click)="onSelectDeSelect()">Select / DeSelect</a>
+      </div>
+      <div class="col-md-2" style="line-height: 30px;">
+        <label class="switch">
+          <input type="checkbox" [checked]="switch" (change)="onChangeSwitch($event)">
+          <span class="slider"></span>
+        </label>
+        <span class="switch-title" *ngIf="switch">قرارداد های غیر پروژه ای</span>
+        <span class="switch-title" *ngIf="!switch">قرارداد های پروژه ای</span>
+      </div>
+      <div class="col-md-2" style="line-height: 30px;">
+        <span style="float: left;height: 100%;" *ngIf="switch">{{ selectedProjects.length }} / {{ contractsNonProject.length }}</span>
+        <span style="float: left;height: 100%;" *ngIf="!switch">{{ selectedProjects.length }} / {{ contracts.length }}</span>
+      </div>
+    </div>
+  </div>
+  <!--<div class="col-md-12" style="text-align: right;">-->
+  <!--<input type="text" (keyup)="onSearch($event)">-->
+  <!--</div>-->
+
+  <!--Projects Start-->
+  <div class="col-md-12" *ngIf="!switch">
+    <div class="row selective-row" *ngFor="let contract of contracts;let id = index"
+         [ngStyle]="styleObject(id)">
+      <div class="col-md-1 box-number not-selectable" [ngStyle]="styleObjectNumber(id)" (click)="onShowPopup(id)">
+        <span>{{ id + 1 }}</span>
+      </div>
+      <div class="col-md-7" (click)="onProjectClick(contract, id)">
+        <span>{{ contract.Title }}</span>
+      </div>
+      <div class="col-md-4 box-icon">
+        <a
+          target="_blank"
+          [href]="'http://pmo.rai.ir/PWA/Report/Lists/DataBase/EDIT.aspx#InplviewHash54a347e9-46e0-4b29-b49f-135e9e82dc27=SortField%3DIndex-SortDir%3DAsc-FilterField1%3DProjectID-FilterValue1%3D' + contract.ProjectID">
+          <span class="box-icon-line">Database</span>
+        </a>
+        <a
+          target="_blank"
+          [href]="'http://pmo.rai.ir/PWA/Report/ContractsDB/Forms/AllItems.aspx?View={C86E8AAE-91D4-4EDE-A659-80ECE01862BE}&InitialTabId=Ribbon%2ERead&VisibilityContext=WSSTabPersistence&FilterField1=ProjectID&FilterValue1=' + contract.ProjectID">
+          <span class="box-icon-line">ContractsDB</span>
+        </a>
+        <a
+          target="_blank"
+          [href]="'http://pmo.rai.ir/PWA/' + contract.ProjectID + '/default.aspx'">
+          <span class="box-icon-line">Site</span>
+        </a>
+        <a
+          target="_blank"
+          [href]="'http://pmo.rai.ir/PWA/Report/SitePages/ang/site.aspx/dashboard?projectID=' + contract.ProjectID + '&type1=3&type2=1&mobile=0'">
+          <span class="box-icon-line">Dashboard</span>
+        </a>
+        <a
+          target="_blank"
+          [href]="'http://pmo.rai.ir/PWA/Report/DocLib/Forms/Report.aspx#InplviewHashb93b41ad-3bdb-4e7d-a7fd-d2057b6c4032=SortField%3DYear0-SortDir%3DAsc-FilterField1%3DProject%255Fx0020%255FID-FilterValue1%3D' + contract.ProjectID">
+          <span class="box-icon-line">WeekProgress</span>
+        </a>
+        <a style="float: right;text-align: center;"
+           target="_blank"
+           [href]="'http://pmo.rai.ir/PO/SitePages/test.aspx/newContract?ContractID=' + contract.TempID">
+          <span class="box-icon-line">{{ contract.TempID }}</span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <!--projects Fininish-->
+
+  <!--non Projects Start-->
+  <div class="col-md-12" *ngIf="switch">
+    <div class="row selective-row" *ngFor="let contract of contractsNonProject;let id = index"
+         [ngStyle]="styleObject(id)">
+      <div class="col-md-1 box-number not-selectable" [ngStyle]="styleObjectNumber(id)" (click)="onShowPopup(id)">
+        <span>{{ id + 1 }}</span>
+      </div>
+      <div class="col-md-7" (click)="onProjectClick(contract, id)">
+        <span>{{ contract.Title }}</span>
+      </div>
+      <div class="col-md-4 box-icon">
+        <a
+          target="_blank"
+          [href]="'http://pmo.rai.ir/PWA/Report/Lists/DataBase/EDIT.aspx#InplviewHash54a347e9-46e0-4b29-b49f-135e9e82dc27=SortField%3DIndex-SortDir%3DAsc-FilterField1%3DProjectID-FilterValue1%3D' + contract.ProjectID">
+          <span class="box-icon-line">Database</span>
+        </a>
+        <a
+          target="_blank"
+          [href]="'http://pmo.rai.ir/PWA/Report/ContractsDB/Forms/AllItems.aspx?View={C86E8AAE-91D4-4EDE-A659-80ECE01862BE}&InitialTabId=Ribbon%2ERead&VisibilityContext=WSSTabPersistence&FilterField1=ProjectID&FilterValue1=' + contract.ProjectID">
+          <span class="box-icon-line">ContractsDB</span>
+        </a>
+        <a
+          target="_blank"
+          [href]="'http://pmo.rai.ir/PWA/' + contract.ProjectID + '/default.aspx'">
+          <span class="box-icon-line">Site</span>
+        </a>
+        <a
+          target="_blank"
+          [href]="'http://pmo.rai.ir/PWA/Report/SitePages/ang/site.aspx/dashboard?projectID=' + contract.ProjectID + '&type1=3&type2=1&mobile=0'">
+          <span class="box-icon-line">Dashboard</span>
+        </a>
+        <a
+          target="_blank"
+          [href]="'http://pmo.rai.ir/PWA/Report/DocLib/Forms/Report.aspx#InplviewHashb93b41ad-3bdb-4e7d-a7fd-d2057b6c4032=SortField%3DYear0-SortDir%3DAsc-FilterField1%3DProject%255Fx0020%255FID-FilterValue1%3D' + contract.ProjectID">
+          <span class="box-icon-line">WeekProgress</span>
+        </a>
+        <a style="float: right;text-align: center;"
+           target="_blank"
+           [href]="'http://pmo.rai.ir/PO/SitePages/test.aspx/newContract?ContractID=' + contract.TempID">
+          <span class="box-icon-line">{{ contract.TempID }}</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!--non Projects Finish-->
+</div>
+
+
+<hr>
+<div class="row" *ngIf="contracts.length !== 0">
+  <div class="col-md-4"></div>
+  <div class="col-md-4">
+    <button style="width: 100%;" class="btn btn-primary" (click)="onTransfer()">
+      Transfer
+    </button>
+  </div>
+  <div class="col-md-4"></div>
+</div>

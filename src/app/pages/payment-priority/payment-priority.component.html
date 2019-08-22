@@ -1,0 +1,104 @@
+<div class="row">
+  <div class="col-md-12">
+    <mat-card style="margin-bottom: 13px;margin-top: 0px;min-height: 0;padding: 12px;">
+      <h3 style="height: 100%">
+        <span>مشاهده اولویت های پرداخت</span>
+      </h3>
+    </mat-card>
+  </div>
+</div>
+<mat-card>
+  <div class="row" *ngIf="spinnerChecking !== 2">
+    <div class="col-md-2"></div>
+    <div class="col-md-8" style="text-align: center;display: flex;justify-content: center;align-items: center;">
+      <mat-spinner></mat-spinner>
+    </div>
+    <div class="col-md-2"></div>
+  </div>
+  <div class="row" *ngIf="spinnerChecking === 2">
+    <div class="col-md-12">
+      <mat-tab-group>
+        <mat-tab *ngFor="let paymentPriorityKind of paymentPriorityKinds" [label]="paymentPriorityKind.Title">
+          <!--<div class="row">-->
+            <!--<div class="col-md-3"></div>-->
+            <!--<div class="col-md-9">-->
+              <!--<input *ngIf="paymentPriorityKind.ID === 1" style="text-align: right;" class="form-control" matInput [(ngModel)]="searchTab1" (keyup)="onSearchTab(1)" placeholder="عنوان یا کد قرارداد را وارد نمایید..." required autocomplete="off">-->
+              <!--<span style="position: absolute;left: 30px;top: 5px;">-->
+                <!--<span *ngIf="paymentPriorityKind.ID === 1">{{ filtredTab1Contracts.length }}</span>-->
+              <!--</span>-->
+              <!--<input *ngIf="paymentPriorityKind.ID === 2" style="text-align: right;" class="form-control" matInput [(ngModel)]="searchTab2" (keyup)="onSearchTab(2)" placeholder="عنوان یا کد قرارداد را وارد نمایید..." required autocomplete="off">-->
+              <!--<span style="position: absolute;left: 30px;top: 5px;">-->
+              <!--<span *ngIf="paymentPriorityKind.ID === 2">{{ filtredTab2Contracts.length }}</span>-->
+            <!--</span>-->
+            <!--</div>-->
+            <!--<div class="col-md-3"></div>-->
+          <!--</div>-->
+          <br>
+          <div class="row" style="margin-top: 30px;" *ngIf="checkToStartCounter === 4 && isChecked">
+            <div class="col-md-12">
+              <mat-list role="list">
+                <mat-list-item role="listitem"  style="background: #1b5347;color: #e7f9f5;">
+                  <div class="row" style="width: 100%;margin: 0;" *ngIf="paymentPriorityKind.ID === 1 && paymentPriorityCriteriaWeights1">
+                    <div class="col-md-1">اولویت</div>
+                    <div class="col-md-3">نام قرارداد</div>
+                    <div class="col-md-1">کد قرارداد</div>
+                    <div class="col-md-1" style="font-weight: bold">امتیاز</div>
+                    <!--<div class="col-md-1">داشبورد</div>-->
+                    <div class="col-md-1" *ngFor="let paymentPriorityCriteriaWeight1 of paymentPriorityCriteriaWeights1">{{ paymentPriorityCriteriaWeight1.Title }}</div>
+                  </div>
+                  <div class="row" style="width: 100%;margin: 0;" *ngIf="paymentPriorityKind.ID === 2 && paymentPriorityCriteriaWeights2">
+                    <div class="col-md-1">اولویت</div>
+                    <div class="col-md-4">نام قرارداد</div>
+                    <div class="col-md-1">کد قرارداد</div>
+                    <div class="col-md-1" style="font-weight: bold">امتیاز</div>
+                    <!--<div class="col-md-1">داشبورد</div>-->
+                    <div class="col-md-1" *ngFor="let paymentPriorityCriteriaWeight2 of paymentPriorityCriteriaWeights2">{{ paymentPriorityCriteriaWeight2.Title }}</div>
+                  </div>
+                </mat-list-item>
+                <div *ngIf="paymentPriorityKind.ID === 1">
+                  <mat-list-item role="listitem" *ngFor="let criteriaAndScore of criteriaAndScore2;let i = index">
+                    <div class="row" style="width: 100%;margin: 0;">
+                      <div class="col-md-1">{{ i + 1 }}</div>
+                      <div class="col-md-3" [matTooltip]="criteriaAndScore.Contract.Title" matTooltipShowDelay="750" (click)="onClickPage(criteriaAndScore.Contract.Id)">
+                        <span>{{ criteriaAndScore.Contract.Title }}</span>
+                      </div>
+                      <div class="col-md-1">{{ criteriaAndScore.Contract.Id }}</div>
+                      <div class="col-md-1">
+                        <span [matTooltip]=" (criteriaAndScore.Score * 1000)">{{ (criteriaAndScore.Score * 1000).toFixed(2) }}</span>
+                      </div>                      <!--<div class="col-md-1"><i class="fas fa-tachometer-alt" (click)="onClickPage('dashboard')"></i></div>-->
+                      <div class="col-md-1">
+                        <span *ngIf="criteriaAndScore.C1.Value">{{ criteriaAndScore.C1.Value.toFixed(2) }}</span>
+                        <span *ngIf="!criteriaAndScore.C1.Value">-</span>
+                      </div>
+                      <div class="col-md-1">{{ criteriaAndScore.C2.Value.toFixed(2) }}</div>
+                      <div class="col-md-1">{{ criteriaAndScore.C3.Value.toFixed(2) }}</div>
+                      <div class="col-md-1">{{ criteriaAndScore.C4.Value.toFixed(2) }}</div>
+                      <div class="col-md-1">{{ criteriaAndScore.C5.Value.toFixed(2) }}</div>
+                    </div>
+                  </mat-list-item>
+                </div>
+                <div *ngIf="paymentPriorityKind.ID === 2">
+                  <mat-list-item role="listitem" *ngFor="let criteriaAndScore1 of criteriaAndScore;let i = index">
+                    <div class="row" style="width: 100%;margin: 0;">
+                      <div class="col-md-1">{{ i + 1 }}</div>
+                      <div class="col-md-4" [matTooltip]="criteriaAndScore1.Contract.Title" matTooltipShowDelay="750" (click)="onClickPage(criteriaAndScore1.Contract.Id)">
+                        <span>{{ criteriaAndScore1.Contract.Title }}</span>
+                      </div>
+                      <div class="col-md-1">{{ criteriaAndScore1.Contract.Id }}</div>
+                      <div class="col-md-1">
+                        <span [matTooltip]=" (criteriaAndScore1.Score * 1000)">{{ (criteriaAndScore1.Score * 1000).toFixed(2) }}</span>
+                      </div>
+                      <!--<div class="col-md-1"><i class="fas fa-tachometer-alt" (click)="onClickPage('dashboard')"></i></div>-->
+                      <div class="col-md-1">{{ criteriaAndScore1.C6.Value.toFixed(2) }}</div>
+                      <div class="col-md-1">{{ criteriaAndScore1.C7.Value.toFixed(2) }}</div>
+                    </div>
+                  </mat-list-item>
+                </div>
+              </mat-list>
+            </div>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
+</mat-card>

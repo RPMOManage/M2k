@@ -1,0 +1,48 @@
+.btn {
+  width: 100%;
+}
+
+h3 {
+  text-align: center;
+  direction: rtl;
+}
+
+h5 {
+  height: 30px;
+  color: #0f165a;
+}
+
+th {
+  text-align: center !important;
+  font-family: IranSans !important;
+}
+
+table {
+  text-align: center !important;
+  font-family: IranSans !important;
+}
+
+.mat-fab {
+  line-height: 20px;
+  width: 30px;
+  height: 30px;
+}
+#addRow .mat-fab.mat-accent {
+  background: linear-gradient(40deg, #56f1a2, #064c05) !important;
+}
+.plusBtn {
+  float: right;
+}
+
+.col-md-1 {
+  max-width: 2.333333%;
+}
+
+.col-md-1:last-child {
+  max-width: 5.333333%;
+  margin-right: 20px;
+}
+
+.table td {
+  padding: 4px !important;
+}

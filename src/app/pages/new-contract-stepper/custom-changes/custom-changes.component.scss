@@ -1,0 +1,31 @@
+h5 {
+  margin-bottom: 30px;
+  text-align: center;
+  font-family: IranSans;
+  border: 1px solid #666fa4;
+  border-radius: 3px;
+  padding: 4px 0;
+  font-size: 18px;
+}
+
+.mat-fab {
+  line-height: 20px;
+  width: 30px;
+  height: 30px;
+}
+
+#addRow .mat-fab.mat-accent {
+  background: linear-gradient(40deg, #56f1a2, #064c05) !important;
+}
+
+#addRow2 .mat-fab.mat-accent {
+  background: linear-gradient(40deg, #56f1a2, #064c05) !important;
+}
+
+.plusBtn {
+  float: right;
+}
+
+.col-md-1 {
+  max-width: 4.333333%;
+}

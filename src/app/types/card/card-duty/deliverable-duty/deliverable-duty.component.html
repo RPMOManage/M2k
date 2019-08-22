@@ -1,0 +1,103 @@
+<mat-card style="margin-top: 25px;">
+  <div class="row">
+    <div class="col-md-12" style="border-bottom: 1px solid #f0f0f0;">
+      <h5>
+        <span style="float: right;">آخرین اطلاعات تایید شده</span>
+      </h5>
+    </div>
+    <div class="col-md-12">
+      <table class="table table-bordered lastDuty" *ngIf="contract">
+        <thead>
+        <th>تاریخ</th>
+        <th>تحویل شدنی</th>
+        <th>نوع عملیات</th>
+        <th>واحد</th>
+        <th>مجموع واقعی</th>
+        <!--<th>مجموع برنامه ای</th>-->
+        <th>حجم کل کار</th>
+        </thead>
+        <tbody>
+        <tr *ngFor="let del of contract.DelLast">
+          <td>{{ del.Date }}</td>
+          <td>{{ getDeliverableName(del.Del) }}</td>
+          <td>{{ getOperationTypeName(del.Op) }}</td>
+          <td>{{ getMeasureUnitName(del.Del) }}</td>
+          <!--<td>{{ getZoneName(del.Zone) }}</td>-->
+          <td>{{ del.ActSum }}</td>
+          <!--<td>{{ del.PlanSum }}</td>-->
+          <td>{{ del.TotalVal }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</mat-card>
+<!--<mat-card style="min-height: 300px;margin-top: 25px;" *ngFor="let duty of duties;let i = index">-->
+<mat-card style="min-height: 300px;margin-top: 25px;" *ngIf="formGp">
+  <div class="row">
+    <div class="col-md-12">
+      <mat-checkbox (change)="onChangeChecked($event)" [checked]="isChecked" [disabled]="isReadOnly">این دوره زمانی فاقد تحویل شدنی واقعی است!</mat-checkbox>
+    </div>
+  </div>
+  <form *ngFor="let form of formGp;let i = index" [formGroup]="formGp[i]" style="padding: 20px;">
+    <div class="row">
+      <div class="col-md-1">
+      <p class="counter-num">{{ i + 1 }}.</p>
+      </div>
+      <div class="col-md-3">
+        <mat-form-field class="example-full-width">
+          <input formControlName="Date" autocomplete="off" class="form-control" (focus)="Date.open()" matInput [matDatepicker]="Date" placeholder="تاریخ" [(ngModel)]="selectedDate[i]">
+          <mat-datepicker-toggle matSuffix [for]="Date"></mat-datepicker-toggle>
+          <mat-datepicker #Date></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field>
+          <mat-select class="form-control" placeholder="تحویل شدنی" formControlName="DelItem" (selectionChange)="onChangeDelItem($event, i)"
+                      name="DelItem" required>
+            <mat-option *ngFor="let delItem of delItems" [value]="delItem">
+              {{ delItem.Deliverable.Title + ' - ' + delItem.OperationType.Title }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-md-2">
+        <mat-form-field>
+          <mat-select class="form-control" placeholder="ناحیه" formControlName="Zone"
+                      name="DelItem" required>
+            <mat-option *ngFor="let zone of zones" [value]="zone">
+              {{ zone.Title }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-md-2">
+        <mat-form-field class="example-full-width">
+          <input formControlName="Value" class="form-control" type="number" matInput placeholder="مقدار انجام شده" required>
+        </mat-form-field>
+      </div>
+    </div>
+    <hr>
+  </form>
+  <div class="row">
+    <div class="col-md-12">
+      <button (click)="onAddForm()" class="plusBtn" mat-fab [disabled]="isReadOnly || isChecked">
+        <i class="fas fa-plus"></i>
+      </button>
+    </div>
+  </div>
+  <div class="row" *ngIf="isPM">
+    <div class="col-md-12">
+      <mat-checkbox (change)="onChangeAppChecked($event)" [checked]="isAppChecked" [disabled]="isReadOnly">اطلاعات فوق مورد تایید می باشد!</mat-checkbox>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+      <button class="btn btn-primary" (click)="onSubmitClick()" *ngIf="!isReadOnly && isPM" [disabled]="!isAppChecked">ثبت اطلاعات</button>
+      <button class="btn btn-primary" (click)="onSubmitClick()" *ngIf="!isReadOnly && !isPM">ثبت اطلاعات</button>
+    </div>
+    <div class="col-md-4"></div>
+  </div>
+</mat-card>

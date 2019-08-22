@@ -1,0 +1,61 @@
+<div class="row">
+  <div class="col-md-12">
+    <mat-card style="margin-bottom: 13px;margin-top: 0px;min-height: 0;padding: 12px;">
+      <h3 style="height: 100%">
+        <span>لیست قرارداد ها</span>
+      </h3>
+    </mat-card>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <mat-card>
+      <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+          <input style="text-align: right;" class="form-control" matInput [(ngModel)]="search" (keyup)="onSearch()" placeholder="عنوان یا کد قرارداد را وارد نمایید..." required autocomplete="off"><span style="position: absolute;left: 30px;top: 5px;">{{ filtredContracts.length }}</span>
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+      <div class="row" style="margin-top: 30px;height: 100%;" *ngIf="filtredContracts">
+        <div class="col-md-12">
+          <mat-list role="list" style="padding-top: 0;">
+            <mat-list-item role="listitem" style="background: #1b5347;color: #e7f9f5;">
+              <div class="row" style="width: 100%;margin: 0;">
+                <div class="col-md-1">ردیف</div>
+                <div class="col-md-3">عنوان</div>
+                <div class="col-md-2">واحد سازمانی</div>
+                <!--<div class="col-md-1">گروه متولی</div>-->
+                <div class="col-md-1">شماره قرارداد</div>
+                <!--<div class="col-md-1">کارفرما</div>-->
+                <div class="col-md-2">طرف قرارداد</div>
+                <div class="col-md-1">مدیر پروژه</div>
+                <div class="col-md-1">مسئول اطلاعات</div>
+                <!--<div class="col-md-1">درصد پیشرفت</div>-->
+                <div class="col-md-1">کد قرارداد</div>
+              </div>
+            </mat-list-item>
+            <mat-list-item role="listitem" *ngFor="let contract of filtredContracts; let i = index">
+              <div class="row" style="width: 100%;margin: 0;height: 100%;">
+                <div class="col-md-1">{{ i + 1 }}</div>
+                <div class="col-md-3" [matTooltip]="contract.Title" matTooltipShowDelay="750" (click)="onClickPage(contract.Id)">
+                  <span class="contract-title">{{ contract.Title }}</span>
+                </div>
+                <div class="col-md-2" [matTooltip]="contract.Unit.Title" matTooltipShowDelay="750">{{ contract.Unit.Title }}</div>
+                <!--<div class="col-md-1" style="padding: 0;">{{ contract.SubUnit.Title }}</div>-->
+                <div class="col-md-1">{{ contract.Number }}</div>
+                <!--<div class="col-md-1" style="padding: 0;">{{ contract.RaiPart.Title }}</div>-->
+                <div class="col-md-2" [matTooltip]="contract.Contractor.Title" matTooltipShowDelay="750">{{ contract.Contractor.Title }}</div>
+                <div class="col-md-1" [matTooltip]="getPMName(contract.PM.Id)" matTooltipShowDelay="750">{{ getPMName(contract.PM.Id) }}</div>
+                <div class="col-md-1" [matTooltip]="contract.Importer.Title" matTooltipShowDelay="750">{{ contract.Importer.Title }}</div>
+                <!--<div class="col-md-1">{{ getContractPC(contract.Id) }}</div>-->
+                <div class="col-md-1">{{ contract.Id }}</div>
+              </div>
+            </mat-list-item>
+          </mat-list>
+          <p *ngIf="filtredContracts.length === 0" style="text-align: center; direction: rtl;color: #da345a;padding: 35px;">قراردادی پیدا نشد!</p>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>

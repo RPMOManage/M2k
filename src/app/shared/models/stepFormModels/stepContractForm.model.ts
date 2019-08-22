@@ -1,0 +1,37 @@
+import { UserNameList } from '../userName.model';
+
+export class StepContractFormList {
+  constructor(public Code_Contract?: string,
+              public FullTitle_Contract?: string,
+              public ShortTitle_Contract?: string,
+              public Number_Contract?: string,
+              public Subject_Contract?: string,
+              public StartDate_Contract?: any,
+              public FinishDate_Contract?: any,
+              public DeclareDate_FinishDates_And_Costs?: any,
+              public GuaranteePeriod?: string,
+              public Cost_Costs?: number,
+              public Cost_EqCosts?: number,
+              public Costs?: number[],
+              public c_Costs?: string,
+              public p_Costs?: string,
+              public ed_Costs?: string,
+              public es_Costs?: string,
+              public n_Costs?: string,
+              public Id_Unit?: any,
+              public Id_SubUnit?: any,
+              public ContractNatureId?: boolean[],
+              public Id_ContractType?: string,
+              public SignatoryRaiParts?: string,
+              public Id_Currency?: string,
+              public PMOExpertId_User?: string,
+              public PMId_User?: UserNameList,
+              public Id_Contractor?: any,
+              public Id_Importer?: any,
+              public Standards_Contract?: string,
+              public OldProjectId?: string,
+              public ContractServices?: string[],
+              public IsFinancial?: boolean,
+              public Zones?: number[]) {
+  }
+}

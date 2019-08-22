@@ -1,0 +1,128 @@
+<div class="row">
+    <div class="col-md-12">
+      <mat-card class="example-card">
+        <mat-card-header>
+          <!--<i class="fas fa-file-signature"></i>-->
+          <div mat-card-avatar [ngClass]="contract.Title === 'normal' ? 'card-avatar': 'card-avatar-special'">
+            <i [ngClass]="contract.Title === 'normal' ? 'fas fa-file-signature' : 'fas fa-file-signature file-avatar-special'"></i>
+          </div>
+          <mat-card-title style="cursor: pointer;" [matTooltip]="contract.Title" (click)="onClickTitle(contract.Id)">{{ contract.Title }}</mat-card-title>
+          <mat-card-subtitle>کد قرارداد : {{ contract.Id }}</mat-card-subtitle>
+        </mat-card-header>
+        <div mat-card-image *ngIf="type === 'duties'">
+          <img class="img1" [src]="contract.Picture" alt="Photo of a Shiba Inu">
+          <img class="img2" [src]="contract.Picture" alt="Photo of a Shiba Inu">
+        </div>
+        <div mat-card-image style="margin-bottom: 0;" *ngIf="type !== 'duties'">
+          <div [chart]="chart"></div>
+          <!--<img [src]="contract.Picture" alt="Photo of a Shiba Inu">-->
+        </div>
+        <mat-card-content style="margin: 0;height: 25px;">
+          <div class="row">
+            <div class="col-md-6">
+              <p style="text-align: right;" class="pm-title">
+              <span>مدیر پروژه</span> : <span *ngIf="pms" [matTooltip]="getPMName(contract.PM.Id)" matTooltipShowDelay="750">{{ getPMName(contract.PM.Id) }}</span>
+            </p>
+            </div>
+            <div class="col-md-6">
+              <p *ngIf="type !== 'changes' && type !== 'duties'" style="text-align: left;">
+                <span>تاریخ شروع</span> : <span>{{ contract.StartDate }}</span>
+              </p>
+              <p *ngIf="type === 'changes'" style="text-align: left;">
+                <span>تاریخ ایجاد</span> : <span>{{ contract.DeclareDate }}</span>
+              </p>
+              <div *ngIf="type === 'duties'" style="text-align: right ;">
+                <i class="fas fa-clock" style="float: right;"></i>
+                <div style="float: right;padding: 4px 8px;color: #ea5734;">{{ contract.DeclareDate + ' روز ' }}</div>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="type === 'changes'">
+            <mat-chip-list>
+              <div *ngFor="let chCategory of changeCategories" [class]="'col-md-3 ' + chCategory.colorClass">
+                <mat-chip selected (click)="onClickOnChips(contract)">{{ chCategory.name }}</mat-chip>
+              </div>
+            </mat-chip-list>
+          </div>
+          <div class="row" style="padding: 20px 0;" *ngIf="type === 'duties'">
+            <div class="col-md-6">
+              <span>وضعیت : </span>
+              <span style="color: #226ee3;" *ngIf="contract.dutyStatus === 'real'">جاری</span>
+              <span style="color: #226ee3;" *ngIf="contract.dutyStatus === 'doing'">در حال انجام</span>
+              <span style="color: #226ee3;" *ngIf="contract.dutyStatus === 'expired'">منقضی</span>
+            </div>
+            <div class="col-md-6" style="text-align: right;">
+              <span> نوع : </span>
+              <span style="color: #226ee3;" *ngIf="contract.Type === 'progress'">درصد پیشرفت</span>
+              <span style="color: #226ee3;" *ngIf="contract.Type === 'physical'">درصد فیزیکی</span>
+              <span style="color: #226ee3;" *ngIf="contract.Type === 'deliverable'">Deliverable</span>
+              <span style="color: #226ee3;" *ngIf="contract.Type === 'finance'">مالی</span>
+            </div>
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <div class="row" *ngIf="type === 'tempContracts' || type === 'changes' || type === 'duties'">
+            <div class="col-md-2">
+              <i
+                [ngClass]="(contract.Status === 'importer' || contract.Status === 'pm' || contract.Status === 'pmo') ? 'fas fa-user-edit' : 'fas fa-user-edit fa-user-edit-fade'"
+                nbPopover="This is Importer"
+                nbPopoverMode="hint"
+                nbPopoverPlacement="bottom"
+              ></i>
+            </div>
+            <div class="col-md-3"><hr class="doted-line-box"/></div>
+            <div class="col-md-2">
+              <i [ngClass]="(contract.Status === 'pm' || contract.Status === 'pmo') ? 'fas fa-user-check' : 'fas fa-user-check fa-user-check-fade'"
+                 nbPopover="This is PM"
+                 nbPopoverMode="hint"
+                 nbPopoverPlacement="bottom"></i>
+            </div>
+            <div class="col-md-3"><hr class="doted-line-box"/></div>
+            <div class="col-md-2">
+              <i [ngClass]="contract.Status === 'pmo' ? 'fas fa-check-double' : 'fas fa-check-double fa-check-double-fade'"
+                 nbPopover="This is Expert"
+                 nbPopoverMode="hint"
+                 nbPopoverPlacement="bottom"></i>
+            </div>
+          </div>
+          <!--<div class="row" *ngIf="type === 'compContracts'">-->
+            <!--<div class="col-md-2"></div>-->
+            <!--<div class="col-md-8" style="padding-right: 0px;">-->
+                <!--<button type="button" class="btn btn-primary first-button">صفحه قرارداد</button>-->
+                <!--<button type="button" class="btn btn-primary second-button">داشبورد قرارداد</button>-->
+              <!--&lt;!&ndash;<button style="font-family: IranSans;font-size: 14px;cursor: pointer;" class="btn btn-primary" (click)="openDialog(contract)">اطلاعات بیشتر</button>&ndash;&gt;-->
+              <!--&lt;!&ndash;<div [chart]="chart"></div>&ndash;&gt;-->
+            <!--</div>-->
+            <!--<div class="col-md-2"></div>-->
+          <!--</div>-->
+          <!--<mat-chip-list style="direction: ltr">-->
+            <!--<mat-chip id="success" selected="true">تایید شده</mat-chip>-->
+            <!--&lt;!&ndash;<button mat-button mat-button (click)="onClick('TC233')" color="primary">مشاهده</button>&ndash;&gt;-->
+            <!--<button mat-button mat-button (click)="onClick('TC233')" color="primary">{{ type }}</button>-->
+          <!--</mat-chip-list>-->
+        </mat-card-actions>
+      </mat-card>
+    </div>
+
+    <!--<div class="col-md-4">-->
+      <!--<mat-card class="example-card">-->
+        <!--<mat-card-header>-->
+          <!--<div mat-card-avatar class="example-header-image2"></div>-->
+          <!--<mat-card-title style="cursor: pointer;" (click)="onClick('TC256')">قرارداد شماره 2</mat-card-title>-->
+          <!--<mat-card-subtitle>TC256</mat-card-subtitle>-->
+        <!--</mat-card-header>-->
+        <!--<img mat-card-image src="http://commettelaw.com/wp-content/uploads/2017/04/Contract-Law-Ft-Lauderdale-Florida.jpg" alt="Photo of a Shiba Inu">-->
+        <!--<mat-card-content style="min-height: 50px;">-->
+          <!--<p>-->
+            <!--محل آخرین توضیح قرارداد-->
+          <!--</p>-->
+        <!--</mat-card-content>-->
+        <!--<mat-card-actions>-->
+          <!--<mat-chip-list style="direction: ltr">-->
+            <!--<mat-chip color="primary" selected="true">در حال بررسی</mat-chip>-->
+            <!--<button mat-button mat-button (click)="onClick('TC256')" color="primary">مشاهده</button>-->
+          <!--</mat-chip-list>-->
+        <!--</mat-card-actions>-->
+      <!--</mat-card>-->
+    <!--</div>-->
+  </div>
