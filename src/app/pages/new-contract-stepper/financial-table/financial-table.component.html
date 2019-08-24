@@ -22,7 +22,7 @@
 </ul>
 
 <div class="row" *ngIf="tabIndex === 0" style="background: #fff;">
-  <div class="col-md-12" style="margin-top: 10px;" *ngIf="!isReadOnly">
+  <div class="col-md-12" style="margin-top: 10px;margin-bottom: 10px;" *ngIf="!isReadOnly">
     <button class="btn btn-primary" (click)="onAddFinancial(element, true)">افزودن سند درخواستی</button>
   </div>
   <div class="col-md-12">
@@ -72,7 +72,7 @@
   </div>
 </div>
 <div class="row" *ngIf="tabIndex === 1" style="background: #fff;">
-  <div class="col-md-12" style="margin-top: 10px;" *ngIf="!isReadOnly">
+  <div class="col-md-12" style="margin-top: 10px;margin-bottom: 10px;" *ngIf="!isReadOnly">
     <button class="btn btn-primary" (click)="onAddFinancial(element, true)">افزودن سند پرداختی</button>
   </div>
   <div class="col-md-12">

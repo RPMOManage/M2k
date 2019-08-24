@@ -137,10 +137,14 @@ export class PaymentPriorityComponent implements OnInit {
       if (mainService) {
         const mainPCCalcLast = this.tab2Contracts[i].PCCalcsLast.filter(v => v.Service === mainService)[0];
         const mainPCLast = this.tab2Contracts[i].LastPC.filter(v => v.Service === mainService)[0];
+        let speed90D = null;
+        if (mainPCCalcLast) {
+          speed90D = mainPCCalcLast.Speed90D;
+        }
         this.criteriaAndScore2.push({
           C1: {
             ID: 1,
-            Value: mainPCCalcLast.Speed90D,
+            Value: speed90D,
             Weight: this.paymentPriorityCriteriaWeights.filter(v => v.ID === 1)[0].Weight / totalWeight,
             Score: 0,
           },
@@ -154,9 +158,13 @@ export class PaymentPriorityComponent implements OnInit {
             }
           }
         });
+        let actPC = null;
+        if (mainPCLast) {
+          actPC = mainPCLast.ActPC;
+        }
         this.criteriaAndScore2[i].C2 = {
           ID: 2,
-          Value: mainPCLast.ActPC / (this.tab2Contracts[i].FinancialLast.TotalGrossPayment / this.tab2Contracts[i].Cost),
+          Value: actPC / (this.tab2Contracts[i].FinancialLast.TotalGrossPayment / this.tab2Contracts[i].Cost),
           Weight: this.paymentPriorityCriteriaWeights.filter(v => v.ID === 2)[0].Weight / totalWeight,
           Score: 0
         };
@@ -167,9 +175,17 @@ export class PaymentPriorityComponent implements OnInit {
             }
           }
         });
+        let date = null;
+        if (mainPCLast) {
+          date = mainPCLast.Date;
+        }
+        let actPCm = null;
+        if (mainPCLast) {
+          actPCm = mainPCLast.ActPC;
+        }
         this.criteriaAndScore2[i].C4 = {
           ID: 4,
-          Value: (((+new Date(mainPCLast.Date) - +new Date(this.tab2Contracts[i].StartDate)) / (mainPCLast.ActPC)) - (+new Date(mainPCLast.Date) - +new Date(this.tab2Contracts[i].StartDate))) / 86400000,
+          Value: (((+new Date(date) - +new Date(this.tab2Contracts[i].StartDate)) / (actPCm)) - (+new Date(date) - +new Date(this.tab2Contracts[i].StartDate))) / 86400000,
           Weight: this.paymentPriorityCriteriaWeights.filter(v => v.ID === 4)[0].Weight / totalWeight,
           Score: 0
         };
@@ -223,6 +239,13 @@ export class PaymentPriorityComponent implements OnInit {
     console.log(this.criteriaAndScore2);
   }
 
+  checkNum(value) {
+    if (value !== 'NaN' && value !== 'Infinity') {
+      return value;
+    } else {
+      return '-';
+    }
+  }
 
   calculateTab2Score() {
     const totalWeight = this.paymentPriorityCriteriaWeights.filter(v => v.PaymentPriorityKind === 2).map(v => v.Weight).reduce(this.getSum);

@@ -103,8 +103,11 @@ export class DeliverablesTableComponent implements OnInit {
     //   console.log(ops);
     //   return ops.reduce(this.getSum) / ops.length;
     // }
-
-    return +ops.reduce(this.getSum);
+    if (ops.length > 0) {
+      return +ops.reduce(this.getSum).toFixed();
+    } else {
+      return ops[0];
+    }
   }
 
   onChangeTable() {

@@ -144,9 +144,12 @@ export class NewContractStepperComponent implements OnInit {
 
     if (this.sharedService.stepFormsData.contractsForm.IsFinancial === false) {
       let sum = 0;
+      let mainfrtExist = false;
+      console.log(this.sharedService.stepFormsData.financialRequests);
       if (this.sharedService.stepFormsData.financialRequests) {
         this.sharedService.stepFormsData.financialRequests.map(v => {
           if (v.FinancialRequestType.ID === 1) {
+            mainfrtExist = true;
             sum = +sum + +v.GrossAmount;
           }
         });
@@ -154,7 +157,7 @@ export class NewContractStepperComponent implements OnInit {
 
       console.log(sum);
       // if (+sum > +this.sharedService.stepFormsData.contractsForm.Cost_Costs) {
-      if (+sum > +this.sharedService.stepFormsData.contractsForm.Cost_Costs || sum === 0) {
+      if (+sum > +this.sharedService.stepFormsData.contractsForm.Cost_Costs || (sum === 0 && mainfrtExist)) {
         this.stepSituation.financialRequests.default = false;
         this.stepSituation.financialRequests.exist = true;
         if (sum === 0) {

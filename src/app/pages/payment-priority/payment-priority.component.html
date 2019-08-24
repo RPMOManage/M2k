@@ -70,9 +70,9 @@
                         <span *ngIf="criteriaAndScore.C1.Value">{{ criteriaAndScore.C1.Value.toFixed(2) }}</span>
                         <span *ngIf="!criteriaAndScore.C1.Value">-</span>
                       </div>
-                      <div class="col-md-1">{{ criteriaAndScore.C2.Value.toFixed(2) }}</div>
-                      <div class="col-md-1">{{ criteriaAndScore.C3.Value.toFixed(2) }}</div>
-                      <div class="col-md-1">{{ criteriaAndScore.C4.Value.toFixed(2) }}</div>
+                      <div class="col-md-1">{{ checkNum(criteriaAndScore.C2.Value.toFixed(2))}}</div>
+                      <div class="col-md-1">{{ checkNum(criteriaAndScore.C3.Value.toFixed(2))}}</div>
+                      <div class="col-md-1">{{ checkNum(criteriaAndScore.C4.Value.toFixed(2))}}</div>
                       <div class="col-md-1">{{ criteriaAndScore.C5.Value.toFixed(2) }}</div>
                     </div>
                   </mat-list-item>

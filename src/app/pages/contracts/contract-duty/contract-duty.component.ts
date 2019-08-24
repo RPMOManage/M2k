@@ -114,10 +114,12 @@ export class ContractDutyComponent implements OnInit {
                   this.deliverableDuties.push(temp[0]);
                 }
               }
-              if (v2.DutyType.ID === 3) {
-                const temp = duties.filter(v => v.DutyCalenderId === v2.ID);
-                if (temp.length > 0) {
-                  this.financeDuties.push(temp[0]);
+              if (this.contract.ComptrollerContractCode === null) {
+                if (v2.DutyType.ID === 3) {
+                  const temp = duties.filter(v => v.DutyCalenderId === v2.ID);
+                  if (temp.length > 0) {
+                    this.financeDuties.push(temp[0]);
+                  }
                 }
               }
             });

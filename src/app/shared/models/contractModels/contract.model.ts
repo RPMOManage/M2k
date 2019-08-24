@@ -94,6 +94,7 @@ export class ContractModel {
               },
               public DeclareDate?: string,
               public IsActive?: any,
+              public ComptrollerContractCode?: any,
   ) {
   }
 }

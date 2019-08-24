@@ -1540,7 +1540,7 @@ export class ContractService {
     let headers = new HttpHeaders();
     headers = headers.set('ACCEPT', 'application/json;odata=verbose');
     return this.http.get(
-      'http://rpmo.rai.ir/PWA/_api/web/lists/getbytitle(\'Contracts\')/items?$filter=ID eq ' + contractID + '&$select=ID,LastVersion,Number,Title,ShortTitle,Service1Id,StartDate1,FinishDate,DDate,Cost,PC_Last,Del_Last,ServiceCost_Last,AssignedCostReses_Last,PCCalcs_Last,Financial_Last,Unit/ID,Unit/Title,SubUnit/ID,SubUnit/Title,Contractor/ID,Contractor/Title,PM/ID,PM/Title,Importer/ID,Importer/Title,Zone/ID,Zone/Title&$expand=Unit,SubUnit,Contractor,PM,Importer,Zone',
+      'http://rpmo.rai.ir/PWA/_api/web/lists/getbytitle(\'Contracts\')/items?$filter=ID eq ' + contractID + '&$select=ID,LastVersion,Number,Title,ShortTitle,Service1Id,ComptrollerContractCode,StartDate1,FinishDate,DDate,Cost,PC_Last,Del_Last,ServiceCost_Last,AssignedCostReses_Last,PCCalcs_Last,Financial_Last,Unit/ID,Unit/Title,SubUnit/ID,SubUnit/Title,Contractor/ID,Contractor/Title,PM/ID,PM/Title,Importer/ID,Importer/Title,Zone/ID,Zone/Title&$expand=Unit,SubUnit,Contractor,PM,Importer,Zone',
       {headers: headers}
     ).pipe(map((response: Response) => {
         const data = (<any>response).d.results[0];
@@ -1613,6 +1613,7 @@ export class ContractService {
           ServiceCosLast: serviceCosLast,
           PCCalcsLast: pcCalcsLast,
           FinancialLast: financialLast,
+          ComptrollerContractCode: data.ComptrollerContractCode,
         };
         return mainData;
       }
