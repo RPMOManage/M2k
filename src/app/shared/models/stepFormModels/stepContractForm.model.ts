@@ -32,6 +32,15 @@ export class StepContractFormList {
               public OldProjectId?: string,
               public ContractServices?: string[],
               public IsFinancial?: boolean,
-              public Zones?: number[]) {
+              public Zones?: number[],
+              public OperationalPriority?: any,
+              public OperationType?: any,
+              public Goal?: any,
+              public Demandant?: any,
+              public TenderType?: any,
+              public TenderOrganizer?: any,
+              public DocToComptroller?: any,
+              public SigningRecall?: any,
+              public WinnerDeclare?: any) {
   }
 }

@@ -97,6 +97,149 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <mat-form-field>
+                    <mat-select class="form-control" placeholder="اولویت اجرایی" formControlName="OperationalPriority"
+                                name="OperationalPriority" required>
+                      <mat-option *ngFor="let op of operationalPriorities" [value]="op.ID">
+                        {{ op.Name }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error style="text-align: right;"
+                               *ngIf="formGp.get('OperationalPriority').hasError('required')">
+                      * لطفا اولویت اجرایی را وارد نمایید <strong>(اجباری)</strong>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <mat-form-field>
+                    <mat-select class="form-control" placeholder="ماهیت فنی عملیات" formControlName="OperationType"
+                                name="OperationType" required>
+                      <mat-option *ngFor="let ot of operationTypes" [value]="ot.Id">
+                        {{ ot.Name }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error style="text-align: right;" *ngIf="formGp.get('OperationType').hasError('required')">
+                      * لطفا ماهیت فنی عملیات را وارد نمایید <strong>(اجباری)</strong>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <mat-form-field>
+                    <mat-select class="form-control" placeholder="هدف انجام" formControlName="Goal"
+                                name="Goal" required>
+                      <mat-option *ngFor="let op of operationalPriorities" [value]="op.ID">
+                        {{ op.Name }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error style="text-align: right;" *ngIf="formGp.get('Goal').hasError('required')">
+                      * لطفا هدف انجام را وارد نمایید <strong>(اجباری)</strong>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <mat-form-field>
+                    <mat-select class="form-control" placeholder="درخواست کننده قرارداد" formControlName="Demandant"
+                                name="Demandant" required>
+                      <mat-option *ngFor="let op of operationalPriorities" [value]="op.ID">
+                        {{ op.Name }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error style="text-align: right;" *ngIf="formGp.get('Demandant').hasError('required')">
+                      * لطفا درخواست کننده قرارداد را وارد نمایید <strong>(اجباری)</strong>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <h5 *ngIf="isPreContract"></h5>
+        <div class="row boxD" *ngIf="isPreContract">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <mat-form-field>
+                    <mat-select class="form-control" placeholder=" نوع مناقصه" formControlName="TenderType"
+                                name="TenderType" required>
+                      <mat-option *ngFor="let op of operationalPriorities" [value]="op.ID">
+                        {{ op.Name }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error style="text-align: right;"
+                               *ngIf="formGp.get('TenderType').hasError('required')">
+                      * لطفا نوع مناقصه را وارد نمایید <strong>(اجباری)</strong>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <mat-form-field>
+                    <mat-select class="form-control" placeholder="برگزارکننده مناقصه" formControlName="TenderOrganizer"
+                                name="TenderOrganizer" required>
+                      <mat-option *ngFor="let ot of operationTypes" [value]="ot.Id">
+                        {{ ot.Name }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error style="text-align: right;" *ngIf="formGp.get('TenderOrganizer').hasError('required')">
+                      * لطفا برگزارکننده مناقصه را وارد نمایید <strong>(اجباری)</strong>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <mat-form-field>
+                    <input formControlName="DocToComptroller" autocomplete="off" class="form-control"
+                           (focus)="DocToComptroller.open()" matInput [matDatepicker]="DocToComptroller"
+                           placeholder="تاریخ ارسال اسناد به ذیحسابی" [(ngModel)]="selectedDocToComptroller">
+                    <mat-datepicker-toggle matSuffix [for]="DocToComptroller"></mat-datepicker-toggle>
+                    <mat-datepicker #DocToComptroller></mat-datepicker>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <mat-form-field>
+                    <input formControlName="SigningRecall" autocomplete="off" class="form-control"
+                           (focus)="SigningRecall.open()" matInput [matDatepicker]="SigningRecall"
+                           placeholder="تاریخ امضای صورتجلسه پیش فراخوان" [(ngModel)]="selectedSigningRecall">
+                    <mat-datepicker-toggle matSuffix [for]="SigningRecall"></mat-datepicker-toggle>
+                    <mat-datepicker #SigningRecall></mat-datepicker>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <mat-form-field>
+                    <input formControlName="WinnerDeclare" autocomplete="off" class="form-control"
+                           (focus)="WinnerDeclare.open()" matInput [matDatepicker]="WinnerDeclare"
+                           placeholder="تاریخ اعلام برنده" [(ngModel)]="selectedWinnerDeclare">
+                    <mat-datepicker-toggle matSuffix [for]="WinnerDeclare"></mat-datepicker-toggle>
+                    <mat-datepicker #WinnerDeclare></mat-datepicker>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <h5></h5>
+        <div class="row boxD">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-6" *ngIf="!isPreContract">
+                <div class="form-group">
+                  <mat-form-field>
                     <input class="form-control" matInput formControlName="Number_Contract" placeholder="شماره قرارداد"
                            required autocomplete="off">
                     <mat-error style="text-align: right;" *ngIf="formGp.get('Number_Contract').hasError('required')">
@@ -156,7 +299,7 @@
               </mat-form-field>
             </div>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-6" *ngIf="!isPreContract">
             <div class="form-group" *ngIf="contractors.length > 0">
               <mat-form-field class="example-full-width">
                 <input class="form-control" type="text" placeholder="نام طرف قرارداد" aria-label="Number" matInput
@@ -166,11 +309,10 @@
                     {{ option.Name }}
                   </mat-option>
                 </mat-autocomplete>
-                <mat-hint *ngIf="!isReadOnly" align="start"><strong>در صورت نبودن در لیست بر روی <i style="cursor: pointer;"
-                                                                                                    (click)="addConstractor()"
-                                                                                                    class="fas fa-plus"></i>
-
-
+                <mat-hint *ngIf="!isReadOnly" align="start"><strong>در صورت نبودن در لیست بر روی <i
+                  style="cursor: pointer;"
+                  (click)="addConstractor()"
+                  class="fas fa-plus"></i>
                   کلیک نمایید</strong></mat-hint>
               </mat-form-field>
             </div>
@@ -190,7 +332,10 @@
           <div class="col-md-3">
             <div class="form-group">
               <mat-form-field>
-                <input formControlName="DeclareDate_FinishDates_And_Costs" autocomplete="off" class="form-control" (focus)="ContractDeclareDate.open()" matInput [matDatepicker]="ContractDeclareDate" placeholder="تاریخ انعقاد قرارداد" [(ngModel)]="selectedDeclareDate">
+                <input formControlName="DeclareDate_FinishDates_And_Costs" autocomplete="off" class="form-control"
+                       (focus)="ContractDeclareDate.open()" matInput [matDatepicker]="ContractDeclareDate"
+                       [placeholder]="isPreContract ? 'پیش بینی تاریخ انعقاد قرارداد' : 'تاریخ انعقاد قرارداد'"
+                       [(ngModel)]="selectedDeclareDate">
                 <mat-datepicker-toggle matSuffix [for]="ContractDeclareDate"></mat-datepicker-toggle>
                 <mat-datepicker #ContractDeclareDate></mat-datepicker>
               </mat-form-field>
@@ -199,7 +344,10 @@
           <div class="col-md-3">
             <div class="form-group">
               <mat-form-field>
-                <input formControlName="StartDate_Contract" autocomplete="off" class="form-control" (focus)="ContractStartDate.open()" matInput [matDatepicker]="ContractStartDate" placeholder="تاریخ شروع قرارداد" [(ngModel)]="selectedStartDate">
+                <input formControlName="StartDate_Contract" autocomplete="off" class="form-control"
+                       (focus)="ContractStartDate.open()" matInput [matDatepicker]="ContractStartDate"
+                       [placeholder]="isPreContract ? 'پیش بینی تاریخ شروع قرارداد' : 'تاریخ شروع قرارداد'"
+                       [(ngModel)]="selectedStartDate">
                 <mat-datepicker-toggle matSuffix [for]="ContractStartDate"></mat-datepicker-toggle>
                 <mat-datepicker #ContractStartDate></mat-datepicker>
               </mat-form-field>
@@ -208,7 +356,10 @@
           <div class="col-md-3">
             <div class="form-group">
               <mat-form-field>
-                <input formControlName="FinishDate_Contract" autocomplete="off" class="form-control" (focus)="ContractFinishDate.open()" matInput [matDatepicker]="ContractFinishDate" placeholder="تاریخ پایان قرارداد" [(ngModel)]="selectedFinishDate">
+                <input formControlName="FinishDate_Contract" autocomplete="off" class="form-control"
+                       (focus)="ContractFinishDate.open()" matInput [matDatepicker]="ContractFinishDate"
+                       [placeholder]="isPreContract ? 'پیش بینی تاریخ پایان قرارداد' : 'تاریخ پایان قرارداد'"
+                       [(ngModel)]="selectedFinishDate">
                 <mat-datepicker-toggle matSuffix [for]="ContractFinishDate"></mat-datepicker-toggle>
                 <mat-datepicker #ContractFinishDate></mat-datepicker>
               </mat-form-field>
@@ -219,7 +370,8 @@
               <label for="GuaranteePeriod">مدت دوره تضمین (ماه)</label>
               <input currencyMask
                      [options]="{ suffix: ' ماه ', thousands: '', prefix: '', decimal: '', precision: 0 }"
-                     formControlName="GuaranteePeriod" class="form-control" id="GuaranteePeriod" placeholder="مدت دوره تضمین" required autocomplete="off">
+                     formControlName="GuaranteePeriod" class="form-control" id="GuaranteePeriod"
+                     placeholder="مدت دوره تضمین" required autocomplete="off">
             </div>
           </div>
         </div>
@@ -229,11 +381,15 @@
             <div class="row">
               <div class="col-md-4">
                 <div style="margin-top: -10px;" class="form-group">
-                  <label for="Cost_Costs">مبلغ ریالی قرارداد</label>
+                  <label for="Cost_Costs">
+                    <span *ngIf="!isPreContract">مبلغ ریالی قرارداد</span>
+                    <span *ngIf="isPreContract">برآورد مبلغ ریالی قرارداد</span>
+                  </label>
                   <input currencyMask autocomplete="off"
                          (keyup)="onChangeCost($event)"
                          [options]="{ suffix: ' ریال ', thousands: ',', prefix: '', decimal: '', precision: 0 }"
-                         formControlName="Cost_Costs" class="form-control" id="Cost_Costs" placeholder="مبلغ قرارداد">
+                         formControlName="Cost_Costs" class="form-control" id="Cost_Costs"
+                         [placeholder]="isPreContract ? 'برآورد مبلغ قرارداد' : 'مبلغ قرارداد'">
                 </div>
               </div>
               <div class="col-md-2">
@@ -253,22 +409,30 @@
               </div>
               <div class="col-md-4" *ngIf="formGp.get('Id_Currency').value !== 'IRR'">
                 <div style="margin-top: -10px;" class="form-group">
-                  <label for="Cost_EqCosts">مبلغ ارزی قرارداد</label>
+                  <label for="Cost_EqCosts">
+                    <span *ngIf="!isPreContract">مبلغ ارزی قرارداد</span>
+                    <span *ngIf="isPreContract">برآورد مبلغ ارزی قرارداد</span>
+                  </label>
                   <input style="direction: ltr;" currencyMask autocomplete="off"
                          [options]="{ suffix: ' '+ formGp.get('Id_Currency').value + ' ', thousands: ',', prefix: '', decimal: '', precision: 0 }"
-                         formControlName="Cost_EqCosts" class="form-control" id="Cost_EqCosts" placeholder="مبلغ ارزی قرارداد">
+                         formControlName="Cost_EqCosts" class="form-control" id="Cost_EqCosts"
+                         [placeholder]="isPreContract ? 'برآورد مبلغ ارزی قرارداد' : 'مبلغ ارزی قرارداد'">
                 </div>
               </div>
             </div>
-
             <div *ngIf="contractServices">
               <div *ngFor="let cn of formGp.get('Costs').controls;let i = index;">
                 <div class="col-md-6">
                   <div style="margin-top: -10px;" class="form-group" formArrayName="Costs">
-                    <label [for]="'a' + i">{{ 'مبلغ بابت ' + selectedServiceNames[i] }}</label>
+                    <label [for]="'a' + i">
+                      <span *ngIf="!isPreContract">{{ 'مبلغ بابت ' + selectedServiceNames[i] }}</span>
+                      <span *ngIf="isPreContract">{{ 'برآورد مبلغ بابت ' + selectedServiceNames[i] }}</span>
+                    </label>
                     <input currencyMask autocomplete="off"
                            [options]="{ suffix: ' ریال ', thousands: ',', prefix: '', decimal: '', precision: 0 }"
-                           [formControlName]="i" class="form-control" [id]="'a' + i" [placeholder]="'مبلغ بابت ' + selectedServiceNames[i]" required="true">
+                           [formControlName]="i" class="form-control" [id]="'a' + i"
+                           [placeholder]="isPreContract ? 'برآورد مبلغ بابت ' + selectedServiceNames[i] : 'مبلغ بابت ' + selectedServiceNames[i]"
+                           required="true">
                   </div>
                 </div>
               </div>
@@ -278,14 +442,15 @@
                 <p style="text-align: right;font-family: IranSans;">
                   <span>جمع : </span>
                   <span>
-      <span *ngIf="formGp.get('Cost_Costs').value" [ngClass]="+formGp.get('Costs').value.reduce(getSum) === this.formGp.get('Cost_Costs').value ? 'sh' : 'sh2'">
+      <span *ngIf="formGp.get('Cost_Costs').value"
+            [ngClass]="+formGp.get('Costs').value.reduce(getSum) === this.formGp.get('Cost_Costs').value ? 'sh' : 'sh2'">
       {{ +formGp.get('Costs').value.reduce(getSum) | separator }}</span>
       <span> ریال </span>
       </span>
                 </p>
               </div>
             </div>
-            <div class="row">
+            <div class="row" *ngIf="!isPreContract">
               <div class="col-md-12">
                 <div class="form-group" style="margin-top: 10px;">
                   <mat-checkbox

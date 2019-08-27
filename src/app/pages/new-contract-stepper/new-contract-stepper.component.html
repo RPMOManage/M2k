@@ -2,7 +2,8 @@
   <div class="col-md-12">
     <mat-card style="margin-bottom: 13px;margin-top: 0px;min-height: 0;padding: 12px;">
       <h3 style="height: 100%">
-        <span style="color: #ae506e;font-size: 15px;">پیش قرارداد </span>
+        <span style="color: #ae506e;font-size: 15px;" *ngIf="isPreContract">پیش قرارداد </span>
+        <span style="color: #ae506e;font-size: 15px;" *ngIf="!isPreContract">ایجاد قرارداد </span>
         <span *ngIf="contractsForm">{{ contractsForm.get('FullTitle_Contract').value }}</span>
       </h3>
     </mat-card>
@@ -55,7 +56,7 @@
               </div>
             </div>
           </div>
-          <div class="steps-step-2" *ngIf="isProgress">
+          <div class="steps-step-2" *ngIf="isProgress && !isPreContract">
             <div
               (click)="stepChange(3)"
               class="step-design"
@@ -98,7 +99,7 @@
               </div>
             </div>
           </div>
-          <div class="steps-step-2" *ngIf="isFinancial">
+          <div class="steps-step-2" *ngIf="isFinancial && !isPreContract">
             <div
               (click)="stepChange(10)"
               class="step-design"
@@ -148,7 +149,7 @@
     <br>
     <div [ngStyle]="firstStep === 0 ? {display: 'block'} : {display: 'none'}" class="row setup-content-2" id="step-1">
       <div class="col-md-12">
-        <app-contract-form (formData)="checkContractsFormValidation($event)" (addCost)="addCost($event)" *ngIf="contractDataForm !== undefined" [formGp]="contractsForm"
+        <app-contract-form (formData)="checkContractsFormValidation($event)" (addCost)="addCost($event)" *ngIf="contractDataForm !== undefined" [formGp]="contractsForm" [isPreContract]="isPreContract"
                            (addContractService)="addContractService($event)"></app-contract-form>
         <div *ngIf="!isReadOnly" class="row nextBackButtons">
           <div class="col-md-4">
@@ -273,7 +274,7 @@
       <div class="col-md-12" *ngIf="firstStep === (5 + i)">
         <div>
           <app-deliverables-form *ngIf="zones" [zones]="zones" (tableData)="checkDeliverablesValidation($event, i)" [deliverablesForm]="deliverablesForm[getDeliverableFormIndex(del.serviceId)]" [ind]="0"
-                                 [serviceIndex]="i" [serviceName]="del.serviceId"></app-deliverables-form>
+                                 [serviceIndex]="i" [serviceName]="del.serviceId" [isPreContract]="isPreContract"></app-deliverables-form>
           <div *ngIf="!isReadOnly" class="row nextBackButtons">
             <div class="col-md-4">
               <button class="nextButtonLeft" color="primary" type="button" (click)="stepChange(6 + i, null, true)" st mat-raised-button>

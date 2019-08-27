@@ -97,11 +97,11 @@ export class SharedService {
   }
 
   getAllTempContracts() {
-    const mainData: { ID, Title, PMUserId, ImporterUserId, PMOExpertId, ImporterId, PMApproved, ImporterApproved, Code, Created, Importer?: number }[] = [];
+    const mainData: { ID, Title, PMUserId, ImporterUserId, PMOExpertId, ImporterId, PMApproved, ImporterApproved, Code, Created, Importer?: number, Types?: number }[] = [];
     let headers = new HttpHeaders();
     headers = headers.set('ACCEPT', 'application/json;odata=verbose');
     return this.http.get(
-      'http://rpmo.rai.ir/PWA/_api/web/lists/getbytitle(\'TempContracts\')/items?$filter=IsActive1 ne false&$select=ID,Title,PMUserId,PMOExpertId,ImporterId,PMApproved,ImporterApproved,Code,Created,ImporterUser/Title,ImporterUser/ID&$expand=ImporterUser&$top=10000&$OrderBy=ID desc',
+      'http://rpmo.rai.ir/PWA/_api/web/lists/getbytitle(\'TempContracts\')/items?$filter=IsActive1 ne false&$select=ID,Title,PMUserId,Types,PMOExpertId,ImporterId,PMApproved,ImporterApproved,Code,Created,ImporterUser/Title,ImporterUser/ID&$expand=ImporterUser&$top=10000&$OrderBy=ID desc',
       {headers: headers}
     ).pipe(map((response: Response) => {
         const data = (<any>response).d.results;
@@ -119,6 +119,7 @@ export class SharedService {
               Code: data[i].Code,
               Created: moment(data[i].Created, 'YYYY/M/D').format('jYYYY/jM/jD'),
               Importer: data[i].ImporterId,
+              Types: data[i].Types,
             });
           }
         }

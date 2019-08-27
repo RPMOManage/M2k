@@ -22,6 +22,7 @@ export class DeliverablesFormComponent implements OnInit {
   @Input() deliverablesForm: StepDeliverablesFormList;
   @Input() serviceIndex;
   @Input() serviceName;
+  @Input() isPreContract: boolean;
   @Input() zones;
   instance = [];
   contractServices: ContractServicesList[] = [];

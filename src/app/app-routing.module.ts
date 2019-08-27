@@ -35,6 +35,7 @@ const routes: Routes = [
   {path: 'duties', component: MainDutiesComponent},
   {path: 'duty', component: CardDutyComponent},
   {path: 'wizard', component: NewContractStepperComponent, canActivate: [NewContractStepperGaurdService]},
+  {path: 'pre-contract', component: NewContractStepperComponent, canActivate: [NewContractStepperGaurdService]},
   {path: 'newContract', component: NewContractStartComponent},
   {path: 'fn', component: FinancialTableComponent},
   {path: 'panel', component: ComptrollerPanelComponent},

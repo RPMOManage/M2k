@@ -1,21 +1,22 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { SharedService } from '../../../shared/services/shared.service';
-import { SubUnitsList } from '../../../shared/models/subUnits.model';
-import { UnitsList } from '../../../shared/models/units.model';
-import { ImporterList } from '../../../shared/models/importer.model';
-import { PMsList } from '../../../shared/models/PMs.model';
-import { ContractServicesList } from '../../../shared/models/contractServices.model';
-import { CurrenciesList } from '../../../shared/models/currencies.model';
-import { ContractorsList } from '../../../shared/models/contractors.model';
-import { Observable } from 'rxjs/index';
-import { map, startWith } from 'rxjs/internal/operators';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, Renderer2, ViewChild} from '@angular/core';
+import {FormArray, FormControl, FormGroup} from '@angular/forms';
+import {SharedService} from '../../../shared/services/shared.service';
+import {SubUnitsList} from '../../../shared/models/subUnits.model';
+import {UnitsList} from '../../../shared/models/units.model';
+import {ImporterList} from '../../../shared/models/importer.model';
+import {PMsList} from '../../../shared/models/PMs.model';
+import {ContractServicesList} from '../../../shared/models/contractServices.model';
+import {CurrenciesList} from '../../../shared/models/currencies.model';
+import {ContractorsList} from '../../../shared/models/contractors.model';
+import {Observable} from 'rxjs/index';
+import {map, startWith} from 'rxjs/internal/operators';
 import * as moment from 'jalali-moment';
-import { MatDialog } from '@angular/material';
-import { ContractorAddRowComponent } from './contractor-add-row/contractor-add-row.component';
-import { RaiPartsList } from '../../../shared/models/raiParts.model';
-import { isUndefined } from 'util';
-import { ZonesList } from '../../../shared/models/zones.model';
+import {MatDialog} from '@angular/material';
+import {ContractorAddRowComponent} from './contractor-add-row/contractor-add-row.component';
+import {RaiPartsList} from '../../../shared/models/raiParts.model';
+import {isUndefined} from 'util';
+import {ZonesList} from '../../../shared/models/zones.model';
+import {OperationTypesList} from '../../../shared/models/operationTypes.model';
 
 @Component({
   // changeDetection: ChangeDetectionStrategy.OnPush,
@@ -25,6 +26,7 @@ import { ZonesList } from '../../../shared/models/zones.model';
 })
 export class ContractFormComponent implements OnInit {
   @Input() formGp: FormGroup;
+  @Input() isPreContract: boolean;
   @Output() addContractService = new EventEmitter();
   @Output() addCost = new EventEmitter();
   @Output() formData = new EventEmitter();
@@ -44,6 +46,9 @@ export class ContractFormComponent implements OnInit {
   selectedDeclareDate = null;
   selectedStartDate = null;
   selectedFinishDate = null;
+  selectedDocToComptroller = null;
+  selectedSigningRecall = null;
+  selectedWinnerDeclare = null;
   datePickerConfig = {
     format: 'jYYYY/jMM/jDD'
   };
@@ -57,6 +62,8 @@ export class ContractFormComponent implements OnInit {
   inputServiceNames = [];
   selectedServiceNames = [];
   contractNatureIds = [];
+  operationalPriorities = [{ID: 1, Name: 1}, {ID: 2, Name: 2}, {ID: 3, Name: 3}, {ID: 4, Name: 4}, {ID: 5, Name: 5}];
+  operationTypes: OperationTypesList[] = [];
 
   constructor(private sharedService: SharedService,
               private dialog: MatDialog,
@@ -88,6 +95,10 @@ export class ContractFormComponent implements OnInit {
         }
       }
     );
+    this.sharedService.getOperationTypes().subscribe(
+      (data: OperationTypesList[]) => {
+        this.operationTypes = data;
+      });
     this.sharedService.getZones().subscribe(
       (data: ZonesList[]) => {
         this.zones = data;
@@ -96,6 +107,11 @@ export class ContractFormComponent implements OnInit {
     this.selectedDeclareDate = this.formGp.get('DeclareDate_FinishDates_And_Costs').value.format('YYYY/MM/DD');
     this.selectedStartDate = this.formGp.get('StartDate_Contract').value.format('YYYY/MM/DD');
     this.selectedFinishDate = this.formGp.get('FinishDate_Contract').value.format('YYYY/MM/DD');
+    if (this.isPreContract) {
+      this.selectedDocToComptroller = this.formGp.get('DocToComptroller').value.format('YYYY/MM/DD');
+      this.selectedSigningRecall = this.formGp.get('SigningRecall').value.format('YYYY/MM/DD');
+      this.selectedWinnerDeclare = this.formGp.get('WinnerDeclare').value.format('YYYY/MM/DD');
+    }
     this.sharedService.getContractServices().subscribe(
       (data) => {
         this.contractServices = data.filter(v => v.ServiceID !== 7);
@@ -119,7 +135,7 @@ export class ContractFormComponent implements OnInit {
         for (let i = 0; i < this.formGp.get('ContractNatureId').value.length; i++) {
           this.contractNatureIds.push(i);
         }
-        this.formGp.get('ContractNatureId')
+        this.formGp.get('ContractNatureId');
         this.formGp.get('ContractNatureId').setValue(contractServiceCheckboxes);
         if (this.isReadOnly) {
           this.formGp.get('ContractNatureId').disable();
@@ -142,16 +158,18 @@ export class ContractFormComponent implements OnInit {
       (data) => this.currencies = data
     );
 
-    this.sharedService.getContractors().subscribe(
-      (data) => {
-        this.contractors = data;
-        if (this.formGp.get('Id_Contractor').value) {
-          if (this.contractors.filter(v => v.Id === this.formGp.get('Id_Contractor').value.Id).length === 0) {
-            this.formGp.get('Id_Contractor').setValue(null);
+    if (!this.isPreContract) {
+      this.sharedService.getContractors().subscribe(
+        (data) => {
+          this.contractors = data;
+          if (this.formGp.get('Id_Contractor').value) {
+            if (this.contractors.filter(v => v.Id === this.formGp.get('Id_Contractor').value.Id).length === 0) {
+              this.formGp.get('Id_Contractor').setValue(null);
+            }
           }
         }
-      }
-    );
+      );
+    }
 
     this.sharedService.getRaiParts().subscribe(
       (data) => this.raiParts = data
@@ -189,11 +207,13 @@ export class ContractFormComponent implements OnInit {
         map(val => this.filterPM(val))
       );
 
-    this.filteredContractors = this.formGp.get('Id_Contractor').valueChanges
-      .pipe(
-        startWith<string | any>(''),
-        map(val => this.filter3(val, 1))
-      );
+    if (!this.isPreContract) {
+      this.filteredContractors = this.formGp.get('Id_Contractor').valueChanges
+        .pipe(
+          startWith<string | any>(''),
+          map(val => this.filter3(val, 1))
+        );
+    }
   }
 
 
@@ -353,7 +373,7 @@ export class ContractFormComponent implements OnInit {
     }
 
     for (let i = 0; i < this.formGp.get('ContractServices').value.length; i++) {
-        const control2 = new FormControl(null);
+      const control2 = new FormControl(null);
       (<FormArray>this.formGp.get('Costs')).push(control2);
       (<FormArray>this.formGp.get('Costs')).controls[i].setValue(null);
     }
@@ -399,7 +419,8 @@ export class ContractFormComponent implements OnInit {
     console.log('akab');
   }
 
-  onChangeCost(e) { }
+  onChangeCost(e) {
+  }
 
   getSum(total, num) {
     return total + num;

@@ -27,6 +27,7 @@ export class DeliverablesBoxComponent implements OnInit, OnDestroy {
   @Input() zoneShow;
   @Input() measureUnit;
   @Input() dell;
+  @Input() isPreContract: boolean;
   @Input() zones: ZonesList[] = [];
   tableData = [];
   tableCols = 0;
@@ -406,6 +407,9 @@ export class DeliverablesBoxComponent implements OnInit, OnDestroy {
               cellProperties.readOnly = true;
             }
           } else {
+            if (this.isPreContract) {
+              cellProperties.readOnly = true;
+            }
             if ((new Date(tableData[hotInstance2.toVisualRow(row)][0]) > new Date(today))) {
               cellProperties.readOnly = true;
             }

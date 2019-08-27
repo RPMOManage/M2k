@@ -1,20 +1,20 @@
-import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { SharedService } from '../../shared/services/shared.service';
-import { ValidateNumeric } from '../../shared/validators/numeric.validator';
-import { StepFormsDataList } from '../../shared/models/stepFormModels/stepFormsData.model';
-import { StepContractFormList } from '../../shared/models/stepFormModels/stepContractForm.model';
-import { AlertsService } from '../../shared/services/alerts.service';
+import {Component, OnInit} from '@angular/core';
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {SharedService} from '../../shared/services/shared.service';
+import {ValidateNumeric} from '../../shared/validators/numeric.validator';
+import {StepFormsDataList} from '../../shared/models/stepFormModels/stepFormsData.model';
+import {StepContractFormList} from '../../shared/models/stepFormModels/stepContractForm.model';
+import {AlertsService} from '../../shared/services/alerts.service';
 import * as moment from 'jalali-moment';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { ContractTypesList } from '../../shared/models/contractTypes.model';
-import { ZonesList } from '../../shared/models/zones.model';
-import { animate, state, style, transition, trigger } from '@angular/animations';
-import { HotTableRegisterer } from '@handsontable-pro/angular';
-import { NewContractStepperGaurdService } from '../../shared/gaurds/new-contract-stepper-gaurd.service';
-import { Title } from '@angular/platform-browser';
-import { isUndefined } from 'util';
-import { CurrentUserList } from '../../shared/models/currentUser.model';
+import {ActivatedRoute, Params, Router} from '@angular/router';
+import {ContractTypesList} from '../../shared/models/contractTypes.model';
+import {ZonesList} from '../../shared/models/zones.model';
+import {animate, state, style, transition, trigger} from '@angular/animations';
+import {HotTableRegisterer} from '@handsontable-pro/angular';
+import {NewContractStepperGaurdService} from '../../shared/gaurds/new-contract-stepper-gaurd.service';
+import {Title} from '@angular/platform-browser';
+import {isUndefined} from 'util';
+import {CurrentUserList} from '../../shared/models/currentUser.model';
 
 
 @Component({
@@ -101,6 +101,7 @@ export class NewContractStepperComponent implements OnInit {
   checkDataArrive = false;
   isFinancial = true;
   isProgress = false;
+  isPreContract = false;
 
   constructor(private _formBuilder: FormBuilder,
               private sharedService: SharedService,
@@ -108,7 +109,8 @@ export class NewContractStepperComponent implements OnInit {
               private hotRegisterer: HotTableRegisterer,
               private titleService: Title,
               private newContractStepperGaurd: NewContractStepperGaurdService,
-              private router: Router) {
+              private router: Router,
+              private activatedRoute: ActivatedRoute) {
     this.isReadOnly = this.sharedService.isReadOnly;
     if (this.newContractStepperGaurd.isPM) {
       this.starter();
@@ -116,6 +118,11 @@ export class NewContractStepperComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.activatedRoute.snapshot.url[0].path === 'pre-contract') {
+      this.isPreContract = true;
+    }
+
+    console.log(this.isPreContract);
     this.sharedService.isProgressSubject1.subscribe(
       (checked: any) => {
         this.isProgress = checked;
@@ -141,56 +148,58 @@ export class NewContractStepperComponent implements OnInit {
     this.checkStakeHoldersFormValidation(0, true, true);
     this.checkCashFlowPlanFormValidation(0, true, true);
 
-
-    if (this.sharedService.stepFormsData.contractsForm.IsFinancial === false) {
-      let sum = 0;
-      let mainfrtExist = false;
-      console.log(this.sharedService.stepFormsData.financialRequests);
-      if (this.sharedService.stepFormsData.financialRequests) {
-        this.sharedService.stepFormsData.financialRequests.map(v => {
-          if (v.FinancialRequestType.ID === 1) {
-            mainfrtExist = true;
-            sum = +sum + +v.GrossAmount;
-          }
-        });
-      }
-
-      console.log(sum);
-      // if (+sum > +this.sharedService.stepFormsData.contractsForm.Cost_Costs) {
-      if (+sum > +this.sharedService.stepFormsData.contractsForm.Cost_Costs || (sum === 0 && mainfrtExist)) {
-        this.stepSituation.financialRequests.default = false;
-        this.stepSituation.financialRequests.exist = true;
-        if (sum === 0) {
-          this.text.push({
-            name: 'اطلاعات مالی',
-            content: 'اطلاعات ناقص هستند'
+    if (!this.isPreContract) {
+      if (this.sharedService.stepFormsData.contractsForm.IsFinancial === false) {
+        let sum = 0;
+        let mainfrtExist = false;
+        console.log(this.sharedService.stepFormsData.financialRequests);
+        if (this.sharedService.stepFormsData.financialRequests) {
+          this.sharedService.stepFormsData.financialRequests.map(v => {
+            if (v.FinancialRequestType.ID === 1) {
+              mainfrtExist = true;
+              sum = +sum + +v.GrossAmount;
+            }
           });
+        }
+
+        console.log(sum);
+        // if (+sum > +this.sharedService.stepFormsData.contractsForm.Cost_Costs) {
+        if (+sum > +this.sharedService.stepFormsData.contractsForm.Cost_Costs || (sum === 0 && mainfrtExist)) {
+          this.stepSituation.financialRequests.default = false;
+          this.stepSituation.financialRequests.exist = true;
+          if (sum === 0) {
+            this.text.push({
+              name: 'اطلاعات مالی',
+              content: 'اطلاعات ناقص هستند'
+            });
+          } else {
+            this.text.push({
+              name: 'اطلاعات مالی',
+              content: this.showFinancialValidation(false)
+            });
+          }
         } else {
+          this.stepSituation.financialRequests.default = true;
+          this.stepSituation.financialRequests.exist = true;
           this.text.push({
             name: 'اطلاعات مالی',
-            content: this.showFinancialValidation(false)
+            content: null
           });
         }
       } else {
-        this.stepSituation.financialRequests.default = true;
-        this.stepSituation.financialRequests.exist = true;
         this.text.push({
           name: 'اطلاعات مالی',
           content: null
         });
-      }
-    } else {
-      this.text.push({
-        name: 'اطلاعات مالی',
-        content: null
-      });
-      if (!this.sharedService.stepFormsData.financialRequests) {
-        this.sharedService.stepFormsData.financialRequests = [];
-      }
-      if (!this.sharedService.stepFormsData.financialPayments) {
-        this.sharedService.stepFormsData.financialPayments = [];
+        if (!this.sharedService.stepFormsData.financialRequests) {
+          this.sharedService.stepFormsData.financialRequests = [];
+        }
+        if (!this.sharedService.stepFormsData.financialPayments) {
+          this.sharedService.stepFormsData.financialPayments = [];
+        }
       }
     }
+
     let counter = 0;
     this.contractDataForm.ContractServices.filter(v => {
       if (+this.contractServices.filter(v2 => v2.Id === v)[0].PCType > 0) {
@@ -198,7 +207,7 @@ export class NewContractStepperComponent implements OnInit {
       }
     });
 
-    if (counter === 0) {
+    if (counter === 0 || this.isPreContract) {
       // this.sharedService.isProgressSubject1.next(false);
       // this.isProgress = false;
     } else {
@@ -414,7 +423,11 @@ export class NewContractStepperComponent implements OnInit {
                 );
               }
             } else {
-              for (let i = 0; i < 3; i++) {
+              let shFormNumber = 3;
+              if (this.isPreContract) {
+                shFormNumber = 1;
+              }
+              for (let i = 0; i < shFormNumber; i++) {
                 this.addPillarStakeHoldersForm(
                   null,
                   null,
@@ -540,34 +553,76 @@ export class NewContractStepperComponent implements OnInit {
 
   buildContractForm() {
     const contractorsControl: FormControl = new FormControl(this.contractDataForm.Id_Contractor);
-    this.contractsForm = this._formBuilder.group({
-      Code_Contract: new FormControl(this.contractDataForm.Code_Contract, [Validators.required]),
-      FullTitle_Contract: new FormControl(this.contractDataForm.FullTitle_Contract, [Validators.required]),
-      ShortTitle_Contract: [this.contractDataForm.ShortTitle_Contract],
-      Number_Contract: new FormControl(this.contractDataForm.Number_Contract, [Validators.required]),
-      Subject_Contract: new FormControl(this.contractDataForm.Subject_Contract, [Validators.required, Validators.minLength(30)]),
-      StartDate_Contract: new FormControl(moment(this.contractDataForm.StartDate_Contract, 'jYYYY/jMM/jDD')),
-      FinishDate_Contract: new FormControl(moment(this.contractDataForm.FinishDate_Contract, 'jYYYY/jMM/jDD')),
-      DeclareDate_FinishDates_And_Costs: new FormControl(moment(this.contractDataForm.DeclareDate_FinishDates_And_Costs, 'jYYYY/jMM/jDD')),
-      GuaranteePeriod: new FormControl(this.contractDataForm.GuaranteePeriod, [Validators.required, Validators.min(0), ValidateNumeric]),
-      Cost_Costs: new FormControl(this.contractDataForm.Cost_Costs, [Validators.required, Validators.min(100), ValidateNumeric]),
-      Cost_EqCosts: new FormControl(this.contractDataForm.Cost_EqCosts, [Validators.min(100), ValidateNumeric]),
-      Costs: new FormArray([]),
-      Id_Unit: new FormControl(this.contractDataForm.Id_Unit, [Validators.required]),
-      Id_SubUnit: new FormControl(this.contractDataForm.Id_SubUnit, [Validators.required]),
-      ContractNatureId: new FormArray([]),
-      Id_ContractType: new FormControl(this.contractDataForm.Id_ContractType),
-      SignatoryRaiParts: new FormControl(this.contractDataForm.SignatoryRaiParts, [Validators.required]),
-      Id_Currency: new FormControl(this.contractDataForm.Id_Currency, [Validators.required]),
-      PMOExpertId_User: new FormControl(this.contractDataForm.PMOExpertId_User, [Validators.required]),
-      PMId_User: new FormControl(this.contractDataForm.PMId_User, [Validators.required]),
-      Id_Contractor: contractorsControl,
-      Id_Importer: new FormControl(''),
-      Standards_Contract: [this.contractDataForm.Standards_Contract, [Validators.required, Validators.minLength(30)]],
-      ContractServices: new FormArray([]),
-      IsFinancial: new FormControl(this.contractDataForm.IsFinancial),
-      Zones: new FormControl(this.contractDataForm.Zones, [Validators.required]),
-    });
+    if (this.isPreContract) {
+      this.contractsForm = this._formBuilder.group({
+        Code_Contract: new FormControl(this.contractDataForm.Code_Contract, [Validators.required]),
+        FullTitle_Contract: new FormControl(this.contractDataForm.FullTitle_Contract, [Validators.required]),
+        ShortTitle_Contract: [this.contractDataForm.ShortTitle_Contract],
+        Subject_Contract: new FormControl(this.contractDataForm.Subject_Contract, [Validators.required, Validators.minLength(30)]),
+        StartDate_Contract: new FormControl(moment(this.contractDataForm.StartDate_Contract, 'jYYYY/jMM/jDD')),
+        FinishDate_Contract: new FormControl(moment(this.contractDataForm.FinishDate_Contract, 'jYYYY/jMM/jDD')),
+        DeclareDate_FinishDates_And_Costs: new FormControl(moment(this.contractDataForm.DeclareDate_FinishDates_And_Costs, 'jYYYY/jMM/jDD')),
+        GuaranteePeriod: new FormControl(this.contractDataForm.GuaranteePeriod, [Validators.required, Validators.min(0), ValidateNumeric]),
+        Cost_Costs: new FormControl(this.contractDataForm.Cost_Costs, [Validators.required, Validators.min(100), ValidateNumeric]),
+        Cost_EqCosts: new FormControl(this.contractDataForm.Cost_EqCosts, [Validators.min(100), ValidateNumeric]),
+        Costs: new FormArray([]),
+        Id_Unit: new FormControl(this.contractDataForm.Id_Unit, [Validators.required]),
+        Id_SubUnit: new FormControl(this.contractDataForm.Id_SubUnit, [Validators.required]),
+        ContractNatureId: new FormArray([]),
+        Id_ContractType: new FormControl(this.contractDataForm.Id_ContractType),
+        SignatoryRaiParts: new FormControl(this.contractDataForm.SignatoryRaiParts, [Validators.required]),
+        Id_Currency: new FormControl(this.contractDataForm.Id_Currency, [Validators.required]),
+        PMOExpertId_User: new FormControl(this.contractDataForm.PMOExpertId_User, [Validators.required]),
+        PMId_User: new FormControl(this.contractDataForm.PMId_User, [Validators.required]),
+        Id_Importer: new FormControl(''),
+        Standards_Contract: [this.contractDataForm.Standards_Contract, [Validators.required, Validators.minLength(30)]],
+        ContractServices: new FormArray([]),
+        Zones: new FormControl(this.contractDataForm.Zones, [Validators.required]),
+        OperationalPriority: new FormControl(this.contractDataForm.OperationalPriority, [Validators.required]),
+        OperationType: new FormControl(this.contractDataForm.OperationType, [Validators.required]),
+        Goal: new FormControl(this.contractDataForm.Goal, [Validators.required]),
+        Demandant: new FormControl(this.contractDataForm.Demandant, [Validators.required]),
+        TenderType: new FormControl(this.contractDataForm.TenderType, [Validators.required]),
+        TenderOrganizer: new FormControl(this.contractDataForm.TenderOrganizer, [Validators.required]),
+        DocToComptroller: new FormControl(moment(this.contractDataForm.DocToComptroller, 'jYYYY/jMM/jDD')),
+        SigningRecall: new FormControl(moment(this.contractDataForm.SigningRecall, 'jYYYY/jMM/jDD')),
+        WinnerDeclare: new FormControl(moment(this.contractDataForm.WinnerDeclare, 'jYYYY/jMM/jDD')),
+      });
+    } else {
+      this.contractsForm = this._formBuilder.group({
+        Code_Contract: new FormControl(this.contractDataForm.Code_Contract, [Validators.required]),
+        FullTitle_Contract: new FormControl(this.contractDataForm.FullTitle_Contract, [Validators.required]),
+        ShortTitle_Contract: [this.contractDataForm.ShortTitle_Contract],
+        Number_Contract: new FormControl(this.contractDataForm.Number_Contract, [Validators.required]),
+        Subject_Contract: new FormControl(this.contractDataForm.Subject_Contract, [Validators.required, Validators.minLength(30)]),
+        StartDate_Contract: new FormControl(moment(this.contractDataForm.StartDate_Contract, 'jYYYY/jMM/jDD')),
+        FinishDate_Contract: new FormControl(moment(this.contractDataForm.FinishDate_Contract, 'jYYYY/jMM/jDD')),
+        DeclareDate_FinishDates_And_Costs: new FormControl(moment(this.contractDataForm.DeclareDate_FinishDates_And_Costs, 'jYYYY/jMM/jDD')),
+        GuaranteePeriod: new FormControl(this.contractDataForm.GuaranteePeriod, [Validators.required, Validators.min(0), ValidateNumeric]),
+        Cost_Costs: new FormControl(this.contractDataForm.Cost_Costs, [Validators.required, Validators.min(100), ValidateNumeric]),
+        Cost_EqCosts: new FormControl(this.contractDataForm.Cost_EqCosts, [Validators.min(100), ValidateNumeric]),
+        Costs: new FormArray([]),
+        Id_Unit: new FormControl(this.contractDataForm.Id_Unit, [Validators.required]),
+        Id_SubUnit: new FormControl(this.contractDataForm.Id_SubUnit, [Validators.required]),
+        ContractNatureId: new FormArray([]),
+        Id_ContractType: new FormControl(this.contractDataForm.Id_ContractType),
+        SignatoryRaiParts: new FormControl(this.contractDataForm.SignatoryRaiParts, [Validators.required]),
+        Id_Currency: new FormControl(this.contractDataForm.Id_Currency, [Validators.required]),
+        PMOExpertId_User: new FormControl(this.contractDataForm.PMOExpertId_User, [Validators.required]),
+        PMId_User: new FormControl(this.contractDataForm.PMId_User, [Validators.required]),
+        Id_Contractor: contractorsControl,
+        Id_Importer: new FormControl(''),
+        Standards_Contract: [this.contractDataForm.Standards_Contract, [Validators.required, Validators.minLength(30)]],
+        ContractServices: new FormArray([]),
+        IsFinancial: new FormControl(this.contractDataForm.IsFinancial),
+        Zones: new FormControl(this.contractDataForm.Zones, [Validators.required]),
+        OperationalPriority: new FormControl(this.contractDataForm.OperationalPriority, [Validators.required]),
+        OperationType: new FormControl(this.contractDataForm.OperationType, [Validators.required]),
+        Goal: new FormControl(this.contractDataForm.Goal, [Validators.required]),
+        Demandant: new FormControl(this.contractDataForm.Demandant, [Validators.required]),
+      });
+    }
+
     if (!this.contractDataForm.Id_Currency) {
       this.contractsForm.get('Id_Currency').setValue('IRR');
     }
@@ -709,7 +764,9 @@ export class NewContractStepperComponent implements OnInit {
       validations.sumCosts = false;
     }
     const findDuplicates = this.assignedCostResourcesForm.get('CostResources').value.reduce(function (acc, el, i, arr) {
-      if (arr.indexOf(el) !== i && acc.indexOf(el) < 0) acc.push(el);
+      if (arr.indexOf(el) !== i && acc.indexOf(el) < 0) {
+        acc.push(el);
+      }
       return acc;
     }, []);
     if (findDuplicates.length > 0) {
