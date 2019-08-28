@@ -1,140 +1,166 @@
 <div class="row">
   <div class="col-md-12">
-      <mat-card style="margin-bottom: 3px;margin-top: 0px;min-height: 0;padding: 12px;">
-        <h3 style="height: 100%">
-          <span>پیش قرارداد ها</span>
-          <button (click)="onClickButtonPish()" matTooltip="ایجاد پیش قرارداد" matTooltipClass="example-tooltip" class="plusBtn" mat-fab>
-            <i class="fa fa-plus"></i>
-          </button>
-        </h3>
-      </mat-card>
-      <!--<div class="row">-->
-        <!--<div class="col-md-12">-->
-          <!--<div class="row">-->
-            <!--<div class="col-md-12">-->
-              <!--<div>-->
-                <!--<app-card-filter-bar [contract]="mainContractsComp" [type]="type"></app-card-filter-bar>-->
-              <!--</div>-->
-            <!--</div>-->
-          <!--</div>-->
-        <!--</div>-->
-      <!--</div>-->
-      <div class="row">
-        <div class="col-md-12">
-          <div class="row">
-            <div class="col-md-12" style="text-align: center;display: flex;justify-content: center;align-items: center;"  *ngIf="!spinnerChecking">
-              <mat-spinner></mat-spinner>
-            </div>
-          </div>
-          <div class="row" *ngIf="spinnerChecking">
-            <div class="col-md-3" *ngFor="let tempContract of tempContracts; let i = index">
-              <mat-card class="main-box">
-                <mat-card-header>
-                  <!--<i class="fas fa-file-signature"></i>-->
-                  <div mat-card-avatar [ngClass]="true ? 'card-avatar': 'card-avatar-special'" [ngStyle]="iconStyleObject(tempContract)">
-                    <i [ngClass]="true ? 'fas fa-file-signature' : 'fas fa-file-signature file-avatar-special'" [ngStyle]="iconStyleObject2(tempContract)"></i>
-                  </div>
-                  <mat-card-title style="cursor: pointer;" [matTooltip]="tempContract.Title" (click)="onClickContract(tempContract.ID)">{{ tempContract.Title }}</mat-card-title>
-                  <mat-card-subtitle>کد پیش قرارداد : {{ 'TC' + tempContract.ID }}</mat-card-subtitle>
-                </mat-card-header>
-                <mat-card-content>
-                  <div class="row" style="padding: 15px;min-height: 85px;">
-                    <div class="col-md-6">
-                      <p style="text-align: right;" *ngIf="pms">
-                        <span>مدیر پروژه</span> : <span>{{ getPMName(tempContract.PMUserId) }}</span>
-                      </p>
-                    </div>
-                    <div class="col-md-6">
-                      <p style="text-align: left;">
-                        <span>تاریخ ایجاد</span> : <span>{{ tempContract.Created }}</span>
-                      </p>
-                    </div>
-                    <div class="col-md-12" style="padding-top: 15px;">
-                      <p style="text-align: right;" *ngIf="pms">
-                        <span>مسئول اطلاعات</span> : <span>{{ tempContract.ImporterId }}</span>
-                      </p>
-                    </div>
-                  </div>
-                </mat-card-content>
-                <mat-card-actions>
-                  <div class="row" style="padding: 15px">
-                    <div class="col-md-2">
-                      <i
-                        [ngClass]="tempContract.ImporterApproved ? 'fas fa-user-edit' : 'fas fa-user-edit fa-user-edit-fade'"
-                        nbPopover="This is Importer"
-                        nbPopoverMode="hint"
-                        nbPopoverPlacement="bottom"
-                         matTooltip="تایید مسئول اطلاعات"
-                      ></i>
-                    </div>
-                    <div class="col-md-3"><hr class="doted-line-box"/></div>
-                    <div class="col-md-2">
-                      <i [ngClass]="tempContract.PMApproved ? 'fas fa-user-check' : 'fas fa-user-check fa-user-check-fade'"
-                         nbPopover="This is PM"
-                         nbPopoverMode="hint"
-                         nbPopoverPlacement="bottom"
-                       matTooltip="تایید مدیر پروژه"></i>
-                    </div>
-                    <div class="col-md-3"><hr class="doted-line-box"/></div>
-                    <div class="col-md-2">
-                      <i [ngClass]="tempContract.Code ? 'fas fa-check-double' : 'fas fa-check-double fa-check-double-fade'"
-                         nbPopover="This is Expert"
-                         nbPopoverMode="hint"
-                         nbPopoverPlacement="bottom"
-                       matTooltip="تایید دفتر مدیریت پروژه"></i>
-                    </div>
-                  </div>
-                </mat-card-actions>
-              </mat-card>
-            </div>
+    <mat-card style="margin-bottom: 3px;margin-top: 0px;min-height: 0;padding: 12px;">
+      <h3 style="height: 100%">
+        <span>درخواست قرارداد ها</span>
+        <button (click)="onClickButtonPish()" matTooltip="ایجاد پیش قرارداد" matTooltipClass="example-tooltip"
+                class="plusBtn" mat-fab>
+          <i class="fa fa-plus"></i>
+        </button>
+      </h3>
+    </mat-card>
+    <!--<div class="row">-->
+    <!--<div class="col-md-12">-->
+    <!--<div class="row">-->
+    <!--<div class="col-md-12">-->
+    <!--<div>-->
+    <!--<app-card-filter-bar [contract]="mainContractsComp" [type]="type"></app-card-filter-bar>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-12" style="text-align: center;display: flex;justify-content: center;align-items: center;"
+               *ngIf="!spinnerChecking">
+            <mat-spinner></mat-spinner>
           </div>
         </div>
-        <!--<div class="col-md-3" style="margin-top: 10px;">-->
-          <!--<mat-card class="side-box">-->
-            <!--<div class="filter-box pish-left-box">-->
-              <!--<div class="header-box"><span> وضعیت : </span></div>-->
-                <!--<div class="row">-->
-                  <!--<div class="col-md-12">-->
-                    <!--<mat-checkbox class="not-selectable" [checked]="true">-->
-                      <!--<span> در حال بررسی مسئول اطلاعات</span>-->
-                      <!--<i class="fas fa-user-edit fa-user-edit-fade"-->
-                        <!--nbPopover="This is Importer"-->
-                        <!--nbPopoverMode="hint"-->
-                        <!--nbPopoverPlacement="bottom"-->
-                      <!--&gt;</i>-->
-                    <!--</mat-checkbox>-->
-                  <!--</div>-->
-                  <!--<div class="col-md-12">-->
-                    <!--<mat-checkbox class="not-selectable" [checked]="false">-->
-                      <!--<span>در حال بررسی مدیر پروژه</span>-->
-                      <!--<i class="fas fa-user-check fa-user-check-fade"-->
-                         <!--nbPopover="This is PM"-->
-                         <!--nbPopoverMode="hint"-->
-                         <!--nbPopoverPlacement="bottom"></i>-->
-                    <!--</mat-checkbox>-->
-                  <!--</div>-->
-                  <!--<div class="col-md-12">-->
-                    <!--<mat-checkbox class="not-selectable" [checked]="false">-->
-                      <!--<span>در حال بررسی دفتر مدیریت پروژه </span>-->
-                      <!--<i class="fas fa-check-double fa-check-double-fade"-->
-                         <!--nbPopover="This is Expert"-->
-                         <!--nbPopoverMode="hint"-->
-                         <!--nbPopoverPlacement="bottom"></i>-->
-                    <!--</mat-checkbox>-->
-                  <!--</div>-->
-                  <!--<div class="col-md-12">-->
-                    <!--<mat-checkbox class="not-selectable" [checked]="false">-->
-                      <!--<span>تایید شده توسط دفتر مدیریت پروژه </span>-->
-                      <!--<i class="fas fa-check-double"-->
-                         <!--nbPopover="This is Expert"-->
-                         <!--nbPopoverMode="hint"-->
-                         <!--nbPopoverPlacement="bottom"></i>-->
-                    <!--</mat-checkbox>-->
-                  <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-          <!--</mat-card>-->
-        <!--</div>-->
+        <div class="row" *ngIf="spinnerChecking">
+          <div class="col-md-3" *ngFor="let tempContract of tempContracts; let i = index">
+            <mat-card class="main-box">
+              <mat-card-header>
+                <!--<i class="fas fa-file-signature"></i>-->
+                <div mat-card-avatar [ngClass]="true ? 'card-avatar': 'card-avatar-special'"
+                     [ngStyle]="iconStyleObject(tempContract)">
+                  <i [ngClass]="true ? 'fas fa-file-signature' : 'fas fa-file-signature file-avatar-special'"
+                     [ngStyle]="iconStyleObject2(tempContract)"></i>
+                </div>
+                <mat-card-title style="cursor: pointer;" [matTooltip]="tempContract.Title"
+                                (click)="onClickContract(tempContract.ID)">{{ tempContract.Title }}</mat-card-title>
+                <mat-card-subtitle>کد درخواست قرارداد : {{ 'TC' + tempContract.ID }}</mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-content>
+                <div class="row" style="padding: 15px;min-height: 85px;">
+                  <div class="col-md-6">
+                    <p style="text-align: right;" *ngIf="pms">
+                      <span>مدیر پروژه</span> : <span>{{ getPMName(tempContract.PMUserId) }}</span>
+                    </p>
+                  </div>
+                  <div class="col-md-6">
+                    <p style="text-align: left;">
+                      <span>تاریخ ایجاد</span> : <span>{{ tempContract.Created }}</span>
+                    </p>
+                  </div>
+                  <div class="col-md-12" style="padding-top: 15px;">
+                    <p style="text-align: right;" *ngIf="pms">
+                      <span>مسئول اطلاعات</span> : <span>{{ tempContract.ImporterId }}</span>
+                    </p>
+                  </div>
+                </div>
+              </mat-card-content>
+              <mat-card-actions style="position: absolute;bottom: 0;width: 100%;">
+                <div class="row"
+                     style="text-align: center;background: #63dca463;width: 100%;margin-right: -8px;">
+                  <div class="col-md-5" style="text-align: left;">
+                    <span style="padding: 0 7px">پیش قرارداد</span>
+                    <i class="far fa-circle" style="color: #a04298"></i>
+                  </div>
+                  <div class="col-md-2">
+                    <hr style="border-top: 2px solid #703f8a;position: absolute;top: -5px;right: -10%;width: 120%;">
+                    <i class="fas fa-chevron-left" style="color: #601073;z-index: 15;position: absolute;top: 4px;left: 48%;"></i>
+                  </div>
+                  <div class="col-md-5" style="text-align: right;">
+                    <i class="fas fa-circle" style="color: #a04298"></i>
+                    <span style="padding: 0 7px">قرارداد</span>
+                  </div>
+                </div>
+                <div class="row" style="padding: 15px">
+                  <div class="col-md-2">
+                    <i
+                      [ngClass]="tempContract.ImporterApproved ? 'fas fa-user-edit' : 'fas fa-user-edit fa-user-edit-fade'"
+                      nbPopover="This is Importer"
+                      nbPopoverMode="hint"
+                      nbPopoverPlacement="bottom"
+                      matTooltip="تایید مسئول اطلاعات"
+                    ></i>
+                  </div>
+                  <div class="col-md-3">
+                    <hr class="doted-line-box"/>
+                  </div>
+                  <div class="col-md-2">
+                    <i
+                      [ngClass]="tempContract.PMApproved ? 'fas fa-user-check' : 'fas fa-user-check fa-user-check-fade'"
+                      nbPopover="This is PM"
+                      nbPopoverMode="hint"
+                      nbPopoverPlacement="bottom"
+                      matTooltip="تایید مدیر پروژه"></i>
+                  </div>
+                  <div class="col-md-3">
+                    <hr class="doted-line-box"/>
+                  </div>
+                  <div class="col-md-2">
+                    <i
+                      [ngClass]="tempContract.Code ? 'fas fa-check-double' : 'fas fa-check-double fa-check-double-fade'"
+                      nbPopover="This is Expert"
+                      nbPopoverMode="hint"
+                      nbPopoverPlacement="bottom"
+                      matTooltip="تایید دفتر مدیریت پروژه"></i>
+                  </div>
+                </div>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+        </div>
       </div>
+      <!--<div class="col-md-3" style="margin-top: 10px;">-->
+      <!--<mat-card class="side-box">-->
+      <!--<div class="filter-box pish-left-box">-->
+      <!--<div class="header-box"><span> وضعیت : </span></div>-->
+      <!--<div class="row">-->
+      <!--<div class="col-md-12">-->
+      <!--<mat-checkbox class="not-selectable" [checked]="true">-->
+      <!--<span> در حال بررسی مسئول اطلاعات</span>-->
+      <!--<i class="fas fa-user-edit fa-user-edit-fade"-->
+      <!--nbPopover="This is Importer"-->
+      <!--nbPopoverMode="hint"-->
+      <!--nbPopoverPlacement="bottom"-->
+      <!--&gt;</i>-->
+      <!--</mat-checkbox>-->
+      <!--</div>-->
+      <!--<div class="col-md-12">-->
+      <!--<mat-checkbox class="not-selectable" [checked]="false">-->
+      <!--<span>در حال بررسی مدیر پروژه</span>-->
+      <!--<i class="fas fa-user-check fa-user-check-fade"-->
+      <!--nbPopover="This is PM"-->
+      <!--nbPopoverMode="hint"-->
+      <!--nbPopoverPlacement="bottom"></i>-->
+      <!--</mat-checkbox>-->
+      <!--</div>-->
+      <!--<div class="col-md-12">-->
+      <!--<mat-checkbox class="not-selectable" [checked]="false">-->
+      <!--<span>در حال بررسی دفتر مدیریت پروژه </span>-->
+      <!--<i class="fas fa-check-double fa-check-double-fade"-->
+      <!--nbPopover="This is Expert"-->
+      <!--nbPopoverMode="hint"-->
+      <!--nbPopoverPlacement="bottom"></i>-->
+      <!--</mat-checkbox>-->
+      <!--</div>-->
+      <!--<div class="col-md-12">-->
+      <!--<mat-checkbox class="not-selectable" [checked]="false">-->
+      <!--<span>تایید شده توسط دفتر مدیریت پروژه </span>-->
+      <!--<i class="fas fa-check-double"-->
+      <!--nbPopover="This is Expert"-->
+      <!--nbPopoverMode="hint"-->
+      <!--nbPopoverPlacement="bottom"></i>-->
+      <!--</mat-checkbox>-->
+      <!--</div>-->
+      <!--</div>-->
+      <!--</div>-->
+      <!--</mat-card>-->
+      <!--</div>-->
+    </div>
   </div>
 </div>

@@ -1217,6 +1217,86 @@ export class SharedService {
     ));
   }
 
+  getGoals() {
+    const mainData: {Id, Name}[] = [];
+    let headers = new HttpHeaders();
+    headers = headers.set('ACCEPT', 'application/json;odata=verbose');
+    return this.http.get(
+      'http://rpmo.rai.ir/PWA/_api/web/lists/getbytitle(\'Goals\')/items',
+      {headers: headers}
+    ).pipe(map((response: Response) => {
+        const data = (<any>response).d.results;
+        for (let i = 0; i < data.length; i++) {
+          mainData[i] = {
+            Id: data[i].ID,
+            Name: data[i].Title
+          };
+        }
+        return mainData;
+      }
+    ));
+  }
+
+  getDemandants() {
+    const mainData: {Id, Name}[] = [];
+    let headers = new HttpHeaders();
+    headers = headers.set('ACCEPT', 'application/json;odata=verbose');
+    return this.http.get(
+      'http://rpmo.rai.ir/PWA/_api/web/lists/getbytitle(\'Demandants\')/items',
+      {headers: headers}
+    ).pipe(map((response: Response) => {
+        const data = (<any>response).d.results;
+        for (let i = 0; i < data.length; i++) {
+          mainData[i] = {
+            Id: data[i].ID,
+            Name: data[i].Title
+          };
+        }
+        return mainData;
+      }
+    ));
+  }
+
+  getTenderTypes() {
+    const mainData: {Id, Name}[] = [];
+    let headers = new HttpHeaders();
+    headers = headers.set('ACCEPT', 'application/json;odata=verbose');
+    return this.http.get(
+      'http://rpmo.rai.ir/PWA/_api/web/lists/getbytitle(\'TenderTypes\')/items',
+      {headers: headers}
+    ).pipe(map((response: Response) => {
+        const data = (<any>response).d.results;
+        for (let i = 0; i < data.length; i++) {
+          mainData[i] = {
+            Id: data[i].ID,
+            Name: data[i].Title
+          };
+        }
+        return mainData;
+      }
+    ));
+  }
+
+  getTenderOrganizers() {
+    const mainData: {Id, Name}[] = [];
+    let headers = new HttpHeaders();
+    headers = headers.set('ACCEPT', 'application/json;odata=verbose');
+    return this.http.get(
+      'http://rpmo.rai.ir/PWA/_api/web/lists/getbytitle(\'TenderOrganizers\')/items',
+      {headers: headers}
+    ).pipe(map((response: Response) => {
+        const data = (<any>response).d.results;
+        for (let i = 0; i < data.length; i++) {
+          mainData[i] = {
+            Id: data[i].ID,
+            Name: data[i].Title
+          };
+        }
+        return mainData;
+      }
+    ));
+  }
+
   getRaiParts() {
     const mainData: RaiPartsList[] = [];
     let headers = new HttpHeaders();

@@ -132,8 +132,8 @@
                   <mat-form-field>
                     <mat-select class="form-control" placeholder="هدف انجام" formControlName="Goal"
                                 name="Goal" required>
-                      <mat-option *ngFor="let op of operationalPriorities" [value]="op.ID">
-                        {{ op.Name }}
+                      <mat-option *ngFor="let goal of goals" [value]="goal.Id">
+                        {{ goal.Name }}
                       </mat-option>
                     </mat-select>
                     <mat-error style="text-align: right;" *ngIf="formGp.get('Goal').hasError('required')">
@@ -147,8 +147,8 @@
                   <mat-form-field>
                     <mat-select class="form-control" placeholder="درخواست کننده قرارداد" formControlName="Demandant"
                                 name="Demandant" required>
-                      <mat-option *ngFor="let op of operationalPriorities" [value]="op.ID">
-                        {{ op.Name }}
+                      <mat-option *ngFor="let demandant of demandants" [value]="demandant.Id">
+                        {{ demandant.Name }}
                       </mat-option>
                     </mat-select>
                     <mat-error style="text-align: right;" *ngIf="formGp.get('Demandant').hasError('required')">
@@ -169,8 +169,8 @@
                   <mat-form-field>
                     <mat-select class="form-control" placeholder=" نوع مناقصه" formControlName="TenderType"
                                 name="TenderType" required>
-                      <mat-option *ngFor="let op of operationalPriorities" [value]="op.ID">
-                        {{ op.Name }}
+                      <mat-option *ngFor="let tenderType of tenderTypes" [value]="tenderType.Id">
+                        {{ tenderType.Name }}
                       </mat-option>
                     </mat-select>
                     <mat-error style="text-align: right;"
@@ -185,8 +185,8 @@
                   <mat-form-field>
                     <mat-select class="form-control" placeholder="برگزارکننده مناقصه" formControlName="TenderOrganizer"
                                 name="TenderOrganizer" required>
-                      <mat-option *ngFor="let ot of operationTypes" [value]="ot.Id">
-                        {{ ot.Name }}
+                      <mat-option *ngFor="let tenderOrganizer of tenderOrganizers" [value]="tenderOrganizer.Id">
+                        {{ tenderOrganizer.Name }}
                       </mat-option>
                     </mat-select>
                     <mat-error style="text-align: right;" *ngIf="formGp.get('TenderOrganizer').hasError('required')">
@@ -202,7 +202,7 @@
                   <mat-form-field>
                     <input formControlName="DocToComptroller" autocomplete="off" class="form-control"
                            (focus)="DocToComptroller.open()" matInput [matDatepicker]="DocToComptroller"
-                           placeholder="تاریخ ارسال اسناد به ذیحسابی" [(ngModel)]="selectedDocToComptroller">
+                           placeholder="تاریخ پیش بینی ارسال اسناد به ذیحسابی" [(ngModel)]="selectedDocToComptroller">
                     <mat-datepicker-toggle matSuffix [for]="DocToComptroller"></mat-datepicker-toggle>
                     <mat-datepicker #DocToComptroller></mat-datepicker>
                   </mat-form-field>
@@ -213,7 +213,7 @@
                   <mat-form-field>
                     <input formControlName="SigningRecall" autocomplete="off" class="form-control"
                            (focus)="SigningRecall.open()" matInput [matDatepicker]="SigningRecall"
-                           placeholder="تاریخ امضای صورتجلسه پیش فراخوان" [(ngModel)]="selectedSigningRecall">
+                           placeholder="تاریخ پیش بینی امضای صورتجلسه پیش فراخوان" [(ngModel)]="selectedSigningRecall">
                     <mat-datepicker-toggle matSuffix [for]="SigningRecall"></mat-datepicker-toggle>
                     <mat-datepicker #SigningRecall></mat-datepicker>
                   </mat-form-field>
@@ -224,7 +224,7 @@
                   <mat-form-field>
                     <input formControlName="WinnerDeclare" autocomplete="off" class="form-control"
                            (focus)="WinnerDeclare.open()" matInput [matDatepicker]="WinnerDeclare"
-                           placeholder="تاریخ اعلام برنده" [(ngModel)]="selectedWinnerDeclare">
+                           placeholder="تاریخ پیش بینی اعلام برنده" [(ngModel)]="selectedWinnerDeclare">
                     <mat-datepicker-toggle matSuffix [for]="WinnerDeclare"></mat-datepicker-toggle>
                     <mat-datepicker #WinnerDeclare></mat-datepicker>
                   </mat-form-field>

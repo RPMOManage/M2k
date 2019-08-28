@@ -64,6 +64,10 @@ export class ContractFormComponent implements OnInit {
   contractNatureIds = [];
   operationalPriorities = [{ID: 1, Name: 1}, {ID: 2, Name: 2}, {ID: 3, Name: 3}, {ID: 4, Name: 4}, {ID: 5, Name: 5}];
   operationTypes: OperationTypesList[] = [];
+  goals: { Id, Name }[] = [];
+  demandants: { Id, Name }[] = [];
+  tenderTypes: { Id, Name }[] = [];
+  tenderOrganizers: { Id, Name }[] = [];
 
   constructor(private sharedService: SharedService,
               private dialog: MatDialog,
@@ -99,10 +103,33 @@ export class ContractFormComponent implements OnInit {
       (data: OperationTypesList[]) => {
         this.operationTypes = data;
       });
+
     this.sharedService.getZones().subscribe(
       (data: ZonesList[]) => {
         this.zones = data;
       });
+
+    this.sharedService.getGoals().subscribe(
+      (data: { Id, Name }[]) => {
+        this.goals = data;
+      });
+
+    this.sharedService.getDemandants().subscribe(
+      (data: { Id, Name }[]) => {
+        this.demandants = data;
+      });
+
+    if (this.isPreContract) {
+      this.sharedService.getTenderTypes().subscribe(
+        (data: { Id, Name }[]) => {
+          this.tenderTypes = data;
+        });
+
+      this.sharedService.getTenderOrganizers().subscribe(
+        (data: { Id, Name }[]) => {
+          this.tenderOrganizers = data;
+        });
+    }
 
     this.selectedDeclareDate = this.formGp.get('DeclareDate_FinishDates_And_Costs').value.format('YYYY/MM/DD');
     this.selectedStartDate = this.formGp.get('StartDate_Contract').value.format('YYYY/MM/DD');
