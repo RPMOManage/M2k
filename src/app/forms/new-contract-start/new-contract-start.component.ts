@@ -1,18 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { UnitsList } from '../../shared/models/units.model';
-import { SubUnitsList } from '../../shared/models/subUnits.model';
-import { ContractTypesList } from '../../shared/models/contractTypes.model';
-import { UserNameList } from '../../shared/models/userName.model';
-import { PMsList } from '../../shared/models/PMs.model';
-import { Observable } from 'rxjs/index';
-import { SharedService } from '../../shared/services/shared.service';
-import { map, startWith } from 'rxjs/internal/operators';
-import { ImporterList } from '../../shared/models/importer.model';
-import { AlertsService } from '../../shared/services/alerts.service';
-import { Router } from '@angular/router';
-import { CurrentUserList } from '../../shared/models/currentUser.model';
-import { MatDialogRef } from '@angular/material';
+import {Component, OnInit} from '@angular/core';
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {UnitsList} from '../../shared/models/units.model';
+import {SubUnitsList} from '../../shared/models/subUnits.model';
+import {ContractTypesList} from '../../shared/models/contractTypes.model';
+import {UserNameList} from '../../shared/models/userName.model';
+import {PMsList} from '../../shared/models/PMs.model';
+import {Observable} from 'rxjs/index';
+import {SharedService} from '../../shared/services/shared.service';
+import {map, startWith} from 'rxjs/internal/operators';
+import {ImporterList} from '../../shared/models/importer.model';
+import {AlertsService} from '../../shared/services/alerts.service';
+import {Router} from '@angular/router';
+import {CurrentUserList} from '../../shared/models/currentUser.model';
+import {MatDialogRef} from '@angular/material';
 
 @Component({
   selector: 'app-new-contract-start',
@@ -40,9 +40,19 @@ export class NewContractStartComponent implements OnInit {
     }, {
       id: 1,
       name: 'پروژه خاص'
-    },
+    }
+  ];
+  contractSections = [
+    {
+      id: 0,
+      name: 'پیش قرارداد'
+    }, {
+      id: 1,
+      name: 'قرارداد'
+    }
   ];
   currentTitle = '';
+  currentCSection = '';
   defaultUnits: UnitsList[] = [];
 
   constructor(private _formBuilder: FormBuilder,
@@ -50,7 +60,7 @@ export class NewContractStartComponent implements OnInit {
               private alertsService: AlertsService,
               private router: Router,
               private dialogRef: MatDialogRef<NewContractStartComponent>,
-) {
+  ) {
   }
 
   ngOnInit() {
@@ -60,6 +70,7 @@ export class NewContractStartComponent implements OnInit {
       }
     );
     this.currentTitle = this.titleNames[0].name;
+    this.currentCSection = this.contractSections[0].name;
     this.newContractStartForm = this._formBuilder.group({
       ContractName: ['', Validators.required],
       ContractNatureId: new FormArray([]),
@@ -109,6 +120,10 @@ export class NewContractStartComponent implements OnInit {
 
   onChangeTitle(e) {
     this.currentTitle = e.value.name;
+  }
+
+  onChangeCSection(e) {
+    this.currentCSection = e.value.name;
   }
 
   starter() {
@@ -180,7 +195,11 @@ export class NewContractStartComponent implements OnInit {
           if (result.value) {
             this.sharedService.getDataFromContextInfo().subscribe(
               (data) => {
-                this.sharedService.sendDataJson(data).subscribe(
+                let isPreContract = true;
+                if (this.currentCSection === this.contractSections[1].name) {
+                  isPreContract = false;
+                }
+                this.sharedService.sendDataJson(data, isPreContract).subscribe(
                   (dd: any) => {
                     this.sharedService.stepFormsData.contractsForm.Code_Contract = 'TC' + dd.d.ID;
                     this.dialogRef.close();

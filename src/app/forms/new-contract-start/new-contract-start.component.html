@@ -11,13 +11,39 @@
         <div class="col-md-8">
           <div class="form-group">
             <mat-radio-group>
+              <mat-radio-button *ngFor="let cSection of contractSections" [value]="cSection" [checked]="cSection.id  === 0" (change)="onChangeCSection($event)">{{ cSection.name }}</mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </div>
+        <div class="col-md-2"></div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="alert alert-info">
+            <strong>پیش قرارداد!</strong>
+            منظور از پیش قرارداد کاری است که قرار است به قرارداد منجر شود و نیاز به فعالیت های برگزاری مناقصه و ... دارد. این گزینه اولین نقطه شروع هر قرارداد است.
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="alert alert-info">
+            <strong>قرارداد!</strong>
+            قراردادی است که منعقد شده  و اجرایی شده است ولی اطلاعات مراحل قبل از انعقاد در دسترس نیست.
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="row" *ngIf="currentCSection === this.contractSections[1].name">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+          <div class="form-group">
+            <mat-radio-group>
               <mat-radio-button *ngFor="let title of titleNames" [value]="title" [checked]="title.id  === 0" (change)="onChangeTitle($event)">{{ title.name }}</mat-radio-button>
             </mat-radio-group>
           </div>
         </div>
         <div class="col-md-2"></div>
       </div>
-      <div class="row" *ngIf="currentTitle === titleNames [1].name">
+      <div class="row" *ngIf="currentTitle === titleNames [1].name && currentCSection === this.contractSections[0].name">
         <div class="col-md-12">
           <div class="alert alert-secondary" role="alert">
             <span style="font-weight: bold;">توجه</span> : پروژه خاص پروژه هایی هستند که متناظر با یک قرارداد نیستند! ( جزئی از یه قرارداد کلی یا ترکیب چند قرارداد هستند )

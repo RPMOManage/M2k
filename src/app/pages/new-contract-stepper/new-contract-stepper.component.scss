@@ -67,6 +67,13 @@ h3 {
 
 // new Stepper //
 
+.steps-form-1 {
+  display: table;
+  width: 100%;
+  position: relative;
+  background: #e9fee7;
+}
+
 .steps-form-2 {
   display: table;
   width: 100%;
@@ -146,6 +153,14 @@ h3 {
 
 .step-design {
   background-color: #E7F2FE;
+  padding: 20px;
+  height: 100%;
+  font-family: IranSans;
+  cursor: pointer;
+}
+
+.pre-step-design {
+  background-color: #E9FEE7;
   padding: 20px;
   height: 100%;
   font-family: IranSans;

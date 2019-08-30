@@ -3,7 +3,7 @@
     <mat-card style="margin-bottom: 3px;margin-top: 0px;min-height: 0;padding: 12px;">
       <h3 style="height: 100%">
         <span>درخواست قرارداد ها</span>
-        <button (click)="onClickButtonPish()" matTooltip="ایجاد پیش قرارداد" matTooltipClass="example-tooltip"
+        <button (click)="onClickButtonPish()" matTooltip="ایجاد قرارداد جدید" matTooltipClass="example-tooltip"
                 class="plusBtn" mat-fab>
           <i class="fa fa-plus"></i>
         </button>
@@ -66,18 +66,23 @@
                      style="text-align: center;background: #63dca463;width: 100%;margin-right: -8px;">
                   <div class="col-md-5" style="text-align: left;">
                     <span style="padding: 0 7px">پیش قرارداد</span>
-                    <i class="far fa-circle" style="color: #a04298"></i>
+                    <i class="fas fa-circle" style="color: #a04298"></i>
                   </div>
                   <div class="col-md-2">
                     <hr style="border-top: 2px solid #703f8a;position: absolute;top: -5px;right: -10%;width: 120%;">
-                    <i class="fas fa-chevron-left" style="color: #601073;z-index: 15;position: absolute;top: 4px;left: 48%;"></i>
+                    <i class="fas fa-chevron-left"
+                       style="color: #601073;z-index: 15;position: absolute;top: 4px;left: 48%;"></i>
                   </div>
                   <div class="col-md-5" style="text-align: right;">
-                    <i class="fas fa-circle" style="color: #a04298"></i>
+                    <i class="far fa-circle" style="color: #a04298"
+                       *ngIf="!tempContract.ImporterApprovedPre && !tempContract.PMApprovedPre"></i>
+                    <i class="fas fa-circle" style="color: #a04298"
+                       *ngIf="tempContract.ImporterApprovedPre && tempContract.PMApprovedPre"></i>
                     <span style="padding: 0 7px">قرارداد</span>
                   </div>
                 </div>
-                <div class="row" style="padding: 15px">
+                <div class="row" style="padding: 15px"
+                     *ngIf="tempContract.ImporterApprovedPre && tempContract.PMApprovedPre">
                   <div class="col-md-2">
                     <i
                       [ngClass]="tempContract.ImporterApproved ? 'fas fa-user-edit' : 'fas fa-user-edit fa-user-edit-fade'"
@@ -93,6 +98,40 @@
                   <div class="col-md-2">
                     <i
                       [ngClass]="tempContract.PMApproved ? 'fas fa-user-check' : 'fas fa-user-check fa-user-check-fade'"
+                      nbPopover="This is PM"
+                      nbPopoverMode="hint"
+                      nbPopoverPlacement="bottom"
+                      matTooltip="تایید مدیر پروژه"></i>
+                  </div>
+                  <div class="col-md-3">
+                    <hr class="doted-line-box"/>
+                  </div>
+                  <div class="col-md-2">
+                    <i
+                      [ngClass]="tempContract.Code ? 'fas fa-check-double' : 'fas fa-check-double fa-check-double-fade'"
+                      nbPopover="This is Expert"
+                      nbPopoverMode="hint"
+                      nbPopoverPlacement="bottom"
+                      matTooltip="تایید دفتر مدیریت پروژه"></i>
+                  </div>
+                </div>
+                <div class="row" style="padding: 15px"
+                     *ngIf="!tempContract.ImporterApprovedPre || !tempContract.PMApprovedPre">
+                  <div class="col-md-2">
+                    <i
+                      [ngClass]="tempContract.ImporterApprovedPre ? 'fas fa-user-edit' : 'fas fa-user-edit fa-user-edit-fade'"
+                      nbPopover="This is Importer"
+                      nbPopoverMode="hint"
+                      nbPopoverPlacement="bottom"
+                      matTooltip="تایید مسئول اطلاعات"
+                    ></i>
+                  </div>
+                  <div class="col-md-3">
+                    <hr class="doted-line-box"/>
+                  </div>
+                  <div class="col-md-2">
+                    <i
+                      [ngClass]="tempContract.PMApprovedPre ? 'fas fa-user-check' : 'fas fa-user-check fa-user-check-fade'"
                       nbPopover="This is PM"
                       nbPopoverMode="hint"
                       nbPopoverPlacement="bottom"

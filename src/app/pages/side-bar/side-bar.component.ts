@@ -27,8 +27,8 @@ export class SideBarComponent implements OnInit {
     Icon: 'fas fa-file-contract'
   }, {
     ID: 3,
-    TitleEn: 'contracts-pish',
-    TitleFa: 'پیش قرارداد ها',
+    TitleEn: 'contracts-drafts',
+    TitleFa: 'درخواست قرارداد ها',
     Icon: 'fas fa-pencil-ruler'
   }, {
     ID: 5,

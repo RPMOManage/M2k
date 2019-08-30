@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { SharedService } from '../../shared/services/shared.service';
-import { PMsList } from '../../shared/models/PMs.model';
-import { Router } from '@angular/router';
-import { AuthService } from '../../shared/services/auth.service';
-import { switchMap } from 'rxjs/internal/operators';
-import { NewContractStartComponent } from '../../forms/new-contract-start/new-contract-start.component';
-import { MatDialog } from '@angular/material';
+import {Component, OnInit} from '@angular/core';
+import {SharedService} from '../../shared/services/shared.service';
+import {PMsList} from '../../shared/models/PMs.model';
+import {Router} from '@angular/router';
+import {AuthService} from '../../shared/services/auth.service';
+import {switchMap} from 'rxjs/internal/operators';
+import {NewContractStartComponent} from '../../forms/new-contract-start/new-contract-start.component';
+import {MatDialog} from '@angular/material';
 
 @Component({
   selector: 'app-contracts-pish',
@@ -36,7 +36,7 @@ export class ContractsPishComponent implements OnInit {
     TitleFa: 'صفحه قرارداد 3',
   }];
 
-  tempContracts: { ID, Title, PMUserId, ImporterUserId, PMOExpertId, ImporterId, PMApproved, ImporterApproved, Code, Created, Importer?: number, Types?: number }[] = [];
+  tempContracts: { ID, Title, ImporterApprovedPre, PMApprovedPre, PMUserId, ImporterUserId, PMOExpertId, ImporterId, PMApproved, ImporterApproved, Code, Created, Importer?: number, Types?: number }[] = [];
   pms: PMsList[] = [];
   type = 'pish';
   spinnerChecking = false;
@@ -125,9 +125,15 @@ export class ContractsPishComponent implements OnInit {
   onClickContract(id: number) {
     const mainContract = this.tempContracts.filter(v => v.ID === id)[0];
     if (+mainContract.Types === 1) {
-      this.router.navigate(['/pre-contract'], {queryParams: {ContractID: 'TC' + id, ImpID: mainContract.ImporterUserId}, queryParamsHandling: 'merge'});
+      this.router.navigate(['/pre-contract'], {
+        queryParams: {ContractID: 'TC' + id, ImpID: mainContract.ImporterUserId},
+        queryParamsHandling: 'merge'
+      });
     } else {
-      this.router.navigate(['/wizard'], {queryParams: {ContractID: 'TC' + id, ImpID: mainContract.ImporterUserId}, queryParamsHandling: 'merge'});
+      this.router.navigate(['/wizard'], {
+        queryParams: {ContractID: 'TC' + id, ImpID: mainContract.ImporterUserId},
+        queryParamsHandling: 'merge'
+      });
     }
   }
 

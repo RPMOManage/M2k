@@ -12,12 +12,12 @@
 <mat-card>
   <div>
     <div class="step-header">
-      <div style="direction: rtl;height: 70px;" class="steps-form-2">
+      <div style="direction: rtl;height: 70px;" [ngClass]="isPreContract ? 'steps-form-1' : 'steps-form-2'">
         <div style="height: 100%;" class="steps-row-2 setup-panel-2 d-flex justify-content-between">
           <div class="steps-step-2">
             <div
               (click)="stepChange(0)"
-              class="step-design"
+              [ngClass]="isPreContract ? 'pre-step-design' : 'step-design'"
               [ngStyle]="firstStep === 0 ? {background: 'rgba(206, 217, 223, 0.47)'} : {}"
             >
               <div class="numberCircle"></div>
@@ -31,7 +31,7 @@
           <div class="steps-step-2">
             <div
               (click)="stepChange(1)"
-              class="step-design"
+              [ngClass]="isPreContract ? 'pre-step-design' : 'step-design'"
               [ngStyle]="styleObject(1)"
             >
               <div class="numberCircle"></div>
@@ -45,7 +45,7 @@
           <div class="steps-step-2">
             <div
               (click)="stepChange(2)"
-              class="step-design"
+              [ngClass]="isPreContract ? 'pre-step-design' : 'step-design'"
               [ngStyle]="styleObject(2)"
             >
               <div class="numberCircle"></div>
@@ -59,7 +59,7 @@
           <div class="steps-step-2" *ngIf="isProgress && !isPreContract">
             <div
               (click)="stepChange(3)"
-              class="step-design"
+              [ngClass]="isPreContract ? 'pre-step-design' : 'step-design'"
               [ngStyle]="styleObject(3)"
             >
               <div class="numberCircle"></div>
@@ -73,7 +73,7 @@
           <div class="steps-step-2">
             <div
               (click)="stepChange(4)"
-              class="step-design"
+              [ngClass]="isPreContract ? 'pre-step-design' : 'step-design'"
               [ngStyle]="styleObject(4)"
             >
               <div class="numberCircle"></div>
@@ -88,7 +88,7 @@
             <div
               *ngIf="checkDelShow(del) === true"
               (click)="stepChange(5 + i)"
-              class="step-design"
+              [ngClass]="isPreContract ? 'pre-step-design' : 'step-design'"
               [ngStyle]="styleObject(5 + i)"
             >
               <div class="numberCircle"></div>
@@ -102,7 +102,7 @@
           <div class="steps-step-2" *ngIf="isFinancial && !isPreContract">
             <div
               (click)="stepChange(10)"
-              class="step-design"
+              [ngClass]="isPreContract ? 'pre-step-design' : 'step-design'"
               [ngStyle]="styleObject(10)"
             >
               <div class="numberCircle"></div>
@@ -117,7 +117,7 @@
             <div *ngIf="contractDataForm.OldProjectId" class="steps-step-2" id="step-changes">
               <div
                 (click)="stepChange(11)"
-                class="step-design"
+                [ngClass]="isPreContract ? 'pre-step-design' : 'step-design'"
                 [ngStyle]="styleObject(11)"
               >
                 <div class="numberCircle"></div>
@@ -132,7 +132,7 @@
           <div class="steps-step-2">
             <div
               (click)="stepChange(12)"
-              class="step-design"
+              [ngClass]="isPreContract ? 'pre-step-design' : 'step-design'"
               [ngStyle]="styleObject(12)"
             >
               <div class="numberCircle"></div>

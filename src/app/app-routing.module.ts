@@ -50,7 +50,7 @@ const routes: Routes = [
   {path: 'error', component: ErrorComponent},
   {path: 'contracts-list', component: ContractsListComponent},
   {path: 'payment-priority', component: PaymentPriorityComponent},
-  {path: 'contracts-pish', component: ContractsPishComponent},
+  {path: 'contracts-drafts', component: ContractsPishComponent},
   {path: 'profile', component: KmsUserFormComponent},
   {path: 'generate', component: GenerateDutiesComponent},
   {path: 'exports', component: ExportsComponent},

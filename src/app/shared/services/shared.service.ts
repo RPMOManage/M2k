@@ -1,33 +1,33 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { CurrencyList } from '../models/currency.model';
-import { map } from 'rxjs/operators';
-import { StepFormsDataList } from '../models/stepFormModels/stepFormsData.model';
-import { Subject } from 'rxjs/index';
-import { CostResourcesList } from '../models/costResources.model';
-import { SubUnitsList } from '../models/subUnits.model';
-import { UserList } from '../models/user.model';
-import { CurrentUserList } from '../models/currentUser.model';
-import { ImporterList } from '../models/importer.model';
-import { PMsList } from '../models/PMs.model';
-import { UserNameList } from '../models/userName.model';
-import { UnitsList } from '../models/units.model';
-import { ContractServicesList } from '../models/contractServices.model';
-import { ZonesList } from '../models/zones.model';
-import { DeliverablesList } from '../models/Deliverables.model';
-import { OperationTypesList } from '../models/operationTypes.model';
-import { AgentPositionsList } from '../models/agentPositions.model';
-import { ContractTypesList } from '../models/contractTypes.model';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {CurrencyList} from '../models/currency.model';
+import {map} from 'rxjs/operators';
+import {StepFormsDataList} from '../models/stepFormModels/stepFormsData.model';
+import {Subject} from 'rxjs/index';
+import {CostResourcesList} from '../models/costResources.model';
+import {SubUnitsList} from '../models/subUnits.model';
+import {UserList} from '../models/user.model';
+import {CurrentUserList} from '../models/currentUser.model';
+import {ImporterList} from '../models/importer.model';
+import {PMsList} from '../models/PMs.model';
+import {UserNameList} from '../models/userName.model';
+import {UnitsList} from '../models/units.model';
+import {ContractServicesList} from '../models/contractServices.model';
+import {ZonesList} from '../models/zones.model';
+import {DeliverablesList} from '../models/Deliverables.model';
+import {OperationTypesList} from '../models/operationTypes.model';
+import {AgentPositionsList} from '../models/agentPositions.model';
+import {ContractTypesList} from '../models/contractTypes.model';
 import * as moment from 'jalali-moment';
-import { CurrenciesList } from '../models/currencies.model';
-import { ContractorsList } from '../models/contractors.model';
-import { RaiPartsList } from '../models/raiParts.model';
-import { ComptrollerContractsList } from '../models/comptrollerContracts.model';
-import { StepDeliverablesFormList } from '../models/stepFormModels/stepDeliverablesForm.model';
-import { toBase64String } from '@angular/compiler/src/output/source_map';
-import { FinancialModel } from '../models/transferModels/Financial.model';
-import { FinancialRequestTypeModel } from '../models/FinancialRequestType.model';
-import { ContractComptrollerModel } from '../models/ContractComptroller.model';
+import {CurrenciesList} from '../models/currencies.model';
+import {ContractorsList} from '../models/contractors.model';
+import {RaiPartsList} from '../models/raiParts.model';
+import {ComptrollerContractsList} from '../models/comptrollerContracts.model';
+import {StepDeliverablesFormList} from '../models/stepFormModels/stepDeliverablesForm.model';
+import {toBase64String} from '@angular/compiler/src/output/source_map';
+import {FinancialModel} from '../models/transferModels/Financial.model';
+import {FinancialRequestTypeModel} from '../models/FinancialRequestType.model';
+import {ContractComptrollerModel} from '../models/ContractComptroller.model';
 
 @Injectable({
   providedIn: 'root'
@@ -97,11 +97,11 @@ export class SharedService {
   }
 
   getAllTempContracts() {
-    const mainData: { ID, Title, PMUserId, ImporterUserId, PMOExpertId, ImporterId, PMApproved, ImporterApproved, Code, Created, Importer?: number, Types?: number }[] = [];
+    const mainData: { ID, Title, ImporterApprovedPre, PMApprovedPre, PMUserId, ImporterUserId, PMOExpertId, ImporterId, PMApproved, ImporterApproved, Code, Created, Importer?: number, Types?: number }[] = [];
     let headers = new HttpHeaders();
     headers = headers.set('ACCEPT', 'application/json;odata=verbose');
     return this.http.get(
-      'http://rpmo.rai.ir/PWA/_api/web/lists/getbytitle(\'TempContracts\')/items?$filter=IsActive1 ne false&$select=ID,Title,PMUserId,Types,PMOExpertId,ImporterId,PMApproved,ImporterApproved,Code,Created,ImporterUser/Title,ImporterUser/ID&$expand=ImporterUser&$top=10000&$OrderBy=ID desc',
+      'http://rpmo.rai.ir/PWA/_api/web/lists/getbytitle(\'TempContracts\')/items?$filter=IsActive1 ne false&$select=ID,Title,ImporterApprovedPre,PMApprovedPre,PMUserId,Types,PMOExpertId,ImporterId,PMApproved,ImporterApproved,Code,Created,ImporterUser/Title,ImporterUser/ID&$expand=ImporterUser&$top=10000&$OrderBy=ID desc',
       {headers: headers}
     ).pipe(map((response: Response) => {
         const data = (<any>response).d.results;
@@ -110,6 +110,8 @@ export class SharedService {
             mainData.push({
               ID: data[i].ID,
               Title: data[i].Title,
+              ImporterApprovedPre: data[i].ImporterApprovedPre,
+              PMApprovedPre: data[i].PMApprovedPre,
               PMUserId: data[i].PMUserId,
               ImporterUserId: data[i].ImporterUser.ID,
               PMOExpertId: data[i].PMOExpertId,
@@ -132,7 +134,10 @@ export class SharedService {
     let headers = new HttpHeaders();
     headers = headers.set('Content-Type', 'application/x-www-form-urlencoded');
     // const data = {Authorization: 'Basic cmFpbHdheXNcbW9vc2F2aV9tOnp4Y1pYQyAz', url: 'http://rpmo.rai.ir/PWA/_api/web/lists/getbytitle(\'Contracts\')/items'};
-    const formData = {url: 'http://rpmo.rai.ir/PWA/_api/web/lists/getbytitle(\'Contracts\')/items', Authorization: 'Basic cmFpbHdheXNcbW9vc2F2aV9tOnp4Y1pYQyAz'};
+    const formData = {
+      url: 'http://rpmo.rai.ir/PWA/_api/web/lists/getbytitle(\'Contracts\')/items',
+      Authorization: 'Basic cmFpbHdheXNcbW9vc2F2aV9tOnp4Y1pYQyAz'
+    };
     const postData = 'email=' + JSON.stringify(formData);
     return this.http.post(
       'http://rpmo.rai.ir:7070',
@@ -603,22 +608,35 @@ export class SharedService {
   //   ));
   // }
 
-  sendDataJson(DigestValue: any) {
+  sendDataJson(DigestValue: any, isPreContract?: boolean) {
     const headers = new HttpHeaders({
       'X-RequestDigest': DigestValue,
       'content-type': 'application/json;odata=verbose',
       'accept': 'application/json;odata=verbose',
     });
+    let body;
     const pmUser: any = this.stepFormsData.contractsForm.PMId_User;
-    const body = {
-      '__metadata': {'type': 'SP.Data.TempContractsListItem'},
-      'Json': JSON.stringify(this.stepFormsData),
-      'Title': this.stepFormsData.contractsForm.FullTitle_Contract,
-      'PMUserId': pmUser.User.ID,
-      'ImporterUserId': this.userData.Id,
-      'PMOExpertId': this.stepFormsData.contractsForm.PMOExpertId_User,
-      'ImporterId': this.stepFormsData.contractsForm.Id_Importer
-    };
+    if (isPreContract) {
+      body = {
+        '__metadata': {'type': 'SP.Data.TempContractsListItem'},
+        'JsonPre': JSON.stringify(this.stepFormsData),
+        'Title': this.stepFormsData.contractsForm.FullTitle_Contract,
+        'PMUserId': pmUser.User.ID,
+        'ImporterUserId': this.userData.Id,
+        'PMOExpertId': this.stepFormsData.contractsForm.PMOExpertId_User,
+        'ImporterId': this.stepFormsData.contractsForm.Id_Importer
+      };
+    } else {
+      body = {
+        '__metadata': {'type': 'SP.Data.TempContractsListItem'},
+        'Json': JSON.stringify(this.stepFormsData),
+        'Title': this.stepFormsData.contractsForm.FullTitle_Contract,
+        'PMUserId': pmUser.User.ID,
+        'ImporterUserId': this.userData.Id,
+        'PMOExpertId': this.stepFormsData.contractsForm.PMOExpertId_User,
+        'ImporterId': this.stepFormsData.contractsForm.Id_Importer
+      };
+    }
     return this.http.post(
       'http://rpmo.rai.ir/PWA/_api/web/lists/getbytitle(\'TempContracts\')/items',
       body,
@@ -1218,7 +1236,7 @@ export class SharedService {
   }
 
   getGoals() {
-    const mainData: {Id, Name}[] = [];
+    const mainData: { Id, Name }[] = [];
     let headers = new HttpHeaders();
     headers = headers.set('ACCEPT', 'application/json;odata=verbose');
     return this.http.get(
@@ -1238,7 +1256,7 @@ export class SharedService {
   }
 
   getDemandants() {
-    const mainData: {Id, Name}[] = [];
+    const mainData: { Id, Name }[] = [];
     let headers = new HttpHeaders();
     headers = headers.set('ACCEPT', 'application/json;odata=verbose');
     return this.http.get(
@@ -1258,7 +1276,7 @@ export class SharedService {
   }
 
   getTenderTypes() {
-    const mainData: {Id, Name}[] = [];
+    const mainData: { Id, Name }[] = [];
     let headers = new HttpHeaders();
     headers = headers.set('ACCEPT', 'application/json;odata=verbose');
     return this.http.get(
@@ -1278,7 +1296,7 @@ export class SharedService {
   }
 
   getTenderOrganizers() {
-    const mainData: {Id, Name}[] = [];
+    const mainData: { Id, Name }[] = [];
     let headers = new HttpHeaders();
     headers = headers.set('ACCEPT', 'application/json;odata=verbose');
     return this.http.get(
@@ -1557,8 +1575,8 @@ export class SharedService {
       {headers: headers}
     ).pipe(map((response: Response) => {
         const data = (<any>response).d.results;
-      for (let i = 0; i < data.length; i++) {
-        mainData.push(
+        for (let i = 0; i < data.length; i++) {
+          mainData.push(
             new CostResourcesList(
               data[i].ID,
               data[i].Title,
