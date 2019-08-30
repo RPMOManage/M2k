@@ -66,7 +66,9 @@
                      style="text-align: center;background: #63dca463;width: 100%;margin-right: -8px;">
                   <div class="col-md-5" style="text-align: left;">
                     <span style="padding: 0 7px">پیش قرارداد</span>
-                    <i class="fas fa-circle" style="color: #a04298"></i>
+                    <i class="far fa-circle" style="color: #a04298"
+                       *ngIf="!tempContract.ImporterApprovedPre || !tempContract.PMApprovedPre"></i>
+                    <i class="fas fa-circle" style="color: #a04298" *ngIf="tempContract.ImporterApprovedPre && tempContract.PMApprovedPre"></i>
                   </div>
                   <div class="col-md-2">
                     <hr style="border-top: 2px solid #703f8a;position: absolute;top: -5px;right: -10%;width: 120%;">
@@ -75,14 +77,14 @@
                   </div>
                   <div class="col-md-5" style="text-align: right;">
                     <i class="far fa-circle" style="color: #a04298"
-                       *ngIf="!tempContract.ImporterApprovedPre && !tempContract.PMApprovedPre"></i>
+                       *ngIf="(tempContract.ImporterApprovedPre && tempContract.PMApprovedPre) || (!tempContract.PMApprovedPre || !tempContract.PMApprovedPre)"></i>
                     <i class="fas fa-circle" style="color: #a04298"
-                       *ngIf="tempContract.ImporterApprovedPre && tempContract.PMApprovedPre"></i>
+                       *ngIf="tempContract.ImporterApprovedPre && tempContract.PMApprovedPre && tempContract.ImporterApproved && tempContract.PMApproved"></i>
                     <span style="padding: 0 7px">قرارداد</span>
                   </div>
                 </div>
                 <div class="row" style="padding: 15px"
-                     *ngIf="tempContract.ImporterApprovedPre && tempContract.PMApprovedPre">
+                     *ngIf="tempContract.ImporterApprovedPre && tempContract.PMApprovedPre && tempContract.Code">
                   <div class="col-md-2">
                     <i
                       [ngClass]="tempContract.ImporterApproved ? 'fas fa-user-edit' : 'fas fa-user-edit fa-user-edit-fade'"
@@ -116,7 +118,7 @@
                   </div>
                 </div>
                 <div class="row" style="padding: 15px"
-                     *ngIf="!tempContract.ImporterApprovedPre || !tempContract.PMApprovedPre">
+                     *ngIf="!tempContract.ImporterApprovedPre || !tempContract.PMApprovedPre || !tempContract.Code">
                   <div class="col-md-2">
                     <i
                       [ngClass]="tempContract.ImporterApprovedPre ? 'fas fa-user-edit' : 'fas fa-user-edit fa-user-edit-fade'"

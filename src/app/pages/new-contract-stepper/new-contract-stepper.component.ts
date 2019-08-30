@@ -111,6 +111,9 @@ export class NewContractStepperComponent implements OnInit {
               private newContractStepperGaurd: NewContractStepperGaurdService,
               private router: Router,
               private activatedRoute: ActivatedRoute) {
+    if (this.activatedRoute.snapshot.url[0].path === 'pre-contract') {
+      this.isPreContract = true;
+    }
     this.isReadOnly = this.sharedService.isReadOnly;
     if (this.newContractStepperGaurd.isPM) {
       this.starter();
@@ -118,10 +121,6 @@ export class NewContractStepperComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.activatedRoute.snapshot.url[0].path === 'pre-contract') {
-      this.isPreContract = true;
-    }
-
     console.log(this.isPreContract);
     this.sharedService.isProgressSubject1.subscribe(
       (checked: any) => {
@@ -239,12 +238,12 @@ export class NewContractStepperComponent implements OnInit {
       }
     }
 
-
     if (this.text.filter(v => v.content === null).length === this.text.length) {
       this.finalValid = true;
     } else {
       this.finalValid = false;
     }
+
 
   }
 
@@ -350,9 +349,10 @@ export class NewContractStepperComponent implements OnInit {
         }
       );
 
-    this.sharedService.getDataJson(this.newContractStepperGaurd.contractID)
+    this.sharedService.getDataJson(this.newContractStepperGaurd.contractID, this.isPreContract)
       .subscribe(
         (data: StepFormsDataList) => {
+          console.log(data);
           setTimeout(() => {
             if (data.contractsForm) {
               this.stepSituation.contractForm.exist = true;
@@ -1253,7 +1253,7 @@ export class NewContractStepperComponent implements OnInit {
     console.log(isFinal, 'isFinal');
     this.sharedService.getDataFromContextInfo().subscribe(
       (data) => {
-        this.sharedService.updateDataJson(data, +this.sharedService.stepFormsData.contractsForm.Code_Contract, isFinal).subscribe(
+        this.sharedService.updateDataJson(data, +this.sharedService.stepFormsData.contractsForm.Code_Contract, isFinal, null, this.isPreContract).subscribe(
           () => {
             if (formName === 'contract') {
               this.contractsForm.markAsDirty();
@@ -1309,7 +1309,7 @@ export class NewContractStepperComponent implements OnInit {
               this.router.navigate(['build'], {queryParams: {'ContractID': 'TC' + this.newContractStepperGaurd.contractID}});
             } else {
               if (formName === 'final') {
-                this.router.navigate(['contracts-pish']);
+                this.router.navigate(['contracts-drafts']);
               }
             }
           },

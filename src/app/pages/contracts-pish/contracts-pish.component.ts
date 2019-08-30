@@ -124,7 +124,7 @@ export class ContractsPishComponent implements OnInit {
 
   onClickContract(id: number) {
     const mainContract = this.tempContracts.filter(v => v.ID === id)[0];
-    if (+mainContract.Types === 1) {
+    if (!mainContract.ImporterApprovedPre || !mainContract.PMApprovedPre) {
       this.router.navigate(['/pre-contract'], {
         queryParams: {ContractID: 'TC' + id, ImpID: mainContract.ImporterUserId},
         queryParamsHandling: 'merge'

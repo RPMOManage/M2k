@@ -634,7 +634,9 @@ export class SharedService {
         'PMUserId': pmUser.User.ID,
         'ImporterUserId': this.userData.Id,
         'PMOExpertId': this.stepFormsData.contractsForm.PMOExpertId_User,
-        'ImporterId': this.stepFormsData.contractsForm.Id_Importer
+        'ImporterId': this.stepFormsData.contractsForm.Id_Importer,
+        'PMApprovedPre': true,
+        'ImporterApprovedPre': true
       };
     }
     return this.http.post(
@@ -644,7 +646,7 @@ export class SharedService {
     );
   }
 
-  updateDataJson(DigestValue: any, id, isFinal: boolean, code = null) {
+  updateDataJson(DigestValue: any, id, isFinal: boolean, code = null, isPreContract = false) {
     const headers = new HttpHeaders({
       'X-RequestDigest': DigestValue,
       'content-type': 'application/json;odata=verbose',
@@ -655,20 +657,124 @@ export class SharedService {
     // console.log(this.userData);
     let body;
     const pmUser: any = this.stepFormsData.contractsForm.PMId_User;
-    // console.log(pmUser);
-    if (code === null) {
-      if (pmUser.User.ID === this.userData.Id && this.stepFormsData.contractsForm.Id_Importer === this.userData.Id_Importer) {
-        if (isFinal) {
-          console.log(1);
+    if (isPreContract) {
+      // console.log(pmUser);
+      if (code === null) {
+        if (pmUser.User.ID === this.userData.Id && this.stepFormsData.contractsForm.Id_Importer === this.userData.Id_Importer) {
+          if (isFinal) {
+            console.log(1);
+            body = {
+              '__metadata': {'type': 'SP.Data.TempContractsListItem'},
+              'JsonPre': JSON.stringify(this.stepFormsData),
+              'PMUserId': pmUser.User.ID,
+              'PMApprovedPre': isFinal,
+              'ImporterApprovedPre': isFinal
+            };
+          } else {
+            console.log(2);
+            body = {
+              '__metadata': {'type': 'SP.Data.TempContractsListItem'},
+              'JsonPre': JSON.stringify(this.stepFormsData),
+              'PMUserId': pmUser.User.ID,
+              'ImporterUserId': this.userData.Id,
+              'PMOExpertId': this.stepFormsData.contractsForm.PMOExpertId_User,
+              'ImporterId': this.stepFormsData.contractsForm.Id_Importer,
+              'ImporterApprovedPre': isFinal,
+              'Title': this.stepFormsData.contractsForm.FullTitle_Contract
+            };
+          }
+        } else if (this.stepFormsData.contractsForm.Id_Importer === this.userData.Id_Importer) {
+          console.log(3);
           body = {
             '__metadata': {'type': 'SP.Data.TempContractsListItem'},
-            'Json': JSON.stringify(this.stepFormsData),
+            'JsonPre': JSON.stringify(this.stepFormsData),
             'PMUserId': pmUser.User.ID,
-            'PMApproved': isFinal,
-            'ImporterApproved': isFinal
+            'ImporterUserId': this.userData.Id,
+            'PMOExpertId': this.stepFormsData.contractsForm.PMOExpertId_User,
+            'ImporterId': this.stepFormsData.contractsForm.Id_Importer,
+            'ImporterApprovedPre': isFinal,
+            'Title': this.stepFormsData.contractsForm.FullTitle_Contract
           };
-        } else {
-          console.log(2);
+        } else if (pmUser.User.ID === this.userData.Id) {
+          if (isFinal) {
+            console.log(4);
+            body = {
+              '__metadata': {'type': 'SP.Data.TempContractsListItem'},
+              'JsonPre': JSON.stringify(this.stepFormsData),
+              'PMUserId': pmUser.User.ID,
+              'PMApprovedPre': isFinal
+            };
+          } else {
+            console.log(5);
+            body = {
+              '__metadata': {'type': 'SP.Data.TempContractsListItem'},
+              'JsonPre': JSON.stringify(this.stepFormsData),
+              'PMUserId': pmUser.User.ID,
+              'PMApprovedPre': isFinal,
+              'ImporterApprovedPre': isFinal
+            };
+          }
+        } else if (this.stepFormsData.contractsForm.PMOExpertId_User === this.userData.Id) {
+          if (!isFinal) {
+            console.log(6);
+            body = {
+              '__metadata': {'type': 'SP.Data.TempContractsListItem'},
+              'JsonPre': JSON.stringify(this.stepFormsData),
+              'PMUserId': pmUser.User.ID,
+              'PMApprovedPre': isFinal,
+              'ImporterApprovedPre': isFinal
+            };
+          } else {
+            console.log(7);
+            body = {
+              '__metadata': {'type': 'SP.Data.TempContractsListItem'},
+              'JsonPre': JSON.stringify(this.stepFormsData),
+            };
+          }
+        }
+      } else {
+        console.log(8);
+        body = {
+          '__metadata': {'type': 'SP.Data.TempContractsListItem'},
+          'Code': code
+        };
+      }
+      if (!body) {
+        console.log(8);
+        body = {
+          '__metadata': {'type': 'SP.Data.TempContractsListItem'},
+          'JsonPre': JSON.stringify(this.stepFormsData),
+        };
+      }
+      console.log(body);
+    } else {
+      // console.log(pmUser);
+      if (code === null) {
+        if (pmUser.User.ID === this.userData.Id && this.stepFormsData.contractsForm.Id_Importer === this.userData.Id_Importer) {
+          if (isFinal) {
+            console.log(1);
+            body = {
+              '__metadata': {'type': 'SP.Data.TempContractsListItem'},
+              'Json': JSON.stringify(this.stepFormsData),
+              'PMUserId': pmUser.User.ID,
+              'PMApproved': isFinal,
+              'ImporterApproved': isFinal
+            };
+          } else {
+            console.log(2);
+            body = {
+              '__metadata': {'type': 'SP.Data.TempContractsListItem'},
+              'Json': JSON.stringify(this.stepFormsData),
+              'PMUserId': pmUser.User.ID,
+              'ImporterUserId': this.userData.Id,
+              'PMOExpertId': this.stepFormsData.contractsForm.PMOExpertId_User,
+              'ImporterId': this.stepFormsData.contractsForm.Id_Importer,
+              'ImporterApproved': isFinal,
+              'Title': this.stepFormsData.contractsForm.FullTitle_Contract
+            };
+          }
+        } else if (this.stepFormsData.contractsForm.Id_Importer === this.userData.Id_Importer) {
+          console.log(3);
           body = {
             '__metadata': {'type': 'SP.Data.TempContractsListItem'},
             'Json': JSON.stringify(this.stepFormsData),
@@ -679,71 +785,60 @@ export class SharedService {
             'ImporterApproved': isFinal,
             'Title': this.stepFormsData.contractsForm.FullTitle_Contract
           };
+        } else if (pmUser.User.ID === this.userData.Id) {
+          if (isFinal) {
+            console.log(4);
+            body = {
+              '__metadata': {'type': 'SP.Data.TempContractsListItem'},
+              'Json': JSON.stringify(this.stepFormsData),
+              'PMUserId': pmUser.User.ID,
+              'PMApproved': isFinal
+            };
+          } else {
+            console.log(5);
+            body = {
+              '__metadata': {'type': 'SP.Data.TempContractsListItem'},
+              'Json': JSON.stringify(this.stepFormsData),
+              'PMUserId': pmUser.User.ID,
+              'PMApproved': isFinal,
+              'ImporterApproved': isFinal
+            };
+          }
+        } else if (this.stepFormsData.contractsForm.PMOExpertId_User === this.userData.Id) {
+          if (!isFinal) {
+            console.log(6);
+            body = {
+              '__metadata': {'type': 'SP.Data.TempContractsListItem'},
+              'Json': JSON.stringify(this.stepFormsData),
+              'PMUserId': pmUser.User.ID,
+              'PMApproved': isFinal,
+              'ImporterApproved': isFinal
+            };
+          } else {
+            console.log(7);
+            body = {
+              '__metadata': {'type': 'SP.Data.TempContractsListItem'},
+              'Json': JSON.stringify(this.stepFormsData),
+            };
+          }
         }
-      } else if (this.stepFormsData.contractsForm.Id_Importer === this.userData.Id_Importer) {
-        console.log(3);
+      } else {
+        console.log(8);
+        body = {
+          '__metadata': {'type': 'SP.Data.TempContractsListItem'},
+          'Code': code
+        };
+      }
+      if (!body) {
+        console.log(8);
         body = {
           '__metadata': {'type': 'SP.Data.TempContractsListItem'},
           'Json': JSON.stringify(this.stepFormsData),
-          'PMUserId': pmUser.User.ID,
-          'ImporterUserId': this.userData.Id,
-          'PMOExpertId': this.stepFormsData.contractsForm.PMOExpertId_User,
-          'ImporterId': this.stepFormsData.contractsForm.Id_Importer,
-          'ImporterApproved': isFinal,
-          'Title': this.stepFormsData.contractsForm.FullTitle_Contract
         };
-      } else if (pmUser.User.ID === this.userData.Id) {
-        if (isFinal) {
-          console.log(4);
-          body = {
-            '__metadata': {'type': 'SP.Data.TempContractsListItem'},
-            'Json': JSON.stringify(this.stepFormsData),
-            'PMUserId': pmUser.User.ID,
-            'PMApproved': isFinal
-          };
-        } else {
-          console.log(5);
-          body = {
-            '__metadata': {'type': 'SP.Data.TempContractsListItem'},
-            'Json': JSON.stringify(this.stepFormsData),
-            'PMUserId': pmUser.User.ID,
-            'PMApproved': isFinal,
-            'ImporterApproved': isFinal
-          };
-        }
-      } else if (this.stepFormsData.contractsForm.PMOExpertId_User === this.userData.Id) {
-        if (!isFinal) {
-          console.log(6);
-          body = {
-            '__metadata': {'type': 'SP.Data.TempContractsListItem'},
-            'Json': JSON.stringify(this.stepFormsData),
-            'PMUserId': pmUser.User.ID,
-            'PMApproved': isFinal,
-            'ImporterApproved': isFinal
-          };
-        } else {
-          console.log(7);
-          body = {
-            '__metadata': {'type': 'SP.Data.TempContractsListItem'},
-            'Json': JSON.stringify(this.stepFormsData),
-          };
-        }
       }
-    } else {
-      console.log(8);
-      body = {
-        '__metadata': {'type': 'SP.Data.TempContractsListItem'},
-        'Code': code
-      };
+      console.log(body);
     }
-    if (!body) {
-      console.log(8);
-      body = {
-        '__metadata': {'type': 'SP.Data.TempContractsListItem'},
-        'Json': JSON.stringify(this.stepFormsData),
-      };
-    }
-    console.log(body);
+
     return this.http.post(
       'http://rpmo.rai.ir/PWA/_api/web/lists/getbytitle(\'TempContracts\')/items(' + id + ')',
       body,
@@ -1589,9 +1684,14 @@ export class SharedService {
     ));
   }
 
-  getDataJson(ContractID: any) {
+  getDataJson(ContractID: any, isPreContract?: boolean) {
     this.stepFormsData = {};
-    const url = 'http://rpmo.rai.ir/PWA/_api/web/lists/getbytitle(\'TempContracts\')/items?$filter=ID eq \'' + ContractID + '\'&$select=ID,ImporterApproved,PMApproved,PMOExpertId,Importer/Title,Json&$expand=Importer&$top=1';
+    let url;
+    if (isPreContract) {
+      url = 'http://rpmo.rai.ir/PWA/_api/web/lists/getbytitle(\'TempContracts\')/items?$filter=ID eq \'' + ContractID + '\'&$select=ID,ImporterApprovedPre,PMApprovedPre,PMOExpertId,Importer/Title,JsonPre&$expand=Importer&$top=1';
+    } else {
+      url = 'http://rpmo.rai.ir/PWA/_api/web/lists/getbytitle(\'TempContracts\')/items?$filter=ID eq \'' + ContractID + '\'&$select=ID,ImporterApproved,PMApproved,PMOExpertId,Importer/Title,Json&$expand=Importer&$top=1';
+    }
     let headers = new HttpHeaders();
     headers = headers.set('ACCEPT', 'application/json;odata=verbose');
     return this.http.get(
@@ -1599,38 +1699,46 @@ export class SharedService {
       {headers: headers}
     ).pipe(map((response: Response) => {
         const data = (<any>response).d.results[0];
-        this.isApproved.importer = data.ImporterApproved;
-        this.isApproved.pm = data.PMApproved;
+        let json;
+        if (isPreContract) {
+          json = JSON.parse(data.JsonPre);
+          this.isApproved.importer = data.ImporterApprovedPre;
+          this.isApproved.pm = data.PMApprovedPre;
+        } else {
+          json = JSON.parse(data.Json);
+          this.isApproved.importer = data.ImporterApproved;
+          this.isApproved.pm = data.PMApproved;
+        }
         this.isApproved.expert = data.PMOExpertId;
         this.tempContractImporter = data.Importer.Title;
         this.stepFormsData.deliverablesForm = {};
-        if (JSON.parse(data.Json).contractsForm) {
-          this.stepFormsData.contractsForm = JSON.parse(data.Json).contractsForm;
+        if (json.contractsForm) {
+          this.stepFormsData.contractsForm = json.contractsForm;
           this.stepFormsData.contractsForm.OldProjectId = data.OldCode;
         }
-        this.stepFormsData.stackHoldersForm = JSON.parse(data.Json).stackHoldersForm;
-        this.stepFormsData.stackHoldersForm2 = JSON.parse(data.Json).stackHoldersForm2;
-        this.stepFormsData.assignedCostResourcesForm = JSON.parse(data.Json).assignedCostResourcesForm;
-        if (JSON.parse(data.Json).progressPlansForm) {
-          this.stepFormsData.progressPlansForm = JSON.parse(data.Json).progressPlansForm;
+        this.stepFormsData.stackHoldersForm = json.stackHoldersForm;
+        this.stepFormsData.stackHoldersForm2 = json.stackHoldersForm2;
+        this.stepFormsData.assignedCostResourcesForm = json.assignedCostResourcesForm;
+        if (json.progressPlansForm) {
+          this.stepFormsData.progressPlansForm = json.progressPlansForm;
         }
-        if (JSON.parse(data.Json).cashFlowPlanForm) {
-          this.stepFormsData.cashFlowPlanForm = JSON.parse(data.Json).cashFlowPlanForm;
+        if (json.cashFlowPlanForm) {
+          this.stepFormsData.cashFlowPlanForm = json.cashFlowPlanForm;
         }
-        if (JSON.parse(data.Json).deliverablesForm) {
-          this.stepFormsData.deliverablesForm = JSON.parse(data.Json).deliverablesForm;
+        if (json.deliverablesForm) {
+          this.stepFormsData.deliverablesForm = json.deliverablesForm;
         }
-        if (JSON.parse(data.Json).newJson) {
-          this.stepFormsData.newJson = JSON.parse(data.Json).newJson;
+        if (json.newJson) {
+          this.stepFormsData.newJson = json.newJson;
         }
-        if (JSON.parse(data.Json).financialRequests) {
-          this.stepFormsData.financialRequests = JSON.parse(data.Json).financialRequests;
+        if (json.financialRequests) {
+          this.stepFormsData.financialRequests = json.financialRequests;
         }
-        if (JSON.parse(data.Json).financialPayments) {
-          this.stepFormsData.financialPayments = JSON.parse(data.Json).financialPayments;
+        if (json.financialPayments) {
+          this.stepFormsData.financialPayments = json.financialPayments;
         }
-        if (JSON.parse(data.Json).finalApprovalForm) {
-          this.stepFormsData.finalApprovalForm = JSON.parse(data.Json).finalApprovalForm;
+        if (json.finalApprovalForm) {
+          this.stepFormsData.finalApprovalForm = json.finalApprovalForm;
         }
         if (data.ID) {
           this.stepFormsData.contractsForm.Code_Contract = data.ID;

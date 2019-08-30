@@ -48,9 +48,9 @@ export class NewContractStepperGaurdService implements CanActivate {
         this.contractID = route.queryParams.ContractID.replace('TC', '');
         return this.authService.getUserRole(uData.Id).pipe(switchMap(
           (rUser: any) => {
-            if (+rUser.Account === 17 || +rUser.Account === 18) {
-              return this.onAdmin();
-            }
+            // if (+rUser.Account === 17 || +rUser.Account === 18) {
+            //   return this.onAdmin();
+            // }
             if (rUser.Id_Importer) {
               if (+route.queryParams.ImpID) {
                 if (+route.queryParams.ImpID === rUser.ID) {
