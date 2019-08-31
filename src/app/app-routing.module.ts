@@ -44,6 +44,7 @@ const routes: Routes = [
   {path: 'create', component: SiteCreationComponent},
   {path: 'calculate', component: CalculateComponent},
   {path: 'build', component: BuildComponent},
+  {path: 'pre-build', component: BuildComponent},
   {path: 'request', component: ChangesRequestComponent},
   {path: 'change', component: CardChangeComponent},
   {path: 'dashboard', component: DashboardComponent},

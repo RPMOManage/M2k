@@ -39,7 +39,7 @@ export class BuildSiteService {
     ));
   }
 
-  getSiteGroups(siteName, type) {
+  getSiteGroups(siteName, type, isPreContract = false) {
     let condition = '';
     if (siteName !== '') {
       condition = '(startswith(LoginName,\'' + type + '\') eq true)';
@@ -50,9 +50,13 @@ export class BuildSiteService {
     const mainData: SiteGroupsList[] = [];
     let headers = new HttpHeaders();
     headers = headers.set('ACCEPT', 'application/json;odata=verbose');
+    let url = 'http://rpmo.rai.ir/PWA/' + siteName + '/_api/web/roleassignments/groups?$filter=' + condition;
+    if (isPreContract) {
+      url = 'http://rpmo.rai.ir/PWA/' + siteName + '/pre-test-1/_api/web/roleassignments/groups?$filter=' + condition;
+    }
     return this.http.get(
       // 'http://pmo.rai.ir/PO/_api/web/roleassignments/groups?$filter=startswith(Title,%20%27Test%27)%20eq%20true',
-      'http://rpmo.rai.ir/PWA/' + siteName + '/_api/web/roleassignments/groups?$filter=' + condition,
+      url,
       {headers: headers}
     ).pipe(map((response: Response) => {
         const data = (<any>response).d.results;
@@ -128,15 +132,19 @@ export class BuildSiteService {
   //   ));
   // }
 
-  removeGroup(DigestValue, groupID: number, siteName: number) {
+  removeGroup(DigestValue, groupID: number, siteName: number, preContract = false) {
     const headers = new HttpHeaders({
       'X-RequestDigest': DigestValue,
       'content-type': 'application/json;odata=verbose',
       'accept': 'application/json;odata=verbose',
       'X-HTTP-Method': 'DELETE',
     });
+    let url = 'http://rpmo.rai.ir/PWA/' + siteName + '/_api/web/roleassignments(' + groupID + ')';
+    if (preContract) {
+      url = 'http://rpmo.rai.ir/PWA/' + siteName + '/pre-test-1/_api/web/roleassignments(' + groupID + ')';
+    }
     return this.http.post(
-      'http://rpmo.rai.ir/PWA/' + siteName + '/_api/web/roleassignments(' + groupID + ')',
+      url,
       '',
       {headers: headers}
     ).pipe(map((response: Response) => {
@@ -162,7 +170,7 @@ export class BuildSiteService {
     ));
   }
 
-  roleAssignment(DigestValue, id, siteName, type) {
+  roleAssignment(DigestValue, id, siteName, type, isPreContract) {
     const headers = new HttpHeaders({
       'X-RequestDigest': DigestValue,
       'content-type': 'application/json;odata=verbose',
@@ -172,8 +180,12 @@ export class BuildSiteService {
     if (type === 'Writers') {
       roleCode = '1073741827';
     }
+    let url = 'http://rpmo.rai.ir/PWA/' + siteName + '/_api/web/roleassignments/addroleassignment(principalid=' + id + ', roledefid=' + roleCode + ')';
+    if (isPreContract) {
+      url = 'http://rpmo.rai.ir/PWA/' + siteName + '/pre-test-1/_api/web/roleassignments/addroleassignment(principalid=' + id + ', roledefid=' + roleCode + ')';
+    }
     return this.http.post(
-      'http://rpmo.rai.ir/PWA/' + siteName + '/_api/web/roleassignments/addroleassignment(principalid=' + id + ', roledefid=' + roleCode + ')',
+      url,
       '',
       {headers: headers}
     ).pipe(map((response: Response) => {
@@ -246,7 +258,7 @@ export class BuildSiteService {
             'Title': preContractName,
             'Language': 1033,
             'WebTemplate': '{0A40FDE7-3079-4DFF-B454-2160434C9E4A}#PreContractTemp1',
-            'UseUniquePermissions': false
+            'UseUniquePermissions': true
           }
       }
     );

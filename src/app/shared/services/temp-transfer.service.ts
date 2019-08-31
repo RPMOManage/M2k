@@ -1,15 +1,15 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { SharedService } from './shared.service';
-import { StepContractFormList } from '../models/stepFormModels/stepContractForm.model';
-import { StepStackHoldersFormList } from '../models/stepFormModels/stepStackHoldersForm.model';
-import { StepProgressPlansFormList } from '../models/stepFormModels/stepProgressPlansForm.model';
-import { StepDeliverablesFormList } from '../models/stepFormModels/stepDeliverablesForm.model';
-import { StepCashFlowPlanFormList } from '../models/stepFormModels/stepCashFlowPlanForm.model';
-import { StepAssignedCostResourcesFormList } from '../models/stepFormModels/stepAssignedCostResourcesForm.model';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {SharedService} from './shared.service';
+import {StepContractFormList} from '../models/stepFormModels/stepContractForm.model';
+import {StepStackHoldersFormList} from '../models/stepFormModels/stepStackHoldersForm.model';
+import {StepProgressPlansFormList} from '../models/stepFormModels/stepProgressPlansForm.model';
+import {StepDeliverablesFormList} from '../models/stepFormModels/stepDeliverablesForm.model';
+import {StepCashFlowPlanFormList} from '../models/stepFormModels/stepCashFlowPlanForm.model';
+import {StepAssignedCostResourcesFormList} from '../models/stepFormModels/stepAssignedCostResourcesForm.model';
 import * as moment from 'jalali-moment';
-import { ShamsiToMiladiPipe } from '../pipes/shamsi-to-miladi.pipe';
-import { map } from 'rxjs/internal/operators';
+import {ShamsiToMiladiPipe} from '../pipes/shamsi-to-miladi.pipe';
+import {map} from 'rxjs/internal/operators';
 
 @Injectable()
 export class TempTransferService {
@@ -140,39 +140,68 @@ export class TempTransferService {
     );
   }
 
-  createContract(DigestValue: any, data: { Title, ShortTitle, Number, Subject_Contract, StartDate, DDate, GuaranteePeriod, Unit, SubUnit, Currency, PMOExpert, PM, Contractor, RaiPart, Importer, Standards, Service, Zone, ContractKind, Cost, VersionCode, Del_Last, FinishDate }) {
+  createContract(DigestValue: any, data: { Title, ShortTitle, Number, Subject_Contract, StartDate, DDate, GuaranteePeriod, Unit, SubUnit, Currency, PMOExpert, PM, Contractor, RaiPart, Importer, Standards, Service, Zone, ContractKind, Cost, VersionCode, Del_Last, FinishDate }, isPreContract) {
     const headers = new HttpHeaders({
       'X-RequestDigest': DigestValue,
       'content-type': 'application/json;odata=verbose',
       'accept': 'application/json;odata=verbose',
     });
     // console.log(data);
-    const body = {
-      '__metadata': {'type': 'SP.Data.ContractsListItem'},
-      Title: data.Title,
-      ShortTitle: data.ShortTitle,
-      Number: data.Number,
-      Subject_Contract: data.Subject_Contract,
-      StartDate1: data.StartDate,
-      DDate: data.DDate,
-      GuaranteePeriod: data.GuaranteePeriod,
-      UnitId: {'results': [data.Unit]},
-      SubUnitId: data.SubUnit,
-      CurrencyId: data.Currency,
-      PMOExpertId: data.PMOExpert,
-      PMId: data.PM,
-      ContractorId: data.Contractor,
-      RaiPartId: data.RaiPart,
-      ImporterId: data.Importer,
-      Standards: data.Standards,
-      Service1Id: {'results': data.Service},
-      ZoneId: {'results': data.Zone},
-      ContractKindId: data.ContractKind,
-      LastVersion: data.VersionCode,
-      Cost: data.Cost,
-      FinishDate: data.FinishDate,
-      PC_Last: '[{"Service":"T","Date":"05/25/2018","ActPC":70,"PlanPC":100}]'
-    };
+    let body;
+    if (isPreContract) {
+      body = {
+        '__metadata': {'type': 'SP.Data.ContractsListItem'},
+        Title: data.Title,
+        ShortTitle: data.ShortTitle,
+        Number: data.Number,
+        Subject_Contract: data.Subject_Contract,
+        StartDate1: data.StartDate,
+        DDate: data.DDate,
+        GuaranteePeriod: data.GuaranteePeriod,
+        UnitId: {'results': [data.Unit]},
+        SubUnitId: data.SubUnit,
+        CurrencyId: data.Currency,
+        PMOExpertId: data.PMOExpert,
+        PMId: data.PM,
+        RaiPartId: data.RaiPart,
+        ImporterId: data.Importer,
+        Standards: data.Standards,
+        Service1Id: {'results': data.Service},
+        ZoneId: {'results': data.Zone},
+        ContractKindId: data.ContractKind,
+        LastVersion: data.VersionCode,
+        Cost: data.Cost,
+        FinishDate: data.FinishDate,
+        PC_Last: '[{"Service":"T","Date":"05/25/2018","ActPC":70,"PlanPC":100}]'
+      };
+    } else {
+      body = {
+        '__metadata': {'type': 'SP.Data.ContractsListItem'},
+        Title: data.Title,
+        ShortTitle: data.ShortTitle,
+        Number: data.Number,
+        Subject_Contract: data.Subject_Contract,
+        StartDate1: data.StartDate,
+        DDate: data.DDate,
+        GuaranteePeriod: data.GuaranteePeriod,
+        UnitId: {'results': [data.Unit]},
+        SubUnitId: data.SubUnit,
+        CurrencyId: data.Currency,
+        PMOExpertId: data.PMOExpert,
+        PMId: data.PM,
+        ContractorId: data.Contractor,
+        RaiPartId: data.RaiPart,
+        ImporterId: data.Importer,
+        Standards: data.Standards,
+        Service1Id: {'results': data.Service},
+        ZoneId: {'results': data.Zone},
+        ContractKindId: data.ContractKind,
+        LastVersion: data.VersionCode,
+        Cost: data.Cost,
+        FinishDate: data.FinishDate,
+        PC_Last: '[{"Service":"T","Date":"05/25/2018","ActPC":70,"PlanPC":100}]'
+      };
+    }
     return this.http.post(
       'http://rpmo.rai.ir/PWA/_api/web/lists/getbytitle(\'Contracts\')/items',
       body,
@@ -646,12 +675,16 @@ export class TempTransferService {
     );
   }
 
-  getItemsFromList(siteName: number, listName: string) {
+  getItemsFromList(siteName: number, listName: string, isPreContract = false) {
     let mainData;
     let headers = new HttpHeaders();
     headers = headers.set('ACCEPT', 'application/json;odata=verbose');
+    let url = 'http://rpmo.rai.ir/PWA/' + siteName + '/_api/web/lists/getbytitle(\'' + listName + '\')/items';
+    if (isPreContract) {
+      url = 'http://rpmo.rai.ir/PWA/' + siteName + '/pre-test-1/_api/web/lists/getbytitle(\'' + listName + '\')/items';
+    }
     return this.http.get(
-      'http://rpmo.rai.ir/PWA/' + siteName + '/_api/web/lists/getbytitle(\'' + listName + '\')/items',
+      url,
       {headers: headers}
     ).pipe(map((response: Response) => {
         const data = (<any>response).d.results;

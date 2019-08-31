@@ -1,16 +1,16 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { SharedService } from '../../shared/services/shared.service';
-import { BuildSiteService } from '../../shared/services/build-site.service';
-import { GetUserList } from '../../shared/models/buildSiteModels/getUser.model';
-import { MatDialog } from '@angular/material';
-import { ShowUserComponent } from './show-user/show-user.component';
-import { SiteGroupsList } from '../../shared/models/buildSiteModels/siteGroups.model';
-import { ImporterList } from '../../shared/models/importer.model';
-import { ActivatedRoute } from '@angular/router';
-import { StepFormsDataList } from '../../shared/models/stepFormModels/stepFormsData.model';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {SharedService} from '../../shared/services/shared.service';
+import {BuildSiteService} from '../../shared/services/build-site.service';
+import {GetUserList} from '../../shared/models/buildSiteModels/getUser.model';
+import {MatDialog} from '@angular/material';
+import {ShowUserComponent} from './show-user/show-user.component';
+import {SiteGroupsList} from '../../shared/models/buildSiteModels/siteGroups.model';
+import {ImporterList} from '../../shared/models/importer.model';
+import {ActivatedRoute} from '@angular/router';
+import {StepFormsDataList} from '../../shared/models/stepFormModels/stepFormsData.model';
 import * as moment from 'jalali-moment';
-import { TempTransferService } from '../../shared/services/temp-transfer.service';
-import { UnitsList } from '../../shared/models/units.model';
+import {TempTransferService} from '../../shared/services/temp-transfer.service';
+import {UnitsList} from '../../shared/models/units.model';
 
 @Component({
   selector: 'app-build',
@@ -36,21 +36,28 @@ export class BuildComponent implements OnInit {
   title = null;
   importerUser;
   importerTemp;
+  isPreContract = false;
 
   constructor(private sharedService: SharedService,
               private buildSiteService: BuildSiteService,
               private dialog: MatDialog,
               private route: ActivatedRoute,
-              private tempTransfer: TempTransferService,) { }
+              private tempTransfer: TempTransferService,
+              private activatedRoute: ActivatedRoute) {
+  }
 
   ngOnInit() {
+    if (this.activatedRoute.snapshot.url[0].path === 'pre-build') {
+      this.isPreContract = true;
+    }
+
     console.clear();
     this.route.queryParams.subscribe(
       (params: any) => {
         if (params.ContractID) {
           try {
             this.tempID = +params.ContractID.replace('TC', '');
-            this.sharedService.getDataJson(this.tempID)
+            this.sharedService.getDataJson(this.tempID, this.isPreContract)
               .subscribe(
                 (data: StepFormsDataList) => {
                   this.stepFormsData = data;
@@ -64,7 +71,8 @@ export class BuildComponent implements OnInit {
                   // console.log(this.stepFormsData);
                   this.createContract();
                 });
-          } catch {}
+          } catch {
+          }
         }
       }
     );
@@ -106,7 +114,16 @@ export class BuildComponent implements OnInit {
           (services) => {
             this.sharedService.getContractCurrencies().subscribe(
               (currencies) => {
-                const data: { Title, ShortTitle, Number, Subject_Contract, StartDate, DDate , GuaranteePeriod, Unit, SubUnit, Currency, PMOExpert, PM, Contractor, RaiPart, Importer, Standards, Service, Zone, ContractKind, Cost, VersionCode, Del_Last, FinishDate } = {
+                let contractStatus;
+                let contractor;
+                if (this.isPreContract) {
+                  contractStatus = 0;
+                  contractor = null;
+                } else {
+                  contractStatus = 1;
+                  contractor = this.stepFormsData.contractsForm.Id_Contractor.Id;
+                }
+                const data: { Title, ShortTitle, Number, Subject_Contract, StartDate, DDate, GuaranteePeriod, Unit, SubUnit, Currency, PMOExpert, PM, Contractor, RaiPart, Importer, Standards, Service, Zone, ContractKind, Cost, VersionCode, Del_Last, FinishDate, ContractStatus } = {
                   Title: this.stepFormsData.contractsForm.FullTitle_Contract,
                   ShortTitle: this.stepFormsData.contractsForm.ShortTitle_Contract,
                   Number: this.stepFormsData.contractsForm.Number_Contract,
@@ -116,10 +133,10 @@ export class BuildComponent implements OnInit {
                   GuaranteePeriod: this.stepFormsData.contractsForm.GuaranteePeriod,
                   Unit: this.stepFormsData.contractsForm.Id_Unit,
                   SubUnit: this.stepFormsData.contractsForm.Id_SubUnit,
-                  Currency:  currencies.filter(v => v.Id === this.stepFormsData.contractsForm.Id_Currency)[0].currencyID,
+                  Currency: currencies.filter(v => v.Id === this.stepFormsData.contractsForm.Id_Currency)[0].currencyID,
                   PMOExpert: units.filter(v => v.Id === this.stepFormsData.contractsForm.Id_Unit)[0].DefaultPMOExpertId_User,
                   PM: this.stepFormsData.contractsForm.PMId_User.Id,
-                  Contractor: this.stepFormsData.contractsForm.Id_Contractor.Id,
+                  Contractor: contractor,
                   RaiPart: this.stepFormsData.contractsForm.SignatoryRaiParts,
                   Importer: this.stepFormsData.contractsForm.Id_Importer,
                   Standards: this.stepFormsData.contractsForm.Standards_Contract,
@@ -130,20 +147,30 @@ export class BuildComponent implements OnInit {
                   VersionCode: 1,
                   Del_Last: null,
                   FinishDate: moment(this.stepFormsData.contractsForm.FinishDate_Contract, 'jYYYY/jM/jD').format('MM/DD/YYYY'),
+                  ContractStatus: contractStatus,
                 };
                 this.tempTransfer.getDataFromContextInfo().subscribe(
                   (digestValue) => {
-                    this.tempTransfer.createContract(digestValue, data).subscribe(
+                    this.tempTransfer.createContract(digestValue, data, this.isPreContract).subscribe(
                       (rData: any) => {
                         this.contractID = rData.d.Id;
                         this.sharedService.getDataFromContextInfo().subscribe(
                           (dg) => {
                             this.sharedService.breakInheritence(dg, 'Contracts', this.contractID).subscribe();
-                            this.buildSiteService.buildSite(dg, this.contractID).subscribe(
-                              (dd) => {
-                                // console.clear();
-                                this.checkIsSiteBuilt();
-                              });
+                            if (this.isPreContract) {
+                              this.buildSiteService.buildSite(dg, this.contractID).subscribe(
+                                () => {
+                                  this.checkIsSiteBuildForPre(dg);
+                                }
+                              );
+                            } else {
+                              this.buildSiteService.buildSite(dg, this.contractID).subscribe(
+                                () => {
+
+                                  this.checkIsSiteBuilt();
+                                }
+                              );
+                            }
                           });
                       }
                     );
@@ -155,18 +182,52 @@ export class BuildComponent implements OnInit {
   }
 
   checkIsSiteBuilt() {
-    this.tempTransfer.getItemsFromList(this.contractID, 'Versions').subscribe(
+    this.tempTransfer.getItemsFromList(this.contractID, 'Versions', this.isPreContract).subscribe(
       (data) => {
         this.isSiteBuilt = true;
         this.tempTransfer.getDataFromContextInfo().subscribe(
           (digestValue) => {
-            this.sharedService.updateDataJson(digestValue, this.tempID , true, this.contractID).subscribe();
+            this.sharedService.updateDataJson(digestValue, this.tempID, true, this.contractID, this.isPreContract).subscribe();
           }
         );
         this.startPermisions();
       }, error2 => {
         setTimeout(() => {
           this.checkIsSiteBuilt();
+        }, 1000);
+      }
+    );
+  }
+
+  checkIsSiteBuildForPre(dg) {
+    this.tempTransfer.getItemsFromList(this.contractID, 'Versions', false).subscribe(
+      (data) => {
+        this.buildSiteService.buildSubSite(dg, this.contractID, 'pre-test-1').subscribe(
+          (dd) => {
+            // console.clear();
+            this.checkIsPreSiteBuilt();
+          });
+      }, error2 => {
+        setTimeout(() => {
+          this.checkIsSiteBuildForPre(dg);
+        }, 1000);
+      }
+    );
+  }
+
+  checkIsPreSiteBuilt() {
+    this.tempTransfer.getItemsFromList(this.contractID, 'Versions', this.isPreContract).subscribe(
+      (data) => {
+        this.isSiteBuilt = true;
+        this.tempTransfer.getDataFromContextInfo().subscribe(
+          (digestValue) => {
+            this.sharedService.updateDataJson(digestValue, this.tempID, true, this.contractID, this.isPreContract).subscribe();
+          }
+        );
+        this.startPermisions();
+      }, error2 => {
+        setTimeout(() => {
+          this.checkIsPreSiteBuilt();
         }, 1000);
       }
     );
@@ -196,35 +257,35 @@ export class BuildComponent implements OnInit {
     this.sharedService.getDataFromContextInfo()
       .subscribe(
         (DigestValue) => {
-          this.buildSiteService.roleAssignment(DigestValue, id, this.contractID, type).subscribe(
-              () => {
-                setTimeout(() => {
-                  this.buildSiteService.getSiteGroups(this.contractID, type).subscribe(
-                    (data) => {
-                      if (type === 'Viewers') {
-                        this.siteGroups_Viewers = data;
-                      } else {
-                        this.siteGroups_Writers = data;
+          this.buildSiteService.roleAssignment(DigestValue, id, this.contractID, type, this.isPreContract).subscribe(
+            () => {
+              setTimeout(() => {
+                this.buildSiteService.getSiteGroups(this.contractID, type, this.isPreContract).subscribe(
+                  (data) => {
+                    if (type === 'Viewers') {
+                      this.siteGroups_Viewers = data;
+                    } else {
+                      this.siteGroups_Writers = data;
 
-                      }
                     }
-                  );
-                  this.buildSiteService.roleAssignmentListItem(DigestValue, id, type, 'Contracts', this.contractID).subscribe();
-                }, 10);
-              }
-            );
+                  }
+                );
+                this.buildSiteService.roleAssignmentListItem(DigestValue, id, type, 'Contracts', this.contractID).subscribe();
+              }, 10);
+            }
+          );
         }
       );
   }
 
   update() {
-    this.buildSiteService.getSiteGroups(this.contractID, 'Viewers').subscribe(
+    this.buildSiteService.getSiteGroups(this.contractID, 'Viewers', this.isPreContract).subscribe(
       (data) => {
         this.siteGroups_Viewers = data;
         // console.log(this.siteGroups_Viewers);
       }
     );
-    this.buildSiteService.getSiteGroups(this.contractID, 'Writers').subscribe(
+    this.buildSiteService.getSiteGroups(this.contractID, 'Writers', this.isPreContract).subscribe(
       (data) => {
         this.siteGroups_Writers = data;
         // console.log(this.siteGroups_Writers);
@@ -246,7 +307,7 @@ export class BuildComponent implements OnInit {
   onDeleteGroup(groupID: number) {
     this.sharedService.getDataFromContextInfo().subscribe(
       (DigestValue) => {
-        this.buildSiteService.removeGroup(DigestValue, groupID, this.contractID).subscribe(
+        this.buildSiteService.removeGroup(DigestValue, groupID, this.contractID, this.isPreContract).subscribe(
           () => {
             this.update();
           }
@@ -254,7 +315,7 @@ export class BuildComponent implements OnInit {
         this.buildSiteService.removeGroupListItem(DigestValue, groupID, 'Contracts', this.contractID).subscribe();
       }
     );
-}
+  }
 
   showUser(importerData: GetUserList) {
     // const dialogRef = this.dialog.open(UserFormComponent, {
@@ -267,13 +328,13 @@ export class BuildComponent implements OnInit {
   }
 
   getImporterName(id) {
-      if (id !== 'All') {
-        if (this.allImporters.filter(v => +v.Id === +id)[0]) {
-          return this.allImporters.filter(v => +v.Id === +id)[0].Name;
-        }
-      } else {
-        return 'همه';
+    if (id !== 'All') {
+      if (this.allImporters.filter(v => +v.Id === +id)[0]) {
+        return this.allImporters.filter(v => +v.Id === +id)[0].Name;
       }
+    } else {
+      return 'همه';
+    }
     // if (id.startsWith('Imp')) {
 
     // } else {
