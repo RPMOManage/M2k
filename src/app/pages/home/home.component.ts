@@ -8,6 +8,8 @@ import * as moment from 'jalali-moment';
 
 import anime from 'node_modules/animejs';
 import { ContractServicesList } from '../../shared/models/contractServices.model';
+import {BuildSiteService} from '../../shared/services/build-site.service';
+import {TempTransferService} from '../../shared/services/temp-transfer.service';
 
 
 @Component({

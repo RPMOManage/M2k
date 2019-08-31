@@ -228,6 +228,39 @@ export class BuildSiteService {
     ));
   }
 
+  buildSubSite(DigestValue, contractID , preContractName) {
+    const headers = new HttpHeaders({
+      'X-RequestDigest': DigestValue,
+      'content-type': 'application/json;odata=verbose',
+      'accept': 'application/json;odata=verbose',
+    });
+    const json = JSON.stringify(
+      {
+        'parameters':
+          {
+            '__metadata': {
+              'type': 'SP.WebInfoCreationInformation'
+            },
+            'Url': preContractName,
+            'Description': 'Subsite created from REST API',
+            'Title': preContractName,
+            'Language': 1033,
+            'WebTemplate': '{0A40FDE7-3079-4DFF-B454-2160434C9E4A}#PreContractTemp1',
+            'UseUniquePermissions': false
+          }
+      }
+    );
+    // console.log(json);
+    return this.http.post(
+      'http://rpmo.rai.ir/PWA/' + contractID + '/_api/web/webinfos/add',
+      json,
+      {headers: headers}
+    ).pipe(map((response: Response) => {
+        // console.log(response, 'changed data of api test');
+      }
+    ));
+  }
+
   // buildNormalSite(DigestValue) {
   //   const headers = new HttpHeaders({
   //     'X-RequestDigest': DigestValue,
