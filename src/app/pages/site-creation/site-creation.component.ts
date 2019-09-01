@@ -8,6 +8,7 @@ import { ContractServicesList } from '../../shared/models/contractServices.model
 import { CalculationsService } from '../../shared/services/calculations.service';
 import { Subject } from 'rxjs/index';
 import { UnitsList } from '../../shared/models/units.model';
+import {assertNotNull} from '@angular/compiler/src/output/output_ast';
 
 export class ContractDataModel {
   constructor(public Costs?: { ID: number },
@@ -43,6 +44,7 @@ export class SiteCreationComponent implements OnInit {
   versionCheck = 0;
   delCounts = 0;
   @Input() contractID: number;
+  @Input() isPreContract: boolean;
   @Input() stepFormsData: StepFormsDataList;
   lasts: {
     costAssignedReses: { ResID: number, Cost: number }[],
@@ -56,7 +58,7 @@ export class SiteCreationComponent implements OnInit {
   pcCalcsTemp = [];
   importerRoleForDate: any = 3;
   financialCounter = 0;
-
+  // pre-test-1
 
   constructor(private router: Router,
               private sharedService: SharedService,
@@ -68,7 +70,7 @@ export class SiteCreationComponent implements OnInit {
     if (this.stepFormsData.contractsForm.PMId_User.Id === this.stepFormsData.contractsForm.Id_Importer) {
       this.importerRoleForDate = 'PM';
     }
-    if (this.stepFormsData.financialRequests.length > 0 || this.stepFormsData.financialPayments.length > 0) {
+    if (this.isPreContract) {
       this.lasts = {
         costAssignedReses: [],
         calcs: [],
@@ -88,24 +90,45 @@ export class SiteCreationComponent implements OnInit {
         }
       };
     } else {
-      this.lasts = {
-        costAssignedReses: [],
-        calcs: [],
-        serviceCost: [],
-        pc: [],
-        del: [],
-        financial: {
-          TotalGrossPayment: null,
-          TotalNetPayment: null,
-          TotalGrossRequest: null,
-          TotalNetRequest: null,
-          TotalInvoice: null,
-          FinancialProgress: null,
-          PaymentDeviation: null,
-          Date: null,
-          LastPaymentDate: null, LastRequestDate: null
-        }
-      };
+      if (this.stepFormsData.financialRequests.length > 0 || this.stepFormsData.financialPayments.length > 0) {
+        this.lasts = {
+          costAssignedReses: [],
+          calcs: [],
+          serviceCost: [],
+          pc: [],
+          del: [],
+          financial: {
+            TotalGrossPayment: null,
+            TotalNetPayment: null,
+            TotalGrossRequest: null,
+            TotalNetRequest: null,
+            TotalInvoice: null,
+            FinancialProgress: null,
+            PaymentDeviation: null,
+            Date: null,
+            LastPaymentDate: null, LastRequestDate: null
+          }
+        };
+      } else {
+        this.lasts = {
+          costAssignedReses: [],
+          calcs: [],
+          serviceCost: [],
+          pc: [],
+          del: [],
+          financial: {
+            TotalGrossPayment: null,
+            TotalNetPayment: null,
+            TotalGrossRequest: null,
+            TotalNetRequest: null,
+            TotalInvoice: null,
+            FinancialProgress: null,
+            PaymentDeviation: null,
+            Date: null,
+            LastPaymentDate: null, LastRequestDate: null
+          }
+        };
+      }
     }
 
     this.transferSite();
@@ -177,7 +200,9 @@ export class SiteCreationComponent implements OnInit {
       () => {
         this.createCosts();
         this.createDeliverables();
-        this.createPCs();
+        if (!this.isPreContract) {
+          this.createPCs();
+        }
         this.createVersion();
       }
     );
@@ -190,16 +215,19 @@ export class SiteCreationComponent implements OnInit {
 
         // Not in chain
         this.createStakeHolders();
-        if (this.stepFormsData.financialRequests) {
-          if (this.stepFormsData.financialRequests.length > 0) {
-            this.createFinacialRequests();
+        if (!this.isPreContract) {
+          if (this.stepFormsData.financialRequests) {
+            if (this.stepFormsData.financialRequests.length > 0) {
+              this.createFinacialRequests();
+            }
+          }
+          if (this.stepFormsData.financialPayments) {
+            if (this.stepFormsData.financialPayments.length > 0) {
+              this.createFinacialPayments();
+            }
           }
         }
-        if (this.stepFormsData.financialPayments) {
-          if (this.stepFormsData.financialPayments.length > 0) {
-            this.createFinacialPayments();
-          }
-        }
+
         this.createBasic();
 
 
@@ -240,19 +268,26 @@ export class SiteCreationComponent implements OnInit {
     console.log(this.versionCheck);
     // console.log(this.contractData);
     let isValid = false;
-    if (this.stepFormsData.financialRequests || this.stepFormsData.financialPayments) {
-      if (!this.stepFormsData.financialPayments && this.stepFormsData.financialRequests) {
-        if (this.versionCheck === 5 && this.financialCounter === this.stepFormsData.financialRequests.length) {
-          isValid = true;
-        }
-      } else if (!this.stepFormsData.financialRequests && this.stepFormsData.financialPayments) {
-        if (this.versionCheck === 5 && this.financialCounter === this.stepFormsData.financialPayments.length) {
-          isValid = true;
-        }
-      } else if (this.versionCheck === 5 && this.financialCounter === this.stepFormsData.financialPayments.length + this.stepFormsData.financialRequests.length) {
+    if (this.isPreContract) {
+      if (this.versionCheck === 4) {
         isValid = true;
       }
+    } else {
+      if (this.stepFormsData.financialRequests || this.stepFormsData.financialPayments) {
+        if (!this.stepFormsData.financialPayments && this.stepFormsData.financialRequests) {
+          if (this.versionCheck === 5 && this.financialCounter === this.stepFormsData.financialRequests.length) {
+            isValid = true;
+          }
+        } else if (!this.stepFormsData.financialRequests && this.stepFormsData.financialPayments) {
+          if (this.versionCheck === 5 && this.financialCounter === this.stepFormsData.financialPayments.length) {
+            isValid = true;
+          }
+        } else if (this.versionCheck === 5 && this.financialCounter === this.stepFormsData.financialPayments.length + this.stepFormsData.financialRequests.length) {
+          isValid = true;
+        }
+      }
     }
+
     if (isValid) {
       const data: { DDate, Basic, CostCode, FinishDateCode, PCRelation, DelPropsRev } = {
         DDate: moment(this.stepFormsData.contractsForm.DeclareDate_FinishDates_And_Costs, 'jYYYY/jM/jD').format('MM/DD/YYYY'),
@@ -264,70 +299,72 @@ export class SiteCreationComponent implements OnInit {
       };
       this.tempTransfer.getDataFromContextInfo().subscribe(
         (digestValue) => {
-          this.tempTransfer.createVersion(digestValue, this.contractID, data).subscribe(
+          this.tempTransfer.createVersion(digestValue, this.contractID, data, this.isPreContract).subscribe(
             (rData: any) => {
               const importerDates = this.stepFormsData.finalApprovalForm.filter(v => {
                 if (v.role !== 'PM' && v.role !== 'PMOExpert' && v.isApproved) {
                   return v;
                 }
               });
-              if (this.stepFormsData.financialRequests.length > 0 || this.stepFormsData.financialPayments.length > 0) {
-                console.log(this.lasts.financial);
-                let lastRequestDate = null;
-                if (this.lasts.financial.LastRequestDate) {
-                  lastRequestDate = this.lasts.financial.LastRequestDate.sort((a, b) => +new Date(b) - +new Date(a))[0];
-                  this.lasts.financial.LastRequestDate = moment(lastRequestDate).format('jYYYY/jM/jD');
-                }
-                let lastPaymentDate = null;
-                if (this.lasts.financial.LastPaymentDate) {
-                  lastPaymentDate = this.lasts.financial.LastPaymentDate.sort((a, b) => +new Date(b) - +new Date(a))[0];
-                  this.lasts.financial.LastPaymentDate = moment(lastPaymentDate).format('jYYYY/jM/jD');
-                }
-                let date = lastRequestDate;
-                if (+new Date(lastPaymentDate) > +new Date(lastRequestDate)) {
-                  date = lastPaymentDate;
-                }
-                // this.lasts.financial.Date = importerDates[importerDates.length - 1].date;
-                this.lasts.financial.Date = moment(date).format('jYYYY/jM/jD');
-                this.lasts.financial.PaymentDeviation = (this.lasts.financial.TotalNetRequest - +this.lasts.financial.TotalNetPayment) / this.lasts.financial.TotalNetRequest;
-                this.lasts.financial.FinancialProgress = +this.lasts.financial.TotalInvoice / +this.stepFormsData.contractsForm.Cost_Costs;
-                const uniqueItems = Array.from(new Set(this.pcCalcsTemp.map(v => +v.Service)));
-                console.log(this.pcCalcsTemp.sort((a, b) => +a.PC - +b.PC));
-                console.log(uniqueItems);
-                for (let i = 0; i < uniqueItems.length; i++) {
-                  const financialLasts = this.pcCalcsTemp.sort((a, b) => +a.PC - +b.PC).filter(v => +v.Service === +uniqueItems[i]);
-                  const financialLast = financialLasts[financialLasts.length - 1];
-                  console.log(financialLast);
-                  // if (financialLast) {
-                  this.lasts.calcs.push({
-                    Service: uniqueItems[i],
-                    Date: importerDates[importerDates.length - 1].date,
-                    ProgressDeviation: financialLast.ProgressDeviation,
-                    Speed30D: financialLast.Speed,
-                    TimeDeviation: financialLast.TimeDeviation,
-                    Speed4Ontime: financialLast.Speed4OnTime,
-                    FinishTimeForecast: financialLast.FinishTimeForecast,
-                    FinishTimeForecast90: financialLast.FinishTimeForecast90,
-                    Speed90D: financialLast.Speed90D
-                  });
-                  // }
-                }
-              } else {
-                const uniqueItems = Array.from(new Set(this.pcCalcsTemp.map(v => +v.Service)));
-                for (let i = 0; i < uniqueItems.length; i++) {
-                  const financialLasts = this.pcCalcsTemp.sort((a, b) => +a.PC - +b.PC).filter(v => +v.Service === +uniqueItems[i]);
-                  const financialLast = financialLasts[financialLasts.length - 1];
-                  this.lasts.calcs.push({
-                    Service: uniqueItems[i],
-                    Date: importerDates[importerDates.length - 1].date,
-                    ProgressDeviation: financialLast.ProgressDeviation,
-                    Speed30D: financialLast.Speed,
-                    TimeDeviation: financialLast.TimeDeviation,
-                    Speed4Ontime: financialLast.Speed4OnTime,
-                    FinishTimeForecast: financialLast.FinishTimeForecast,
-                    FinishTimeForecast90: financialLast.FinishTimeForecast90,
-                    Speed90D: financialLast.Speed90D
-                  });
+              if (!this.isPreContract) {
+                if (this.stepFormsData.financialRequests.length > 0 || this.stepFormsData.financialPayments.length > 0) {
+                  console.log(this.lasts.financial);
+                  let lastRequestDate = null;
+                  if (this.lasts.financial.LastRequestDate) {
+                    lastRequestDate = this.lasts.financial.LastRequestDate.sort((a, b) => +new Date(b) - +new Date(a))[0];
+                    this.lasts.financial.LastRequestDate = moment(lastRequestDate).format('jYYYY/jM/jD');
+                  }
+                  let lastPaymentDate = null;
+                  if (this.lasts.financial.LastPaymentDate) {
+                    lastPaymentDate = this.lasts.financial.LastPaymentDate.sort((a, b) => +new Date(b) - +new Date(a))[0];
+                    this.lasts.financial.LastPaymentDate = moment(lastPaymentDate).format('jYYYY/jM/jD');
+                  }
+                  let date = lastRequestDate;
+                  if (+new Date(lastPaymentDate) > +new Date(lastRequestDate)) {
+                    date = lastPaymentDate;
+                  }
+                  // this.lasts.financial.Date = importerDates[importerDates.length - 1].date;
+                  this.lasts.financial.Date = moment(date).format('jYYYY/jM/jD');
+                  this.lasts.financial.PaymentDeviation = (this.lasts.financial.TotalNetRequest - +this.lasts.financial.TotalNetPayment) / this.lasts.financial.TotalNetRequest;
+                  this.lasts.financial.FinancialProgress = +this.lasts.financial.TotalInvoice / +this.stepFormsData.contractsForm.Cost_Costs;
+                  const uniqueItems = Array.from(new Set(this.pcCalcsTemp.map(v => +v.Service)));
+                  console.log(this.pcCalcsTemp.sort((a, b) => +a.PC - +b.PC));
+                  console.log(uniqueItems);
+                  for (let i = 0; i < uniqueItems.length; i++) {
+                    const financialLasts = this.pcCalcsTemp.sort((a, b) => +a.PC - +b.PC).filter(v => +v.Service === +uniqueItems[i]);
+                    const financialLast = financialLasts[financialLasts.length - 1];
+                    console.log(financialLast);
+                    // if (financialLast) {
+                    this.lasts.calcs.push({
+                      Service: uniqueItems[i],
+                      Date: importerDates[importerDates.length - 1].date,
+                      ProgressDeviation: financialLast.ProgressDeviation,
+                      Speed30D: financialLast.Speed,
+                      TimeDeviation: financialLast.TimeDeviation,
+                      Speed4Ontime: financialLast.Speed4OnTime,
+                      FinishTimeForecast: financialLast.FinishTimeForecast,
+                      FinishTimeForecast90: financialLast.FinishTimeForecast90,
+                      Speed90D: financialLast.Speed90D
+                    });
+                    // }
+                  }
+                } else {
+                  const uniqueItems = Array.from(new Set(this.pcCalcsTemp.map(v => +v.Service)));
+                  for (let i = 0; i < uniqueItems.length; i++) {
+                    const financialLasts = this.pcCalcsTemp.sort((a, b) => +a.PC - +b.PC).filter(v => +v.Service === +uniqueItems[i]);
+                    const financialLast = financialLasts[financialLasts.length - 1];
+                    this.lasts.calcs.push({
+                      Service: uniqueItems[i],
+                      Date: importerDates[importerDates.length - 1].date,
+                      ProgressDeviation: financialLast.ProgressDeviation,
+                      Speed30D: financialLast.Speed,
+                      TimeDeviation: financialLast.TimeDeviation,
+                      Speed4Ontime: financialLast.Speed4OnTime,
+                      FinishTimeForecast: financialLast.FinishTimeForecast,
+                      FinishTimeForecast90: financialLast.FinishTimeForecast90,
+                      Speed90D: financialLast.Speed90D
+                    });
+                  }
                 }
               }
 
@@ -335,8 +372,8 @@ export class SiteCreationComponent implements OnInit {
               console.log(this.pcCalcsTemp);
               console.log('Done!', this.lasts, 'lasts');
               this.tempTransfer.getDataFromContextInfo().subscribe(
-                (digestValue) => {
-                  this.tempTransfer.updateContract(digestValue, this.contractID, this.lasts).subscribe();
+                (dg) => {
+                  this.tempTransfer.updateContract(dg, this.contractID, this.lasts).subscribe();
                   this.router.navigate(['/contract'], {queryParams: {'ID': this.contractID}});
                 }
               );
@@ -355,6 +392,10 @@ export class SiteCreationComponent implements OnInit {
         this.sharedService.getContractCurrencies().subscribe(
           (currencies) => {
             this.services = services;
+            let contractor = null;
+            if (!this.isPreContract) {
+              contractor = this.stepFormsData.contractsForm.Id_Contractor.Id;
+            }
             const data: { Title, ShortTitle, Number, Subject_Contract, StartDate, GuaranteePeriod, Unit, SubUnit, Currency, PMOExpert, PM, Contractor, RaiPart, Importer, Standards, Service, Zone, ContractKind, VersionCode } = {
               Title: this.stepFormsData.contractsForm.FullTitle_Contract,
               ShortTitle: this.stepFormsData.contractsForm.ShortTitle_Contract,
@@ -367,7 +408,7 @@ export class SiteCreationComponent implements OnInit {
               Currency: currencies.filter(v => v.Id === this.stepFormsData.contractsForm.Id_Currency)[0].currencyID,
               PMOExpert: this.stepFormsData.contractsForm.PMOExpertId_User,
               PM: this.stepFormsData.contractsForm.PMId_User.Id,
-              Contractor: this.stepFormsData.contractsForm.Id_Contractor.Id,
+              Contractor: contractor,
               RaiPart: this.stepFormsData.contractsForm.SignatoryRaiParts,
               Importer: this.stepFormsData.contractsForm.Id_Importer,
               Standards: this.stepFormsData.contractsForm.Standards_Contract,
@@ -379,7 +420,7 @@ export class SiteCreationComponent implements OnInit {
             // console.log(data);
             this.tempTransfer.getDataFromContextInfo().subscribe(
               (digestValue) => {
-                this.tempTransfer.createBasic(digestValue, this.contractID, data).subscribe(
+                this.tempTransfer.createBasic(digestValue, this.contractID, data, true, this.isPreContract).subscribe(
                   (rData: any) => {
                     this.contractData.Basic = {ID: rData.d.Id};
                     this.versionCheck++;
@@ -824,7 +865,7 @@ export class SiteCreationComponent implements OnInit {
           });
           this.tempTransfer.getDataFromContextInfo().subscribe(
             (digestValue) => {
-              this.tempTransfer.createDelItems(digestValue, this.contractID, data).subscribe(
+              this.tempTransfer.createDelItems(digestValue, this.contractID, data, this.isPreContract).subscribe(
                 (rData: any) => {
                   this.contractData.DelItems = {ID: rData.d.Id};
                   this.createDelItemsSubject.next(true);
@@ -848,7 +889,7 @@ export class SiteCreationComponent implements OnInit {
       });
       this.tempTransfer.getDataFromContextInfo().subscribe(
         (digestValue) => {
-          this.tempTransfer.createDelProps(digestValue, this.contractID, data[i]).subscribe(
+          this.tempTransfer.createDelProps(digestValue, this.contractID, data[i], this.isPreContract).subscribe(
             (rData: any) => {
               this.createDelPropsRevs(rData.d.Id, totalValue, kinds[i], zones, delData, delDate);
               // this.contractData.DelItems = {ID: rData.d.Id};
@@ -874,7 +915,7 @@ export class SiteCreationComponent implements OnInit {
     }
     this.tempTransfer.getDataFromContextInfo().subscribe(
       (digestValue) => {
-        this.tempTransfer.createDelPropsRevs(digestValue, this.contractID, data).subscribe(
+        this.tempTransfer.createDelPropsRevs(digestValue, this.contractID, data, this.isPreContract).subscribe(
           (rData: any) => {
             this.contractData.DelPropsRev.push({ID: rData.d.Id});
             this.delCounts++;
@@ -911,7 +952,7 @@ export class SiteCreationComponent implements OnInit {
               };
               this.tempTransfer.getDataFromContextInfo().subscribe(
                 (digestValue) => {
-                  this.tempTransfer.createDels(digestValue, this.contractID, data2).subscribe(
+                  this.tempTransfer.createDels(digestValue, this.contractID, data2, this.isPreContract).subscribe(
                     (rData: any) => {
                       // this.contractData.DelItems = {ID: rData.d.Id};
                     }
@@ -940,7 +981,7 @@ export class SiteCreationComponent implements OnInit {
               };
               this.tempTransfer.getDataFromContextInfo().subscribe(
                 (digestValue) => {
-                  this.tempTransfer.createDels(digestValue, this.contractID, data2).subscribe(
+                  this.tempTransfer.createDels(digestValue, this.contractID, data2, this.isPreContract).subscribe(
                     (rData: any) => {
                       // this.contractData.DelItems = {ID: rData.d.Id};
                     }
@@ -1097,7 +1138,7 @@ export class SiteCreationComponent implements OnInit {
         });
         this.tempTransfer.getDataFromContextInfo().subscribe(
           (digestValue) => {
-            this.tempTransfer.createCashFlowPlans(digestValue, this.contractID, data[i]).subscribe(
+            this.tempTransfer.createCashFlowPlans(digestValue, this.contractID, data[i], this.isPreContract).subscribe(
               (rData: any) => {
               }
             );
@@ -1117,7 +1158,7 @@ export class SiteCreationComponent implements OnInit {
     };
     this.tempTransfer.getDataFromContextInfo().subscribe(
       (digestValue) => {
-        this.tempTransfer.createCashFlowPlansProp(digestValue, this.contractID, data).subscribe(
+        this.tempTransfer.createCashFlowPlansProp(digestValue, this.contractID, data, this.isPreContract).subscribe(
           (rData: any) => {
             this.contractData.CashFlowPlansProp = {ID: rData.d.ID};
             this.createCashFlowPlansPropSubject.next(true);
@@ -1145,7 +1186,7 @@ export class SiteCreationComponent implements OnInit {
       });
       this.tempTransfer.getDataFromContextInfo().subscribe(
         (digestValue) => {
-          this.tempTransfer.createStakeHolders(digestValue, this.contractID, data[i]).subscribe();
+          this.tempTransfer.createStakeHolders(digestValue, this.contractID, data[i], this.isPreContract).subscribe();
         }
       );
     }
@@ -1164,7 +1205,7 @@ export class SiteCreationComponent implements OnInit {
       });
       this.tempTransfer.getDataFromContextInfo().subscribe(
         (digestValue) => {
-          this.tempTransfer.createStakeHolders(digestValue, this.contractID, dataNotPillar[i]).subscribe();
+          this.tempTransfer.createStakeHolders(digestValue, this.contractID, dataNotPillar[i], this.isPreContract).subscribe();
         }
       );
     }
@@ -1186,7 +1227,7 @@ export class SiteCreationComponent implements OnInit {
       });
       this.tempTransfer.getDataFromContextInfo().subscribe(
         (digestValue) => {
-          this.tempTransfer.createAssignedCostReses(digestValue, this.contractID, data[i]).subscribe(
+          this.tempTransfer.createAssignedCostReses(digestValue, this.contractID, data[i], this.isPreContract).subscribe(
             (rData: any) => {
             }
           );
@@ -1295,7 +1336,7 @@ export class SiteCreationComponent implements OnInit {
           //  }
           this.tempTransfer.getDataFromContextInfo().subscribe(
             (digestValue) => {
-              this.tempTransfer.createServiceCosts(digestValue, this.contractID, data[i]).subscribe(
+              this.tempTransfer.createServiceCosts(digestValue, this.contractID, data[i], this.isPreContract).subscribe(
                 (rData: any) => {
                   this.contractData.ServiceCosts.push({ID: rData.d.ID});
                   this.createServiceCostsSubject.next(true);
@@ -1316,7 +1357,7 @@ export class SiteCreationComponent implements OnInit {
     };
     this.tempTransfer.getDataFromContextInfo().subscribe(
       (digestValue) => {
-        this.tempTransfer.createCosts(digestValue, this.contractID, data).subscribe(
+        this.tempTransfer.createCosts(digestValue, this.contractID, data, this.isPreContract).subscribe(
           (rData: any) => {
             this.contractData.Costs = {ID: rData.d.ID};
             this.versionCheck++;
@@ -1335,7 +1376,7 @@ export class SiteCreationComponent implements OnInit {
     };
     this.tempTransfer.getDataFromContextInfo().subscribe(
       (digestValue) => {
-        this.tempTransfer.createFinishDate(digestValue, this.contractID, data).subscribe(
+        this.tempTransfer.createFinishDate(digestValue, this.contractID, data, this.isPreContract).subscribe(
           (rData: any) => {
             this.contractData.FinishDates = {ID: rData.d.ID};
             this.versionCheck++;

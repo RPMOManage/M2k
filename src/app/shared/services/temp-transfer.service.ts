@@ -29,24 +29,41 @@ export class TempTransferService {
   }
 
 
-  createVersion(DigestValue: any, id: number, data: { DDate, Basic, CostCode, FinishDateCode, PCRelation, DelPropsRev }) {
+  createVersion(DigestValue: any, id: number, data: { DDate, Basic, CostCode, FinishDateCode, PCRelation, DelPropsRev }, isPreContract = false) {
     const headers = new HttpHeaders({
       'X-RequestDigest': DigestValue,
       'content-type': 'application/json;odata=verbose',
       'accept': 'application/json;odata=verbose',
     });
+    let body;
+    let url;
     // console.log(data);
-    const body = {
-      '__metadata': {'type': 'SP.Data.VersionsListItem'},
-      DDate: data.DDate,
-      BasicId: {'results': [data.Basic]},
-      CostCodeId: {'results': [data.CostCode]},
-      FinishDateCodeId: {'results': [data.FinishDateCode]},
-      PCRelationId: {'results': data.PCRelation},
-      DelPropsRevId: {'results': data.DelPropsRev},
-    };
+    if (isPreContract) {
+      url = 'http://rpmo.rai.ir/PWA/' + id + '/pre-test-1/_api/web/lists/getbytitle(\'Versions\')/items';
+      body = {
+        '__metadata': {'type': 'SP.Data.VersionsListItem'},
+        DDate: data.DDate,
+        BasicId: {'results': [data.Basic]},
+        CostCodeId: {'results': [data.CostCode]},
+        FinishDateCodeId: {'results': [data.FinishDateCode]},
+        PCRelationId: {'results': data.PCRelation},
+        DelPropsRevId: {'results': data.DelPropsRev},
+      };
+    } else {
+      url = 'http://rpmo.rai.ir/PWA/' + id + '/_api/web/lists/getbytitle(\'Versions\')/items';
+      body = {
+        '__metadata': {'type': 'SP.Data.VersionsListItem'},
+        DDate: data.DDate,
+        BasicId: {'results': [data.Basic]},
+        CostCodeId: {'results': [data.CostCode]},
+        FinishDateCodeId: {'results': [data.FinishDateCode]},
+        PCRelationId: {'results': data.PCRelation},
+        DelPropsRevId: {'results': data.DelPropsRev},
+      };
+    }
+
     return this.http.post(
-      'http://rpmo.rai.ir/PWA/' + id + '/_api/web/lists/getbytitle(\'Versions\')/items',
+      url,
       body,
       {headers: headers}
     );
@@ -140,7 +157,7 @@ export class TempTransferService {
     );
   }
 
-  createContract(DigestValue: any, data: { Title, ShortTitle, Number, Subject_Contract, StartDate, DDate, GuaranteePeriod, Unit, SubUnit, Currency, PMOExpert, PM, Contractor, RaiPart, Importer, Standards, Service, Zone, ContractKind, Cost, VersionCode, Del_Last, FinishDate }, isPreContract) {
+  createContract(DigestValue: any, data: { Title, ShortTitle, Number, Subject_Contract, StartDate, DDate, GuaranteePeriod, Unit, SubUnit, Currency, PMOExpert, PM, Contractor, RaiPart, Importer, Standards, Service, Zone, ContractKind, Cost, VersionCode, Del_Last, FinishDate }, isPreContract = false) {
     const headers = new HttpHeaders({
       'X-RequestDigest': DigestValue,
       'content-type': 'application/json;odata=verbose',
@@ -209,7 +226,7 @@ export class TempTransferService {
     );
   }
 
-  createBasic(DigestValue: any, id: number, data: { Title, ShortTitle, Number, Subject_Contract, StartDate, GuaranteePeriod, Unit, SubUnit, Currency, PMOExpert, PM, Contractor, RaiPart, Importer, Standards, Service, Zone, ContractKind, VersionCode }, isFirst = true) {
+  createBasic(DigestValue: any, id: number, data: { Title, ShortTitle, Number, Subject_Contract, StartDate, GuaranteePeriod, Unit, SubUnit, Currency, PMOExpert, PM, Contractor, RaiPart, Importer, Standards, Service, Zone, ContractKind, VersionCode }, isFirst = true, isPreContract = false) {
     const headers = new HttpHeaders({
       'X-RequestDigest': DigestValue,
       'content-type': 'application/json;odata=verbose',
@@ -220,7 +237,14 @@ export class TempTransferService {
     if (!isFirst) {
       versionID = data.VersionCode;
     }
-    const body = {
+    let body;
+    let url;
+    if (isPreContract) {
+      url = 'http://rpmo.rai.ir/PWA/' + id + '/pre-test-1/_api/web/lists/getbytitle(\'Basics\')/items';
+    } else {
+      url = 'http://rpmo.rai.ir/PWA/' + id + '/_api/web/lists/getbytitle(\'Basics\')/items';
+    }
+    body = {
       '__metadata': {'type': 'SP.Data.BasicsListItem'},
       Title: data.Title,
       ShortTitle: data.ShortTitle,
@@ -243,7 +267,7 @@ export class TempTransferService {
       ZoneId: {'results': data.Zone},
     };
     return this.http.post(
-      'http://rpmo.rai.ir/PWA/' + id + '/_api/web/lists/getbytitle(\'Basics\')/items',
+      url,
       body,
       {headers: headers}
     );
@@ -339,7 +363,7 @@ export class TempTransferService {
     );
   }
 
-  createDels(DigestValue: any, id: number, data: { Date, Zone, Value, DelPropsRev }) {
+  createDels(DigestValue: any, id: number, data: { Date, Zone, Value, DelPropsRev }, isPreContract = false) {
     const headers = new HttpHeaders({
       'X-RequestDigest': DigestValue,
       'content-type': 'application/json;odata=verbose',
@@ -347,6 +371,12 @@ export class TempTransferService {
     });
     // console.log(data);
     let body;
+    let url;
+    if (isPreContract) {
+      url = 'http://rpmo.rai.ir/PWA/' + id + '/pre-test-1/_api/web/lists/getbytitle(\'Dels\')/items';
+    } else {
+      url = 'http://rpmo.rai.ir/PWA/' + id + '/_api/web/lists/getbytitle(\'Dels\')/items';
+    }
     if (data.Zone) {
       body = {
         '__metadata': {'type': 'SP.Data.DelsListItem'},
@@ -364,18 +394,24 @@ export class TempTransferService {
       };
     }
     return this.http.post(
-      'http://rpmo.rai.ir/PWA/' + id + '/_api/web/lists/getbytitle(\'Dels\')/items',
+      url,
       body,
       {headers: headers}
     );
   }
 
-  createDelPropsRevs(DigestValue: any, id: number, data: { DelProp, RevNumber, DDate, FinishDateCode, TotalValue }) {
+  createDelPropsRevs(DigestValue: any, id: number, data: { DelProp, RevNumber, DDate, FinishDateCode, TotalValue }, isPreContract = false) {
     const headers = new HttpHeaders({
       'X-RequestDigest': DigestValue,
       'content-type': 'application/json;odata=verbose',
       'accept': 'application/json;odata=verbose',
     });
+    let url;
+    if (isPreContract) {
+      url = 'http://rpmo.rai.ir/PWA/' + id + '/pre-test-1/_api/web/lists/getbytitle(\'DelPropsRevs\')/items';
+    } else {
+      url = 'http://rpmo.rai.ir/PWA/' + id + '/_api/web/lists/getbytitle(\'DelPropsRevs\')/items';
+    }
     const body = {
       '__metadata': {'type': 'SP.Data.DelPropsRevsListItem'},
       DelPropId: data.DelProp,
@@ -385,43 +421,55 @@ export class TempTransferService {
       TotalValue: data.TotalValue,
     };
     return this.http.post(
-      'http://rpmo.rai.ir/PWA/' + id + '/_api/web/lists/getbytitle(\'DelPropsRevs\')/items',
+      url,
       body,
       {headers: headers}
     );
   }
 
-  createDelProps(DigestValue: any, id: number, data: { DelItem, Kind }) {
+  createDelProps(DigestValue: any, id: number, data: { DelItem, Kind }, isPreContract = false) {
     const headers = new HttpHeaders({
       'X-RequestDigest': DigestValue,
       'content-type': 'application/json;odata=verbose',
       'accept': 'application/json;odata=verbose',
     });
+    let url;
+    if (isPreContract) {
+      url = 'http://rpmo.rai.ir/PWA/' + id + '/pre-test-1/_api/web/lists/getbytitle(\'DelProps\')/items';
+    } else {
+      url = 'http://rpmo.rai.ir/PWA/' + id + '/_api/web/lists/getbytitle(\'DelProps\')/items';
+    }
     const body = {
       '__metadata': {'type': 'SP.Data.DelPropsListItem'},
       DelItemId: data.DelItem,
       Kind: data.Kind,
     };
     return this.http.post(
-      'http://rpmo.rai.ir/PWA/' + id + '/_api/web/lists/getbytitle(\'DelProps\')/items',
+      url,
       body,
       {headers: headers}
     );
   }
 
-  createDelItems(DigestValue: any, id: number, data: { Deliverable, OperationType }) {
+  createDelItems(DigestValue: any, id: number, data: { Deliverable, OperationType }, isPreContract = false) {
     const headers = new HttpHeaders({
       'X-RequestDigest': DigestValue,
       'content-type': 'application/json;odata=verbose',
       'accept': 'application/json;odata=verbose',
     });
+    let url;
+    if (isPreContract) {
+      url = 'http://rpmo.rai.ir/PWA/' + id + '/pre-test-1/_api/web/lists/getbytitle(\'DelItems\')/items';
+    } else {
+      url = 'http://rpmo.rai.ir/PWA/' + id + '/_api/web/lists/getbytitle(\'DelItems\')/items';
+    }
     const body = {
       '__metadata': {'type': 'SP.Data.DelItemsListItem'},
       DeliverableId: data.Deliverable,
       OperationTypeId: {'results': [data.OperationType]},
     };
     return this.http.post(
-      'http://rpmo.rai.ir/PWA/' + id + '/_api/web/lists/getbytitle(\'DelItems\')/items',
+      url,
       body,
       {headers: headers}
     );
@@ -499,12 +547,18 @@ export class TempTransferService {
     );
   }
 
-  createStakeHolders(DigestValue: any, id: number, data: { OrgName, Role, AgentName, AgentPosition, PhoneNumber, LocationAddress, Email, IsPillar, DDate }) {
+  createStakeHolders(DigestValue: any, id: number, data: { OrgName, Role, AgentName, AgentPosition, PhoneNumber, LocationAddress, Email, IsPillar, DDate }, isPreContract = false) {
     const headers = new HttpHeaders({
       'X-RequestDigest': DigestValue,
       'content-type': 'application/json;odata=verbose',
       'accept': 'application/json;odata=verbose',
     });
+    let url;
+    if (isPreContract) {
+      url = 'http://rpmo.rai.ir/PWA/' + id + '/pre-test-1/_api/web/lists/getbytitle(\'StakeHolders\')/items';
+    } else {
+      url = 'http://rpmo.rai.ir/PWA/' + id + '/_api/web/lists/getbytitle(\'StakeHolders\')/items';
+    }
     const body = {
       '__metadata': {'type': 'SP.Data.StakeHoldersListItem'},
       OrgName: data.OrgName,
@@ -518,18 +572,24 @@ export class TempTransferService {
       DDate: data.DDate
     };
     return this.http.post(
-      'http://rpmo.rai.ir/PWA/' + id + '/_api/web/lists/getbytitle(\'StakeHolders\')/items',
+      url,
       body,
       {headers: headers}
     );
   }
 
-  createAssignedCostReses(DigestValue: any, id: number, data: { CostCode, DDate, CostResource, Cost }) {
+  createAssignedCostReses(DigestValue: any, id: number, data: { CostCode, DDate, CostResource, Cost }, isPreContract = false) {
     const headers = new HttpHeaders({
       'X-RequestDigest': DigestValue,
       'content-type': 'application/json;odata=verbose',
       'accept': 'application/json;odata=verbose',
     });
+    let url;
+    if (isPreContract) {
+      url = 'http://rpmo.rai.ir/PWA/' + id + '/pre-test-1/_api/web/lists/getbytitle(\'AssignedCostReses\')/items';
+    } else {
+      url = 'http://rpmo.rai.ir/PWA/' + id + '/_api/web/lists/getbytitle(\'AssignedCostReses\')/items';
+    }
     const body = {
       '__metadata': {'type': 'SP.Data.AssignedCostResesListItem'},
       CostCodeId: {'results': [data.CostCode]},
@@ -538,18 +598,24 @@ export class TempTransferService {
       Cost: data.Cost,
     };
     return this.http.post(
-      'http://rpmo.rai.ir/PWA/' + id + '/_api/web/lists/getbytitle(\'AssignedCostReses\')/items',
+      url,
       body,
       {headers: headers}
     );
   }
 
-  createServiceCosts(DigestValue: any, id: number, data: { CostCode, DDate, Service, Cost }) {
+  createServiceCosts(DigestValue: any, id: number, data: { CostCode, DDate, Service, Cost }, isPreContract = false) {
     const headers = new HttpHeaders({
       'X-RequestDigest': DigestValue,
       'content-type': 'application/json;odata=verbose',
       'accept': 'application/json;odata=verbose',
     });
+    let url;
+    if (isPreContract) {
+      url = 'http://rpmo.rai.ir/PWA/' + id + '/pre-test-1/_api/web/lists/getbytitle(\'ServiceCosts\')/items';
+    } else {
+      url = 'http://rpmo.rai.ir/PWA/' + id + '/_api/web/lists/getbytitle(\'ServiceCosts\')/items';
+    }
     const body = {
       '__metadata': {'type': 'SP.Data.ServiceCostsListItem'},
       CostCodeId: {'results': [data.CostCode]},
@@ -558,18 +624,24 @@ export class TempTransferService {
       Cost: data.Cost,
     };
     return this.http.post(
-      'http://rpmo.rai.ir/PWA/' + id + '/_api/web/lists/getbytitle(\'ServiceCosts\')/items',
+      url,
       body,
       {headers: headers}
     );
   }
 
-  createCashFlowPlans(DigestValue: any, id: number, data: { CashFlowPlansPropCode, Date, Cost }) {
+  createCashFlowPlans(DigestValue: any, id: number, data: { CashFlowPlansPropCode, Date, Cost }, isPreContract = false) {
     const headers = new HttpHeaders({
       'X-RequestDigest': DigestValue,
       'content-type': 'application/json;odata=verbose',
       'accept': 'application/json;odata=verbose',
     });
+    let url;
+    if (isPreContract) {
+      url = 'http://rpmo.rai.ir/PWA/' + id + '/pre-test-1/_api/web/lists/getbytitle(\'CashFlowPlans\')/items';
+    } else {
+      url = 'http://rpmo.rai.ir/PWA/' + id + '/_api/web/lists/getbytitle(\'CashFlowPlans\')/items';
+    }
     const body = {
       '__metadata': {'type': 'SP.Data.CashFlowPlansListItem'},
       CashFlowPlansPropCodeId: data.CashFlowPlansPropCode,
@@ -577,18 +649,24 @@ export class TempTransferService {
       Cost: data.Cost,
     };
     return this.http.post(
-      'http://rpmo.rai.ir/PWA/' + id + '/_api/web/lists/getbytitle(\'CashFlowPlans\')/items',
+      url,
       body,
       {headers: headers}
     );
   }
 
-  createCashFlowPlansProp(DigestValue: any, id: number, data: { DDate, CostCode, FinishDateCode }) {
+  createCashFlowPlansProp(DigestValue: any, id: number, data: { DDate, CostCode, FinishDateCode }, isPreContract = false) {
     const headers = new HttpHeaders({
       'X-RequestDigest': DigestValue,
       'content-type': 'application/json;odata=verbose',
       'accept': 'application/json;odata=verbose',
     });
+    let url;
+    if (isPreContract) {
+      url = 'http://rpmo.rai.ir/PWA/' + id + '/pre-test-1/_api/web/lists/getbytitle(\'CashFlowPlansProp\')/items';
+    } else {
+      url = 'http://rpmo.rai.ir/PWA/' + id + '/_api/web/lists/getbytitle(\'CashFlowPlansProp\')/items';
+    }
     const body = {
       '__metadata': {'type': 'SP.Data.CashFlowPlansPropListItem'},
       DDate: data.DDate,
@@ -596,18 +674,24 @@ export class TempTransferService {
       FinishDateCodeId: {'results': [data.FinishDateCode]},
     };
     return this.http.post(
-      'http://rpmo.rai.ir/PWA/' + id + '/_api/web/lists/getbytitle(\'CashFlowPlansProp\')/items',
+      url,
       body,
       {headers: headers}
     );
   }
 
-  createCosts(DigestValue: any, id: number, data: { DDate, Cost, EqCost }) {
+  createCosts(DigestValue: any, id: number, data: { DDate, Cost, EqCost }, isPreContract = false) {
     const headers = new HttpHeaders({
       'X-RequestDigest': DigestValue,
       'content-type': 'application/json;odata=verbose',
       'accept': 'application/json;odata=verbose',
     });
+    let url;
+    if (isPreContract) {
+      url = 'http://rpmo.rai.ir/PWA/' + id + '/pre-test-1/_api/web/lists/getbytitle(\'Costs\')/items';
+    } else {
+      url = 'http://rpmo.rai.ir/PWA/' + id + '/_api/web/lists/getbytitle(\'Costs\')/items';
+    }
     const body = {
       '__metadata': {'type': 'SP.Data.CostsListItem'},
       DDate: data.DDate,
@@ -615,25 +699,31 @@ export class TempTransferService {
       EqCost: data.EqCost,
     };
     return this.http.post(
-      'http://rpmo.rai.ir/PWA/' + id + '/_api/web/lists/getbytitle(\'Costs\')/items',
+      url,
       body,
       {headers: headers}
     );
   }
 
-  createFinishDate(DigestValue: any, id: number, data: { DDate, FinishDate }) {
+  createFinishDate(DigestValue: any, id: number, data: { DDate, FinishDate }, isPreContract = false) {
     const headers = new HttpHeaders({
       'X-RequestDigest': DigestValue,
       'content-type': 'application/json;odata=verbose',
       'accept': 'application/json;odata=verbose',
     });
+    let url;
+    if (isPreContract) {
+      url = 'http://rpmo.rai.ir/PWA/' + id + '/pre-test-1/_api/web/lists/getbytitle(\'FinishDates\')/items';
+    } else {
+      url = 'http://rpmo.rai.ir/PWA/' + id + '/_api/web/lists/getbytitle(\'FinishDates\')/items';
+    }
     const body = {
       '__metadata': {'type': 'SP.Data.FinishDatesListItem'},
       DDate: data.DDate,
       FinishDate: data.FinishDate,
     };
     return this.http.post(
-      'http://rpmo.rai.ir/PWA/' + id + '/_api/web/lists/getbytitle(\'FinishDates\')/items',
+      url,
       body,
       {headers: headers}
     );
