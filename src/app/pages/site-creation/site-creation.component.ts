@@ -1,13 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { SharedService } from '../../shared/services/shared.service';
-import { TempTransferService } from '../../shared/services/temp-transfer.service';
-import { StepFormsDataList } from '../../shared/models/stepFormModels/stepFormsData.model';
+import {Component, Input, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {SharedService} from '../../shared/services/shared.service';
+import {TempTransferService} from '../../shared/services/temp-transfer.service';
+import {StepFormsDataList} from '../../shared/models/stepFormModels/stepFormsData.model';
 import * as moment from 'jalali-moment';
-import { ContractServicesList } from '../../shared/models/contractServices.model';
-import { CalculationsService } from '../../shared/services/calculations.service';
-import { Subject } from 'rxjs/index';
-import { UnitsList } from '../../shared/models/units.model';
+import {ContractServicesList} from '../../shared/models/contractServices.model';
+import {CalculationsService} from '../../shared/services/calculations.service';
+import {Subject} from 'rxjs/index';
+import {UnitsList} from '../../shared/models/units.model';
 import {assertNotNull} from '@angular/compiler/src/output/output_ast';
 
 export class ContractDataModel {
@@ -58,6 +58,7 @@ export class SiteCreationComponent implements OnInit {
   pcCalcsTemp = [];
   importerRoleForDate: any = 3;
   financialCounter = 0;
+
   // pre-test-1
 
   constructor(private router: Router,
@@ -393,13 +394,33 @@ export class SiteCreationComponent implements OnInit {
           (currencies) => {
             this.services = services;
             let contractor = null;
+            let Number = null;
+            let DeclareForecst = null;
+            let StartDateForecast = null;
+            let FinishDateForecast = null;
+            let DocSendDateForecast = null;
+            let MinutesSignDateForecast = null;
+            let WinnerDateForecast = null;
+            let CreationDate = null;
             if (!this.isPreContract) {
               contractor = this.stepFormsData.contractsForm.Id_Contractor.Id;
+              Number = this.stepFormsData.contractsForm.Number_Contract;
+            } else {
+              DeclareForecst = moment(this.stepFormsData.contractsForm.DeclareDate_FinishDates_And_Costs, 'jYYYY/jM/jD').format('MM/DD/YYYY');
+              StartDateForecast = moment(this.stepFormsData.contractsForm.StartDate_Contract, 'jYYYY/jM/jD').format('MM/DD/YYYY');
+              FinishDateForecast = moment(this.stepFormsData.contractsForm.FinishDate_Contract, 'jYYYY/jM/jD').format('MM/DD/YYYY');
+              DocSendDateForecast = moment(this.stepFormsData.contractsForm.DocToComptroller, 'jYYYY/jM/jD').format('MM/DD/YYYY');
+              MinutesSignDateForecast = moment(this.stepFormsData.contractsForm.SigningRecall, 'jYYYY/jM/jD').format('MM/DD/YYYY');
+              WinnerDateForecast = moment(this.stepFormsData.contractsForm.WinnerDeclare, 'jYYYY/jM/jD').format('MM/DD/YYYY');
+              CreationDate = moment(this.stepFormsData.contractsForm.CreationDate, 'jYYYY/jM/jD').format('MM/DD/YYYY');
             }
-            const data: { Title, ShortTitle, Number, Subject_Contract, StartDate, GuaranteePeriod, Unit, SubUnit, Currency, PMOExpert, PM, Contractor, RaiPart, Importer, Standards, Service, Zone, ContractKind, VersionCode } = {
+            const data: {
+              Title, ShortTitle, Number, Subject_Contract, StartDate, GuaranteePeriod, Unit, SubUnit, Currency, PMOExpert, PM, Contractor, RaiPart, Importer, Standards, Service, Zone, ContractKind, VersionCode,
+              OperationType, Goal, Demandant, ExecutePriority, TenderType, TenderOrganizer, DeclareForecst, StartDateForecast, FinishDateForecast, DocSendDateForecast, MinutesSignDateForecast, WinnerDateForecast, CreationDate
+            } = {
               Title: this.stepFormsData.contractsForm.FullTitle_Contract,
               ShortTitle: this.stepFormsData.contractsForm.ShortTitle_Contract,
-              Number: this.stepFormsData.contractsForm.Number_Contract,
+              Number: Number,
               Subject_Contract: this.stepFormsData.contractsForm.Subject_Contract,
               StartDate: moment(this.stepFormsData.contractsForm.StartDate_Contract, 'jYYYY/jM/jD').format('MM/DD/YYYY'),
               GuaranteePeriod: this.stepFormsData.contractsForm.GuaranteePeriod,
@@ -416,6 +437,19 @@ export class SiteCreationComponent implements OnInit {
               Zone: this.sharedService.stepFormsData.contractsForm.Zones,
               ContractKind: 1,
               VersionCode: 1,
+              OperationType: this.stepFormsData.contractsForm.OperationType,
+              Goal: this.stepFormsData.contractsForm.Goal,
+              Demandant: this.stepFormsData.contractsForm.Demandant,
+              ExecutePriority: this.stepFormsData.contractsForm.OperationalPriority,
+              TenderType: this.stepFormsData.contractsForm.TenderType,
+              TenderOrganizer: this.stepFormsData.contractsForm.TenderOrganizer,
+              DeclareForecst: DeclareForecst,
+              StartDateForecast: StartDateForecast,
+              FinishDateForecast: FinishDateForecast,
+              DocSendDateForecast: DocSendDateForecast,
+              MinutesSignDateForecast: MinutesSignDateForecast,
+              WinnerDateForecast: WinnerDateForecast,
+              CreationDate: CreationDate,
             };
             // console.log(data);
             this.tempTransfer.getDataFromContextInfo().subscribe(

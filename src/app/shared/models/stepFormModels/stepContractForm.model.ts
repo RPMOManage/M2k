@@ -41,6 +41,7 @@ export class StepContractFormList {
               public TenderOrganizer?: any,
               public DocToComptroller?: any,
               public SigningRecall?: any,
-              public WinnerDeclare?: any) {
+              public WinnerDeclare?: any,
+              public CreationDate?: any) {
   }
 }

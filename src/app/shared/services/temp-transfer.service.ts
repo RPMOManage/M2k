@@ -157,7 +157,8 @@ export class TempTransferService {
     );
   }
 
-  createContract(DigestValue: any, data: { Title, ShortTitle, Number, Subject_Contract, StartDate, DDate, GuaranteePeriod, Unit, SubUnit, Currency, PMOExpert, PM, Contractor, RaiPart, Importer, Standards, Service, Zone, ContractKind, Cost, VersionCode, Del_Last, FinishDate }, isPreContract = false) {
+  createContract(DigestValue: any, data: { Title, ShortTitle, Number, Subject_Contract, StartDate, DDate, GuaranteePeriod, Unit, SubUnit, Currency, PMOExpert, PM, Contractor, RaiPart, Importer, Standards, Service, Zone, ContractKind, Cost, VersionCode, Del_Last, FinishDate,
+    OperationType, Goal, Demandant, ExecutePriority, TenderType, TenderOrganizer, DeclareForecst, StartDateForecast, FinishDateForecast, DocSendDateForecast, MinutesSignDateForecast, WinnerDateForecast, CreationDate}, isPreContract = false) {
     const headers = new HttpHeaders({
       'X-RequestDigest': DigestValue,
       'content-type': 'application/json;odata=verbose',
@@ -189,7 +190,20 @@ export class TempTransferService {
         LastVersion: data.VersionCode,
         Cost: data.Cost,
         FinishDate: data.FinishDate,
-        PC_Last: '[{"Service":"T","Date":"05/25/2018","ActPC":70,"PlanPC":100}]'
+        PC_Last: '[{"Service":"T","Date":"05/25/2018","ActPC":70,"PlanPC":100}]',
+        OperationTypeId: {'results': [data.OperationType]},
+        Goal1Id: data.Goal,
+        DemandantId: data.Demandant,
+        ExecutePriority: data.ExecutePriority,
+        TenderTypeId: data.TenderType,
+        TenderOrganizerId: data.TenderOrganizer,
+        DeclareDateForecast: data.DeclareForecst,
+        StartDateForecast: data.StartDateForecast,
+        FinishDateForecast: data.FinishDateForecast,
+        DocSendDateForecast: data.DocSendDateForecast,
+        MinutesSignDateForecast: data.MinutesSignDateForecast,
+        WinnerDateForecast: data.WinnerDateForecast,
+        WinnerDate: data.CreationDate,
       };
     } else {
       body = {
@@ -216,7 +230,20 @@ export class TempTransferService {
         LastVersion: data.VersionCode,
         Cost: data.Cost,
         FinishDate: data.FinishDate,
-        PC_Last: '[{"Service":"T","Date":"05/25/2018","ActPC":70,"PlanPC":100}]'
+        PC_Last: '[{"Service":"T","Date":"05/25/2018","ActPC":70,"PlanPC":100}]',
+        OperationTypeId: {'results': [data.OperationType]},
+        Goal1Id: data.Goal,
+        DemandantId: data.Demandant,
+        ExecutePriority: data.ExecutePriority,
+        TenderTypeId: data.TenderType,
+        TenderOrganizerId: data.TenderOrganizer,
+        DeclareDateForecast: data.DeclareForecst,
+        StartDateForecast: data.StartDateForecast,
+        FinishDateForecast: data.FinishDateForecast,
+        DocSendDateForecast: data.DocSendDateForecast,
+        MinutesSignDateForecast: data.MinutesSignDateForecast,
+        WinnerDateForecast: data.WinnerDateForecast,
+        CreationDate: data.CreationDate,
       };
     }
     return this.http.post(
@@ -226,7 +253,8 @@ export class TempTransferService {
     );
   }
 
-  createBasic(DigestValue: any, id: number, data: { Title, ShortTitle, Number, Subject_Contract, StartDate, GuaranteePeriod, Unit, SubUnit, Currency, PMOExpert, PM, Contractor, RaiPart, Importer, Standards, Service, Zone, ContractKind, VersionCode }, isFirst = true, isPreContract = false) {
+  createBasic(DigestValue: any, id: number, data: { Title, ShortTitle, Number, Subject_Contract, StartDate, GuaranteePeriod, Unit, SubUnit, Currency, PMOExpert, PM, Contractor, RaiPart, Importer, Standards, Service, Zone, ContractKind, VersionCode,
+    OperationType, Goal, Demandant, ExecutePriority, TenderType, TenderOrganizer, DeclareForecst, StartDateForecast, FinishDateForecast, DocSendDateForecast, MinutesSignDateForecast, WinnerDateForecast, CreationDate }, isFirst = true, isPreContract = false) {
     const headers = new HttpHeaders({
       'X-RequestDigest': DigestValue,
       'content-type': 'application/json;odata=verbose',
@@ -265,6 +293,19 @@ export class TempTransferService {
       ContractKindId: data.ContractKind,
       VersionCodeId: versionID,
       ZoneId: {'results': data.Zone},
+      OperationTypeId: {'results': [data.OperationType]},
+      Goal1Id: data.Goal,
+      DemandantId: data.Demandant,
+      ExecutePriority: data.ExecutePriority,
+      TenderTypeId: data.TenderType,
+      TenderOrganizerId: data.TenderOrganizer,
+      DeclareDateForecast: data.DeclareForecst,
+      StartDateForecast: data.StartDateForecast,
+      FinishDateForecast: data.FinishDateForecast,
+      DocSendDateForecast: data.DocSendDateForecast,
+      MinutesSignDateForecast: data.MinutesSignDateForecast,
+      WinnerDateForecast: data.WinnerDateForecast,
+      CreationDate: data.CreationDate,
     };
     return this.http.post(
       url,

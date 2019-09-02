@@ -116,14 +116,28 @@ export class BuildComponent implements OnInit {
               (currencies) => {
                 let contractStatus;
                 let contractor;
-                if (this.isPreContract) {
-                  contractStatus = 0;
-                  contractor = null;
-                } else {
-                  contractStatus = 1;
+                let Number = null;
+                let DeclareForecst = null;
+                let StartDateForecast = null;
+                let FinishDateForecast = null;
+                let DocSendDateForecast = null;
+                let MinutesSignDateForecast = null;
+                let WinnerDateForecast = null;
+                let CreationDate = null;
+                if (!this.isPreContract) {
                   contractor = this.stepFormsData.contractsForm.Id_Contractor.Id;
+                  Number = this.stepFormsData.contractsForm.Number_Contract;
+                } else {
+                  DeclareForecst = moment(this.stepFormsData.contractsForm.DeclareDate_FinishDates_And_Costs, 'jYYYY/jM/jD').format('MM/DD/YYYY');
+                  StartDateForecast = moment(this.stepFormsData.contractsForm.StartDate_Contract, 'jYYYY/jM/jD').format('MM/DD/YYYY');
+                  FinishDateForecast = moment(this.stepFormsData.contractsForm.FinishDate_Contract, 'jYYYY/jM/jD').format('MM/DD/YYYY');
+                  DocSendDateForecast = moment(this.stepFormsData.contractsForm.DocToComptroller, 'jYYYY/jM/jD').format('MM/DD/YYYY');
+                  MinutesSignDateForecast = moment(this.stepFormsData.contractsForm.SigningRecall, 'jYYYY/jM/jD').format('MM/DD/YYYY');
+                  WinnerDateForecast = moment(this.stepFormsData.contractsForm.WinnerDeclare, 'jYYYY/jM/jD').format('MM/DD/YYYY');
+                  CreationDate = moment(this.stepFormsData.contractsForm.CreationDate, 'jYYYY/jM/jD').format('MM/DD/YYYY');
                 }
-                const data: { Title, ShortTitle, Number, Subject_Contract, StartDate, DDate, GuaranteePeriod, Unit, SubUnit, Currency, PMOExpert, PM, Contractor, RaiPart, Importer, Standards, Service, Zone, ContractKind, Cost, VersionCode, Del_Last, FinishDate, ContractStatus } = {
+                const data: { Title, ShortTitle, Number, Subject_Contract, StartDate, DDate, GuaranteePeriod, Unit, SubUnit, Currency, PMOExpert, PM, Contractor, RaiPart, Importer, Standards, Service, Zone, ContractKind, Cost, VersionCode, Del_Last, FinishDate, ContractStatus,
+                  OperationType, Goal, Demandant, ExecutePriority, TenderType, TenderOrganizer, DeclareForecst, StartDateForecast, FinishDateForecast, DocSendDateForecast, MinutesSignDateForecast, WinnerDateForecast, CreationDate} = {
                   Title: this.stepFormsData.contractsForm.FullTitle_Contract,
                   ShortTitle: this.stepFormsData.contractsForm.ShortTitle_Contract,
                   Number: this.stepFormsData.contractsForm.Number_Contract,
@@ -148,6 +162,19 @@ export class BuildComponent implements OnInit {
                   Del_Last: null,
                   FinishDate: moment(this.stepFormsData.contractsForm.FinishDate_Contract, 'jYYYY/jM/jD').format('MM/DD/YYYY'),
                   ContractStatus: contractStatus,
+                  OperationType: this.stepFormsData.contractsForm.OperationType,
+                  Goal: this.stepFormsData.contractsForm.Goal,
+                  Demandant: this.stepFormsData.contractsForm.Demandant,
+                  ExecutePriority: this.stepFormsData.contractsForm.OperationalPriority,
+                  TenderType: this.stepFormsData.contractsForm.TenderType,
+                  TenderOrganizer: this.stepFormsData.contractsForm.TenderOrganizer,
+                  DeclareForecst: DeclareForecst,
+                  StartDateForecast: StartDateForecast,
+                  FinishDateForecast: FinishDateForecast,
+                  DocSendDateForecast: DocSendDateForecast,
+                  MinutesSignDateForecast: MinutesSignDateForecast,
+                  WinnerDateForecast: WinnerDateForecast,
+                  CreationDate: CreationDate,
                 };
                 this.tempTransfer.getDataFromContextInfo().subscribe(
                   (digestValue) => {

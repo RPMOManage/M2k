@@ -587,6 +587,7 @@ export class NewContractStepperComponent implements OnInit {
         DocToComptroller: new FormControl(moment(this.contractDataForm.DocToComptroller, 'jYYYY/jMM/jDD')),
         SigningRecall: new FormControl(moment(this.contractDataForm.SigningRecall, 'jYYYY/jMM/jDD')),
         WinnerDeclare: new FormControl(moment(this.contractDataForm.WinnerDeclare, 'jYYYY/jMM/jDD')),
+        CreationDate: new FormControl(moment(this.contractDataForm.CreationDate, 'jYYYY/jMM/jDD')),
       });
     } else {
       this.contractsForm = this._formBuilder.group({

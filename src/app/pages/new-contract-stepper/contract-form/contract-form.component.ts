@@ -49,6 +49,7 @@ export class ContractFormComponent implements OnInit {
   selectedDocToComptroller = null;
   selectedSigningRecall = null;
   selectedWinnerDeclare = null;
+  selectedCreationDate = null;
   datePickerConfig = {
     format: 'jYYYY/jMM/jDD'
   };
@@ -138,6 +139,7 @@ export class ContractFormComponent implements OnInit {
       this.selectedDocToComptroller = this.formGp.get('DocToComptroller').value.format('YYYY/MM/DD');
       this.selectedSigningRecall = this.formGp.get('SigningRecall').value.format('YYYY/MM/DD');
       this.selectedWinnerDeclare = this.formGp.get('WinnerDeclare').value.format('YYYY/MM/DD');
+      this.selectedCreationDate = this.formGp.get('CreationDate').value.format('YYYY/MM/DD');
     }
     this.sharedService.getContractServices().subscribe(
       (data) => {
