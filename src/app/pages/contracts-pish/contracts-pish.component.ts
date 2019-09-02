@@ -36,7 +36,7 @@ export class ContractsPishComponent implements OnInit {
     TitleFa: 'صفحه قرارداد 3',
   }];
 
-  tempContracts: { ID, Title, ImporterApprovedPre, PMApprovedPre, PMUserId, ImporterUserId, PMOExpertId, ImporterId, PMApproved, ImporterApproved, Code, Created, Importer?: number, Types?: number }[] = [];
+  tempContracts: { ID, Title, ImporterApprovedPre, PMApprovedPre, PMUserId, ImporterUserId, PMOExpertId, ImporterId, PMApproved, ImporterApproved, Code, Created, Importer?: number, ContractStatus?: number }[] = [];
   pms: PMsList[] = [];
   type = 'pish';
   spinnerChecking = false;
@@ -124,7 +124,7 @@ export class ContractsPishComponent implements OnInit {
 
   onClickContract(id: number) {
     const mainContract = this.tempContracts.filter(v => v.ID === id)[0];
-    if (!mainContract.ImporterApprovedPre || !mainContract.PMApprovedPre) {
+    if (mainContract.ContractStatus === 1) {
       this.router.navigate(['/pre-contract'], {
         queryParams: {ContractID: 'TC' + id, ImpID: mainContract.ImporterUserId},
         queryParamsHandling: 'merge'

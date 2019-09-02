@@ -97,11 +97,11 @@ export class SharedService {
   }
 
   getAllTempContracts() {
-    const mainData: { ID, Title, ImporterApprovedPre, PMApprovedPre, PMUserId, ImporterUserId, PMOExpertId, ImporterId, PMApproved, ImporterApproved, Code, Created, Importer?: number, Types?: number }[] = [];
+    const mainData: { ID, Title, ImporterApprovedPre, PMApprovedPre, PMUserId, ImporterUserId, PMOExpertId, ImporterId, PMApproved, ImporterApproved, Code, Created, Importer?: number, ContractStatus?: number }[] = [];
     let headers = new HttpHeaders();
     headers = headers.set('ACCEPT', 'application/json;odata=verbose');
     return this.http.get(
-      'http://rpmo.rai.ir/PWA/_api/web/lists/getbytitle(\'TempContracts\')/items?$filter=IsActive1 ne false&$select=ID,Title,ImporterApprovedPre,PMApprovedPre,PMUserId,Types,PMOExpertId,ImporterId,PMApproved,ImporterApproved,Code,Created,ImporterUser/Title,ImporterUser/ID&$expand=ImporterUser&$top=10000&$OrderBy=ID desc',
+      'http://rpmo.rai.ir/PWA/_api/web/lists/getbytitle(\'TempContracts\')/items?$filter=IsActive1 ne false&$select=ID,Title,ImporterApprovedPre,PMApprovedPre,PMUserId,Types,PMOExpertId, ContractStatusId,ImporterId,PMApproved,ImporterApproved,Code,Created,ImporterUser/Title,ImporterUser/ID&$expand=ImporterUser&$top=10000&$OrderBy=ID desc',
       {headers: headers}
     ).pipe(map((response: Response) => {
         const data = (<any>response).d.results;
@@ -121,7 +121,7 @@ export class SharedService {
               Code: data[i].Code,
               Created: moment(data[i].Created, 'YYYY/M/D').format('jYYYY/jM/jD'),
               Importer: data[i].ImporterId,
-              Types: data[i].Types,
+              ContractStatus: data[i].ContractStatusId,
             });
           }
         }
@@ -624,7 +624,8 @@ export class SharedService {
         'PMUserId': pmUser.User.ID,
         'ImporterUserId': this.userData.Id,
         'PMOExpertId': this.stepFormsData.contractsForm.PMOExpertId_User,
-        'ImporterId': this.stepFormsData.contractsForm.Id_Importer
+        'ImporterId': this.stepFormsData.contractsForm.Id_Importer,
+        'ContractStatusId': 1
       };
     } else {
       body = {
@@ -636,7 +637,8 @@ export class SharedService {
         'PMOExpertId': this.stepFormsData.contractsForm.PMOExpertId_User,
         'ImporterId': this.stepFormsData.contractsForm.Id_Importer,
         'PMApprovedPre': true,
-        'ImporterApprovedPre': true
+        'ImporterApprovedPre': true,
+        'ContractStatusId': 1
       };
     }
     return this.http.post(

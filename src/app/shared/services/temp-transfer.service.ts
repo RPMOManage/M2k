@@ -235,15 +235,6 @@ export class TempTransferService {
         Goal1Id: data.Goal,
         DemandantId: data.Demandant,
         ExecutePriority: data.ExecutePriority,
-        TenderTypeId: data.TenderType,
-        TenderOrganizerId: data.TenderOrganizer,
-        DeclareDateForecast: data.DeclareForecst,
-        StartDateForecast: data.StartDateForecast,
-        FinishDateForecast: data.FinishDateForecast,
-        DocSendDateForecast: data.DocSendDateForecast,
-        MinutesSignDateForecast: data.MinutesSignDateForecast,
-        WinnerDateForecast: data.WinnerDateForecast,
-        CreationDate: data.CreationDate,
       };
     }
     return this.http.post(

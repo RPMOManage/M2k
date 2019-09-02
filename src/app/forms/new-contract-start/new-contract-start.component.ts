@@ -48,7 +48,7 @@ export class NewContractStartComponent implements OnInit {
       name: 'پیش قرارداد'
     }, {
       id: 1,
-      name: 'قرارداد'
+      name: 'قرارداد در حال اجرا'
     }
   ];
   currentTitle = '';
@@ -203,7 +203,11 @@ export class NewContractStartComponent implements OnInit {
                   (dd: any) => {
                     this.sharedService.stepFormsData.contractsForm.Code_Contract = 'TC' + dd.d.ID;
                     this.dialogRef.close();
-                    this.router.navigate(['/wizard'], {queryParams: {'ContractID': 'TC' + dd.d.ID}});
+                    if (isPreContract) {
+                      this.router.navigate(['/pre-contract'], {queryParams: {'ContractID': 'TC' + dd.d.ID}});
+                    } else {
+                      this.router.navigate(['/wizard'], {queryParams: {'ContractID': 'TC' + dd.d.ID}});
+                    }
                   }
                 );
               });
