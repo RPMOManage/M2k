@@ -116,18 +116,18 @@
                 <span class="stepTitle">تایید نهایی</span>
               </div>
             </div>
-            <!--<div class="steps-step-2" *ngFor="let deliverableStep of deliverableSteps; let i = index">-->
-            <!--<div-->
-            <!--(click)="stepChange(4)"-->
-            <!--class="step-design"-->
-            <!--[ngStyle]="styleObject(4)"-->
-            <!--&gt;-->
-            <!--<div class="numberCircle"></div>-->
-            <!--<span class="stepTitle">{{ deliverableStep.Name }}</span>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--<div class="steps-step-2" *ngIf="onCheckAllowed(10)">-->
-            <!--<div-->
+            <div class="steps-step-2" *ngFor="let deliverableStep of deliverableSteps; let i = index">
+            <div
+            (click)="stepChange(i + 120)"
+            class="step-design"
+            [ngStyle]="styleObject(i + 120)"
+            >
+            <div class="numberCircle"></div>
+            <span class="stepTitle">{{ deliverableStep.Name }}</span>
+            </div>
+            </div>
+<!--            <div class="steps-step-2" *ngIf="onCheckAllowed(10)">-->
+<!--            <div-->
             <!--(click)="stepChange(7)"-->
             <!--class="step-design"-->
             <!--[ngStyle]="styleObject(7)"-->
@@ -168,9 +168,9 @@
         <app-change-final *ngIf="tabIndex === 100" [contractID]="contractID" [versionID]="versionID" [change]="change" (changeTabIndex)="onChangeTabIndex()" (write)="onWrite()"></app-change-final>
         <!--<p *ngIf="tabIndex === 7 || tabIndex === 8" style="direction: ltr;text-align: center;color: #bb1e4d;">Mykonos...</p>-->
         <!--<app-change-pc *ngIf="tabIndex === 7" [contractID]="contractID" [versionID]="versionID" [contract]="contract"></app-change-pc>-->
-        <!--<div *ngFor="let deliverableStep of deliverableSteps; let i = index">-->
-        <!--<app-change-deliverable *ngIf="tabIndex === i" [contractID]="contractID" [versionID]="versionID" [contract]="contract" [change]="change" [serviceID]="deliverableStep.ServiceID" [services]="services"></app-change-deliverable>-->
-        <!--</div>-->
+        <div *ngFor="let deliverableStep of deliverableSteps; let i = index">
+        <app-change-deliverable *ngIf="tabIndex === (i + 120)" [contractID]="contractID" [versionID]="versionID" [contract]="contract" [change]="change" [serviceID]="deliverableStep.ServiceID" [services]="services"></app-change-deliverable>
+        </div>
       </div>
       <hr>
       <!--<button class="btn btn-danger" (click)="onClickButton()">Back</button>-->

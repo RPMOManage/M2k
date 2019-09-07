@@ -141,7 +141,8 @@ export class CardChangeComponent implements OnInit {
           this.contractService.getChange(this.contractID, this.changeID, false).subscribe(
             (change) => {
               this.change = change;
-              this.tabIndex = this.change.ChangeItem.sort((a, b) => a - b).map(v => +v)[0];
+              // this.tabIndex = this.change.ChangeItem.sort((a, b) => a - b).map(v => +v)[0];
+              this.tabIndex = 120;
               console.log(change);
               this.buildChart();
             }
@@ -690,7 +691,8 @@ export class CardChangeComponent implements OnInit {
                         currency = this.currencies.filter(v => v.Id === this.change.Json.ChangeCost.Currency)[0].currencyID;
                       }
                     }
-                    const mainBasicData: { Title, ShortTitle, Number, Subject_Contract, StartDate, GuaranteePeriod, Unit, SubUnit, Currency, PMOExpert, PM, Contractor, RaiPart, Importer, Standards, Service, Zone, ContractKind, VersionCode } = {
+                    const mainBasicData: { Title, ShortTitle, Number, Subject_Contract, StartDate, GuaranteePeriod, Unit, SubUnit, Currency, PMOExpert, PM, Contractor, RaiPart, Importer, Standards, Service, Zone, ContractKind, VersionCode,
+                      OperationType, Goal, Demandant, ExecutePriority, TenderType, TenderOrganizer, DeclareForecst, StartDateForecast, FinishDateForecast, DocSendDateForecast, MinutesSignDateForecast, WinnerDateForecast, CreationDate} = {
                       Title: basic.Title,
                       ShortTitle: basic.ShortTitle,
                       Number: basic.Number,
@@ -710,6 +712,19 @@ export class CardChangeComponent implements OnInit {
                       Zone: [basic.Zone.Id],
                       ContractKind: basic.Kind,
                       VersionCode: version.d.ID,
+                      OperationType: null,
+                      Goal: null,
+                      Demandant: null,
+                      ExecutePriority: null,
+                      TenderType: null,
+                      TenderOrganizer: null,
+                      DeclareForecst: null,
+                      StartDateForecast: null,
+                      FinishDateForecast: null,
+                      DocSendDateForecast: null,
+                      MinutesSignDateForecast: null,
+                      WinnerDateForecast: null,
+                      CreationDate: null,
                     };
                     this.tempTransfer.createBasic(digestValue, this.contractID, mainBasicData, false).subscribe(
                       (newBasic: any) => {
@@ -954,6 +969,8 @@ export class CardChangeComponent implements OnInit {
       return this.change.ChangeItem.filter(v => +v === +id || +v === 11).length > 0;
     } else if (id === 100) {
       return 100;
+    } else if (id >= 120) {
+      return 120;
     } else {
       return this.change.ChangeItem.filter(v => +v === +id).length > 0;
     }

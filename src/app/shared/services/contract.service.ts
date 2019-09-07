@@ -984,7 +984,7 @@ export class ContractService {
   }
 
   getAllDelPropsRevs(contractID: number) {
-    const mainData: { ID, DelProp, RevNumber, DDate }[] = [];
+    const mainData: { ID, DelProp, RevNumber, DDate, TotalValue?: number }[] = [];
     let headers = new HttpHeaders();
     headers = headers.set('ACCEPT', 'application/json;odata=verbose');
     return this.http.get(
@@ -998,6 +998,7 @@ export class ContractService {
             DelProp: data[i].DelPropId,
             RevNumber: data[i].RevNumber,
             DDate: data[i].DDate,
+            TotalValue: data[i].TotalValue,
           });
         }
         return mainData;

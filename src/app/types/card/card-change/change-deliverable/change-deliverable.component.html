@@ -1,55 +1,56 @@
-<!--<mat-card style="margin-top: 25px;">-->
-  <!--<div class="row">-->
-    <!--<div class="col-md-12" style="border-bottom: 1px solid #f0f0f0;">-->
-      <!--<h5>-->
-        <!--<span style="float: right;">تغییر تحویل شدنی ها به : </span>-->
-        <!--<span style="float: left;">-->
-          <!--<span>تاریخ پایان : </span>-->
-          <!--&lt;!&ndash;<span *ngIf="finishDate">{{ finishDate }}</span>&ndash;&gt;-->
-        <!--</span>-->
-      <!--</h5>-->
-    <!--</div>-->
-    <!--<div class="col-md-12" style="direction: ltr;margin-bottom: 35px;" *ngFor="let instance of instances;let i = index">-->
-      <!--{{ instance }}-->
-      <!--<hot-table style="width: 100%" [settings]="options" [hotId]="instance" *ngIf="checkTable[i]"></hot-table>-->
-    <!--</div>-->
+<mat-card style="margin-top: 25px;">
+  <div class="row">
+    <div class="col-md-12" style="border-bottom: 1px solid #f0f0f0;">
+      <h5>
+        <span style="float: right;">تغییر تحویل شدنی ها به : </span>
+        <span style="float: left;">
+          <span>تاریخ پایان : </span>
+          <!--<span *ngIf="finishDate">{{ finishDate }}</span>-->
+        </span>
+      </h5>
+    </div>
+    <div class="col-md-12" style="direction: ltr;margin-bottom: 35px;" *ngFor="let delItem of delItems;let i = index">
+      <p style="direction: rtl">{{ i + 1 + '. ' + getDeliverableName(delItem.Deliverable.ID) + ': '}} <span *ngIf="delProps.length > 0 && delPropsRevs.length > 0 && operationTypes.length > 0">{{ getTotalValue(delItem.ID) + ' ' + getMeasureUnit(delItem.Deliverable.ID) }}</span> - {{ getOperationType(delItem.OperationType.ID)}}</p>
+      {{ instances[i] }}
+      <hot-table style="width: 100%" [settings]="options" [hotId]="instances[i]"></hot-table>
+    </div>
+  </div>
+  <!--  <div class="row" style="direction: rtl;margin: 10px 0;">-->
+  <!--    <div id="addRow" class="col-md-1">-->
+  <!--      <button (click)="addRowPopUp()" matTooltip="افزودن رکورد" matTooltipClass="example-tooltip" class="plusBtn" mat-fab>-->
+  <!--        <i class="fa fa-plus"></i>-->
+  <!--      </button>-->
+  <!--    </div>-->
+  <!--    <div id="delete" class="col-md-1">-->
+  <!--      <button (click)="deleteRowPopUp()" matTooltip="حذف رکورد" matTooltipClass="example-tooltip" class="plusBtn" mat-fab>-->
+  <!--        <i class="fas fa-times"></i>-->
+  <!--      </button>-->
+  <!--    </div>-->
+  <!--    <div id="download" class="col-md-1">-->
+  <!--      <button (click)="getCSV()" matTooltip="دانلود بصورت اکسل" matTooltipClass="example-tooltip" class="plusBtn" mat-fab>-->
+  <!--        <i class="far fa-file-excel"></i>-->
+  <!--      </button>-->
+  <!--    </div>-->
+  <!--  </div>-->
+  <!--<div class="row" style="direction: rtl;margin: 25px 0;background: #fdecec;padding: 15px;">-->
+  <!--<div class="col-md-12">-->
+  <!--<p style="text-align: right; color: #da345a; font-size: 18px;font-weight: bold;border-bottom: 1px solid #da345a2b;padding-bottom: 5px;">الزامات : </p>-->
   <!--</div>-->
-  <!--<div class="row" style="direction: rtl;margin: 10px 0;">-->
-    <!--<div id="addRow" class="col-md-1">-->
-      <!--<button (click)="addRowPopUp()" matTooltip="افزودن رکورد" matTooltipClass="example-tooltip" class="plusBtn" mat-fab>-->
-        <!--<i class="fa fa-plus"></i>-->
-      <!--</button>-->
-    <!--</div>-->
-    <!--<div id="delete" class="col-md-1">-->
-      <!--<button (click)="deleteRowPopUp()" matTooltip="حذف رکورد" matTooltipClass="example-tooltip" class="plusBtn" mat-fab>-->
-        <!--<i class="fas fa-times"></i>-->
-      <!--</button>-->
-    <!--</div>-->
-    <!--<div id="download" class="col-md-1">-->
-      <!--<button (click)="getCSV()" matTooltip="دانلود بصورت اکسل" matTooltipClass="example-tooltip" class="plusBtn" mat-fab>-->
-        <!--<i class="far fa-file-excel"></i>-->
-      <!--</button>-->
-    <!--</div>-->
+  <!--<div class="col-md-12">-->
+  <!--<p><span>1.</span> اطلاعات باید صعودی باشند.</p>-->
+  <!--<p><span>2.</span> اطلاعات برنامه ای به %100 ختم شوند.</p>-->
+  <!--<p><span>3.</span> اطلاعات به صورت ماهانه مقدار داشته باشند (فاصله زمانی بین دو رکورد متوالی از یک ماه بیشتر نباشد).</p>-->
+  <!--<p><span>4.</span> تاریخ آخرین مقدار واقعی از 10 روز قبل از تاریخ درخواست مسئول اطلاعات عقب تر نباشد.</p>-->
+  <!--<p><span>5.</span> حداکثر یک رکورد 0% و 100% داشته باشیم.</p>-->
+  <!--<p><span>6.</span> رکوردهای واقعی با درصد 0% شروع شوند.</p>-->
+  <!--<p><span>7.</span> مقدار  رکورد برنامه ای در تاریخ تغییر حتما وارد شود از آخرین مقدار واقعی قبل از آن کمتر نباشد.</p>-->
   <!--</div>-->
-  <!--&lt;!&ndash;<div class="row" style="direction: rtl;margin: 25px 0;background: #fdecec;padding: 15px;">&ndash;&gt;-->
-    <!--&lt;!&ndash;<div class="col-md-12">&ndash;&gt;-->
-      <!--&lt;!&ndash;<p style="text-align: right; color: #da345a; font-size: 18px;font-weight: bold;border-bottom: 1px solid #da345a2b;padding-bottom: 5px;">الزامات : </p>&ndash;&gt;-->
-    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-    <!--&lt;!&ndash;<div class="col-md-12">&ndash;&gt;-->
-      <!--&lt;!&ndash;<p><span>1.</span> اطلاعات باید صعودی باشند.</p>&ndash;&gt;-->
-      <!--&lt;!&ndash;<p><span>2.</span> اطلاعات برنامه ای به %100 ختم شوند.</p>&ndash;&gt;-->
-      <!--&lt;!&ndash;<p><span>3.</span> اطلاعات به صورت ماهانه مقدار داشته باشند (فاصله زمانی بین دو رکورد متوالی از یک ماه بیشتر نباشد).</p>&ndash;&gt;-->
-      <!--&lt;!&ndash;<p><span>4.</span> تاریخ آخرین مقدار واقعی از 10 روز قبل از تاریخ درخواست مسئول اطلاعات عقب تر نباشد.</p>&ndash;&gt;-->
-      <!--&lt;!&ndash;<p><span>5.</span> حداکثر یک رکورد 0% و 100% داشته باشیم.</p>&ndash;&gt;-->
-      <!--&lt;!&ndash;<p><span>6.</span> رکوردهای واقعی با درصد 0% شروع شوند.</p>&ndash;&gt;-->
-      <!--&lt;!&ndash;<p><span>7.</span> مقدار  رکورد برنامه ای در تاریخ تغییر حتما وارد شود از آخرین مقدار واقعی قبل از آن کمتر نباشد.</p>&ndash;&gt;-->
-    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-  <!--&lt;!&ndash;</div>&ndash;&gt;-->
-  <!--<div class="row last-button-row">-->
-    <!--<div class="col-md-4"></div>-->
-    <!--<div class="col-md-4">-->
-      <!--<button class="btn btn-primary" (click)="onSubmitClick()">ثبت اطلاعات</button>-->
-    <!--</div>-->
-    <!--<div class="col-md-4"></div>-->
   <!--</div>-->
-<!--</mat-card>-->
+  <!--  <div class="row last-button-row">-->
+  <!--    <div class="col-md-4"></div>-->
+  <!--    <div class="col-md-4">-->
+  <!--      <button class="btn btn-primary" (click)="onSubmitClick()">ثبت اطلاعات</button>-->
+  <!--    </div>-->
+  <!--    <div class="col-md-4"></div>-->
+  <!--  </div>-->
+</mat-card>
