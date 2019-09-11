@@ -1269,10 +1269,10 @@ export class SharedService {
             new OperationTypesList(
               data[i].ID,
               data[i].Title,
+              data[i].UnitId.results,
             )
           );
         }
-        // console.log(mainData);
         return mainData;
       }
     ));

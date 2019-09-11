@@ -65,6 +65,7 @@ export class ContractFormComponent implements OnInit {
   contractNatureIds = [];
   operationalPriorities = [{ID: 1, Name: 1}, {ID: 2, Name: 2}, {ID: 3, Name: 3}, {ID: 4, Name: 4}, {ID: 5, Name: 5}];
   operationTypes: OperationTypesList[] = [];
+  mainOperationTypes: OperationTypesList[] = [];
   goals: { Id, Name }[] = [];
   demandants: { Id, Name }[] = [];
   tenderTypes: { Id, Name }[] = [];
@@ -102,7 +103,11 @@ export class ContractFormComponent implements OnInit {
     );
     this.sharedService.getOperationTypes().subscribe(
       (data: OperationTypesList[]) => {
+        this.mainOperationTypes = data;
         this.operationTypes = data;
+        if (this.formGp.get('Id_Unit').value) {
+          this.operationTypes = this.mainOperationTypes.filter(v => v.Unit.includes(this.formGp.get('Id_Unit').value));
+        }
       });
 
     this.sharedService.getZones().subscribe(
@@ -443,9 +448,9 @@ export class ContractFormComponent implements OnInit {
     if (this.formGp.get('Id_SubUnit').value) {
       this.formGp.get('Id_SubUnit').setValue(this.formGp.value.Id_SubUnit);
     }
+    this.operationTypes = this.mainOperationTypes.filter(v => v.Unit.includes(selectedUnit));
     this.formGp.get('PMId_User').setValue('');
     this.formGp.get('Id_SubUnit').setValue('');
-    console.log('akab');
   }
 
   onChangeCost(e) {
