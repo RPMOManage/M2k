@@ -15,6 +15,7 @@ export class ChangesModel {
                 ChangeStakeHolderNotPillar: { Data },
                 ChangeTotalValue: { Service: number, ChangesPercentage: number, Name_Deliverable: number[], OperationTypes_deliverables: number[], Value_Deliverable: number[] }[],
                 ChangePC: { Date: string[], Data: any, ColHeaders: any },
+                ChangeDeliverables: { Data: any, ColHeaders: any, instance: any, ServiceID: any, totalValue: any }[],
               },
               public DDate: string,
               public Description: string) {

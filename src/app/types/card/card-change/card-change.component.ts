@@ -952,6 +952,7 @@ export class CardChangeComponent implements OnInit {
   }
 
   stepChange(id: number) {
+    console.log(id);
     // console.log(this.change.ChangeItem.map(v => v)[this.change.ChangeItem.length - 1], id);
     if (this.currentUnlockedIndex === id || id < this.tabIndex) {
       this.tabIndex = id;

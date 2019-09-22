@@ -4,15 +4,35 @@
       <h5>
         <span style="float: right;">تغییر تحویل شدنی ها به : </span>
         <span style="float: left;">
-          <span>تاریخ پایان : </span>
+<!--          <span>تاریخ پایان : </span>-->
           <!--<span *ngIf="finishDate">{{ finishDate }}</span>-->
         </span>
       </h5>
     </div>
     <div class="col-md-12" style="direction: ltr;margin-bottom: 35px;" *ngFor="let delItem of delItems;let i = index">
-      <p style="direction: rtl">{{ i + 1 + '. ' + getDeliverableName(delItem.Deliverable.ID) + ': '}} <span *ngIf="delProps.length > 0 && delPropsRevs.length > 0 && operationTypes.length > 0">{{ getTotalValue(delItem.ID) + ' ' + getMeasureUnit(delItem.Deliverable.ID) }}</span> - {{ getOperationType(delItem.OperationType.ID)}}</p>
-      {{ instances[i] }}
+      <p style="direction: rtl" *ngIf="!change.Json.ChangeDeliverables">{{ i + 1 + '. ' + getDeliverableName(delItem.Deliverable.ID) + ': '}} <span *ngIf="delProps.length > 0 && delPropsRevs.length > 0 && operationTypes.length > 0">{{ getTotalValue(delItem.ID) + ' ' + getMeasureUnit(delItem.Deliverable.ID) }}</span> - {{ getOperationType(delItem.OperationType.ID)}}</p>
+      <p style="direction: rtl" *ngIf="change.Json.ChangeDeliverables">{{ i + 1 + '. ' + getDeliverableName(+(instances[i].split('-')[1])) + ': '}} <span *ngIf="operationTypes.length > 0">{{ change.Json.ChangeDeliverables[i].totalValue + ' ' + getMeasureUnit((instances[i].split('-')[1])) }}</span> - {{ getOperationType((instances[i].split('-')[2]))}}</p>
       <hot-table style="width: 100%" [settings]="options" [hotId]="instances[i]"></hot-table>
+      <div class="row" style="direction: rtl;padding: 0 15px;">
+        <div id="addRow" class="col-md-1">
+          <button (click)="addRowPopUp(instances[i])" matTooltip="افزودن رکورد" matTooltipClass="example-tooltip" class="plusBtn"
+                  mat-fab>
+            <i class="fa fa-plus"></i>
+          </button>
+        </div>
+        <div id="delete" class="col-md-1">
+          <button (click)="deleteRowPopUp(instances[i])" matTooltip="حذف رکورد" matTooltipClass="example-tooltip" class="plusBtn"
+                  mat-fab>
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div id="download" class="col-md-1">
+          <button (click)="getCSV(instances[i])" matTooltip="دانلود بصورت اکسل" matTooltipClass="example-tooltip" class="plusBtn"
+                  mat-fab>
+            <i class="far fa-file-excel"></i>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
   <!--  <div class="row" style="direction: rtl;margin: 10px 0;">-->
@@ -53,4 +73,11 @@
   <!--    </div>-->
   <!--    <div class="col-md-4"></div>-->
   <!--  </div>-->
+  <div class="row last-button-row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+      <button class="btn btn-primary" (click)="onSubmitClick()">ثبت اطلاعات</button>
+    </div>
+    <div class="col-md-4"></div>
+  </div>
 </mat-card>
