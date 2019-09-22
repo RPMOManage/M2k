@@ -638,7 +638,7 @@ export class SharedService {
         'ImporterId': this.stepFormsData.contractsForm.Id_Importer,
         'PMApprovedPre': true,
         'ImporterApprovedPre': true,
-        'ContractStatusId': 1
+        'ContractStatusId': 2
       };
     }
     return this.http.post(

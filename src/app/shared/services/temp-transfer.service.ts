@@ -39,7 +39,7 @@ export class TempTransferService {
     let url;
     // console.log(data);
     if (isPreContract) {
-      url = 'http://rpmo.rai.ir/PWA/' + id + '/pre-test-1/_api/web/lists/getbytitle(\'Versions\')/items';
+      url = 'http://rpmo.rai.ir/PWA/' + id + '/pre-contract/_api/web/lists/getbytitle(\'Versions\')/items';
       body = {
         '__metadata': {'type': 'SP.Data.VersionsListItem'},
         DDate: data.DDate,
@@ -158,7 +158,7 @@ export class TempTransferService {
   }
 
   createContract(DigestValue: any, data: { Title, ShortTitle, Number, Subject_Contract, StartDate, DDate, GuaranteePeriod, Unit, SubUnit, Currency, PMOExpert, PM, Contractor, RaiPart, Importer, Standards, Service, Zone, ContractKind, Cost, VersionCode, Del_Last, FinishDate,
-    OperationType, Goal, Demandant, ExecutePriority, TenderType, TenderOrganizer, DeclareForecst, StartDateForecast, FinishDateForecast, DocSendDateForecast, MinutesSignDateForecast, WinnerDateForecast, CreationDate}, isPreContract = false) {
+    OperationType, Goal, Demandant, ExecutePriority, TenderType, TenderOrganizer, DeclareForecst, StartDateForecast, FinishDateForecast, DocSendDateForecast, MinutesSignDateForecast, WinnerDateForecast, CreationDate, ContractStatus?: any}, isPreContract = false) {
     const headers = new HttpHeaders({
       'X-RequestDigest': DigestValue,
       'content-type': 'application/json;odata=verbose',
@@ -166,6 +166,7 @@ export class TempTransferService {
     });
     // console.log(data);
     let body;
+    console.log(data.Importer);
     if (isPreContract) {
       body = {
         '__metadata': {'type': 'SP.Data.ContractsListItem'},
@@ -190,11 +191,11 @@ export class TempTransferService {
         LastVersion: data.VersionCode,
         Cost: data.Cost,
         FinishDate: data.FinishDate,
-        PC_Last: '[{"Service":"T","Date":"05/25/2018","ActPC":70,"PlanPC":100}]',
         OperationTypeId: {'results': [data.OperationType]},
         Goal1Id: data.Goal,
         DemandantId: data.Demandant,
         ExecutePriority: data.ExecutePriority,
+        ContractStatusId: data.ContractStatus,
         TenderTypeId: data.TenderType,
         TenderOrganizerId: data.TenderOrganizer,
         DeclareDateForecast: data.DeclareForecst,
@@ -203,7 +204,7 @@ export class TempTransferService {
         DocSendDateForecast: data.DocSendDateForecast,
         MinutesSignDateForecast: data.MinutesSignDateForecast,
         WinnerDateForecast: data.WinnerDateForecast,
-        WinnerDate: data.CreationDate,
+        CreationDate: data.CreationDate,
       };
     } else {
       body = {
@@ -230,11 +231,11 @@ export class TempTransferService {
         LastVersion: data.VersionCode,
         Cost: data.Cost,
         FinishDate: data.FinishDate,
-        PC_Last: '[{"Service":"T","Date":"05/25/2018","ActPC":70,"PlanPC":100}]',
         OperationTypeId: {'results': [data.OperationType]},
         Goal1Id: data.Goal,
         DemandantId: data.Demandant,
         ExecutePriority: data.ExecutePriority,
+        ContractStatusId: data.ContractStatus,
       };
     }
     return this.http.post(
@@ -259,7 +260,7 @@ export class TempTransferService {
     let body;
     let url;
     if (isPreContract) {
-      url = 'http://rpmo.rai.ir/PWA/' + id + '/pre-test-1/_api/web/lists/getbytitle(\'Basics\')/items';
+      url = 'http://rpmo.rai.ir/PWA/' + id + '/pre-contract/_api/web/lists/getbytitle(\'Basics\')/items';
     } else {
       url = 'http://rpmo.rai.ir/PWA/' + id + '/_api/web/lists/getbytitle(\'Basics\')/items';
     }
@@ -405,7 +406,7 @@ export class TempTransferService {
     let body;
     let url;
     if (isPreContract) {
-      url = 'http://rpmo.rai.ir/PWA/' + id + '/pre-test-1/_api/web/lists/getbytitle(\'Dels\')/items';
+      url = 'http://rpmo.rai.ir/PWA/' + id + '/pre-contract/_api/web/lists/getbytitle(\'Dels\')/items';
     } else {
       url = 'http://rpmo.rai.ir/PWA/' + id + '/_api/web/lists/getbytitle(\'Dels\')/items';
     }
@@ -440,7 +441,7 @@ export class TempTransferService {
     });
     let url;
     if (isPreContract) {
-      url = 'http://rpmo.rai.ir/PWA/' + id + '/pre-test-1/_api/web/lists/getbytitle(\'DelPropsRevs\')/items';
+      url = 'http://rpmo.rai.ir/PWA/' + id + '/pre-contract/_api/web/lists/getbytitle(\'DelPropsRevs\')/items';
     } else {
       url = 'http://rpmo.rai.ir/PWA/' + id + '/_api/web/lists/getbytitle(\'DelPropsRevs\')/items';
     }
@@ -467,7 +468,7 @@ export class TempTransferService {
     });
     let url;
     if (isPreContract) {
-      url = 'http://rpmo.rai.ir/PWA/' + id + '/pre-test-1/_api/web/lists/getbytitle(\'DelProps\')/items';
+      url = 'http://rpmo.rai.ir/PWA/' + id + '/pre-contract/_api/web/lists/getbytitle(\'DelProps\')/items';
     } else {
       url = 'http://rpmo.rai.ir/PWA/' + id + '/_api/web/lists/getbytitle(\'DelProps\')/items';
     }
@@ -491,7 +492,7 @@ export class TempTransferService {
     });
     let url;
     if (isPreContract) {
-      url = 'http://rpmo.rai.ir/PWA/' + id + '/pre-test-1/_api/web/lists/getbytitle(\'DelItems\')/items';
+      url = 'http://rpmo.rai.ir/PWA/' + id + '/pre-contract/_api/web/lists/getbytitle(\'DelItems\')/items';
     } else {
       url = 'http://rpmo.rai.ir/PWA/' + id + '/_api/web/lists/getbytitle(\'DelItems\')/items';
     }
@@ -587,7 +588,7 @@ export class TempTransferService {
     });
     let url;
     if (isPreContract) {
-      url = 'http://rpmo.rai.ir/PWA/' + id + '/pre-test-1/_api/web/lists/getbytitle(\'StakeHolders\')/items';
+      url = 'http://rpmo.rai.ir/PWA/' + id + '/pre-contract/_api/web/lists/getbytitle(\'StakeHolders\')/items';
     } else {
       url = 'http://rpmo.rai.ir/PWA/' + id + '/_api/web/lists/getbytitle(\'StakeHolders\')/items';
     }
@@ -618,7 +619,7 @@ export class TempTransferService {
     });
     let url;
     if (isPreContract) {
-      url = 'http://rpmo.rai.ir/PWA/' + id + '/pre-test-1/_api/web/lists/getbytitle(\'AssignedCostReses\')/items';
+      url = 'http://rpmo.rai.ir/PWA/' + id + '/pre-contract/_api/web/lists/getbytitle(\'AssignedCostReses\')/items';
     } else {
       url = 'http://rpmo.rai.ir/PWA/' + id + '/_api/web/lists/getbytitle(\'AssignedCostReses\')/items';
     }
@@ -644,7 +645,7 @@ export class TempTransferService {
     });
     let url;
     if (isPreContract) {
-      url = 'http://rpmo.rai.ir/PWA/' + id + '/pre-test-1/_api/web/lists/getbytitle(\'ServiceCosts\')/items';
+      url = 'http://rpmo.rai.ir/PWA/' + id + '/pre-contract/_api/web/lists/getbytitle(\'ServiceCosts\')/items';
     } else {
       url = 'http://rpmo.rai.ir/PWA/' + id + '/_api/web/lists/getbytitle(\'ServiceCosts\')/items';
     }
@@ -670,7 +671,7 @@ export class TempTransferService {
     });
     let url;
     if (isPreContract) {
-      url = 'http://rpmo.rai.ir/PWA/' + id + '/pre-test-1/_api/web/lists/getbytitle(\'CashFlowPlans\')/items';
+      url = 'http://rpmo.rai.ir/PWA/' + id + '/pre-contract/_api/web/lists/getbytitle(\'CashFlowPlans\')/items';
     } else {
       url = 'http://rpmo.rai.ir/PWA/' + id + '/_api/web/lists/getbytitle(\'CashFlowPlans\')/items';
     }
@@ -695,7 +696,7 @@ export class TempTransferService {
     });
     let url;
     if (isPreContract) {
-      url = 'http://rpmo.rai.ir/PWA/' + id + '/pre-test-1/_api/web/lists/getbytitle(\'CashFlowPlansProp\')/items';
+      url = 'http://rpmo.rai.ir/PWA/' + id + '/pre-contract/_api/web/lists/getbytitle(\'CashFlowPlansProp\')/items';
     } else {
       url = 'http://rpmo.rai.ir/PWA/' + id + '/_api/web/lists/getbytitle(\'CashFlowPlansProp\')/items';
     }
@@ -720,7 +721,7 @@ export class TempTransferService {
     });
     let url;
     if (isPreContract) {
-      url = 'http://rpmo.rai.ir/PWA/' + id + '/pre-test-1/_api/web/lists/getbytitle(\'Costs\')/items';
+      url = 'http://rpmo.rai.ir/PWA/' + id + '/pre-contract/_api/web/lists/getbytitle(\'Costs\')/items';
     } else {
       url = 'http://rpmo.rai.ir/PWA/' + id + '/_api/web/lists/getbytitle(\'Costs\')/items';
     }
@@ -745,7 +746,7 @@ export class TempTransferService {
     });
     let url;
     if (isPreContract) {
-      url = 'http://rpmo.rai.ir/PWA/' + id + '/pre-test-1/_api/web/lists/getbytitle(\'FinishDates\')/items';
+      url = 'http://rpmo.rai.ir/PWA/' + id + '/pre-contract/_api/web/lists/getbytitle(\'FinishDates\')/items';
     } else {
       url = 'http://rpmo.rai.ir/PWA/' + id + '/_api/web/lists/getbytitle(\'FinishDates\')/items';
     }
@@ -803,7 +804,7 @@ export class TempTransferService {
     headers = headers.set('ACCEPT', 'application/json;odata=verbose');
     let url = 'http://rpmo.rai.ir/PWA/' + siteName + '/_api/web/lists/getbytitle(\'' + listName + '\')/items';
     if (isPreContract) {
-      url = 'http://rpmo.rai.ir/PWA/' + siteName + '/pre-test-1/_api/web/lists/getbytitle(\'' + listName + '\')/items';
+      url = 'http://rpmo.rai.ir/PWA/' + siteName + '/pre-contract/_api/web/lists/getbytitle(\'' + listName + '\')/items';
     }
     return this.http.get(
       url,

@@ -200,6 +200,17 @@
               <div class="col-md-3">
                 <div class="form-group">
                   <mat-form-field>
+                    <input formControlName="CreationDate" autocomplete="off" class="form-control"
+                           (focus)="CreationDate.open()" matInput [matDatepicker]="CreationDate"
+                           placeholder="تاریخ پیدایش" [(ngModel)]="selectedCreationDate">
+                    <mat-datepicker-toggle matSuffix [for]="CreationDate"></mat-datepicker-toggle>
+                    <mat-datepicker #CreationDate></mat-datepicker>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <mat-form-field>
                     <input formControlName="DocToComptroller" autocomplete="off" class="form-control"
                            (focus)="DocToComptroller.open()" matInput [matDatepicker]="DocToComptroller"
                            placeholder="تاریخ پیش بینی ارسال اسناد به ذیحسابی" [(ngModel)]="selectedDocToComptroller">
@@ -227,17 +238,6 @@
                            placeholder="تاریخ پیش بینی اعلام برنده" [(ngModel)]="selectedWinnerDeclare">
                     <mat-datepicker-toggle matSuffix [for]="WinnerDeclare"></mat-datepicker-toggle>
                     <mat-datepicker #WinnerDeclare></mat-datepicker>
-                  </mat-form-field>
-                </div>
-              </div>
-              <div class="col-md-3">
-                <div class="form-group">
-                  <mat-form-field>
-                    <input formControlName="CreationDate" autocomplete="off" class="form-control"
-                           (focus)="CreationDate.open()" matInput [matDatepicker]="CreationDate"
-                           placeholder="تاریخ پیدایش" [(ngModel)]="selectedCreationDate">
-                    <mat-datepicker-toggle matSuffix [for]="CreationDate"></mat-datepicker-toggle>
-                    <mat-datepicker #CreationDate></mat-datepicker>
                   </mat-form-field>
                 </div>
               </div>

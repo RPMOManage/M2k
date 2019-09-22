@@ -5,7 +5,7 @@
     "ng": "ng",
     "start": "ng serve --publicHost=localhost:4200/sockjs-node",
     "build": "ng build",
-    "test": "ng serve --host 10.150.150.80 --publicHost=10.150.150.80:4200/sockjs-node",
+    "test": "ng serve --host 192.168.1.2 --publicHost=192.168.1.2:4200/sockjs-node",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },

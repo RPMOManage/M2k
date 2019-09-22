@@ -52,7 +52,7 @@ export class BuildSiteService {
     headers = headers.set('ACCEPT', 'application/json;odata=verbose');
     let url = 'http://rpmo.rai.ir/PWA/' + siteName + '/_api/web/roleassignments/groups?$filter=' + condition;
     if (isPreContract) {
-      url = 'http://rpmo.rai.ir/PWA/' + siteName + '/pre-test-1/_api/web/roleassignments/groups?$filter=' + condition;
+      url = 'http://rpmo.rai.ir/PWA/' + siteName + '/pre-contract/_api/web/roleassignments/groups?$filter=' + condition;
     }
     return this.http.get(
       // 'http://pmo.rai.ir/PO/_api/web/roleassignments/groups?$filter=startswith(Title,%20%27Test%27)%20eq%20true',
@@ -141,7 +141,7 @@ export class BuildSiteService {
     });
     let url = 'http://rpmo.rai.ir/PWA/' + siteName + '/_api/web/roleassignments(' + groupID + ')';
     if (preContract) {
-      url = 'http://rpmo.rai.ir/PWA/' + siteName + '/pre-test-1/_api/web/roleassignments(' + groupID + ')';
+      url = 'http://rpmo.rai.ir/PWA/' + siteName + '/pre-contract/_api/web/roleassignments(' + groupID + ')';
     }
     return this.http.post(
       url,
@@ -182,7 +182,7 @@ export class BuildSiteService {
     }
     let url = 'http://rpmo.rai.ir/PWA/' + siteName + '/_api/web/roleassignments/addroleassignment(principalid=' + id + ', roledefid=' + roleCode + ')';
     if (isPreContract) {
-      url = 'http://rpmo.rai.ir/PWA/' + siteName + '/pre-test-1/_api/web/roleassignments/addroleassignment(principalid=' + id + ', roledefid=' + roleCode + ')';
+      url = 'http://rpmo.rai.ir/PWA/' + siteName + '/pre-contract/_api/web/roleassignments/addroleassignment(principalid=' + id + ', roledefid=' + roleCode + ')';
     }
     return this.http.post(
       url,

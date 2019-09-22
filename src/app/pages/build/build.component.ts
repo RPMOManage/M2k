@@ -114,7 +114,7 @@ export class BuildComponent implements OnInit {
           (services) => {
             this.sharedService.getContractCurrencies().subscribe(
               (currencies) => {
-                let contractStatus;
+                let contractStatus = 1;
                 let contractor;
                 let Number = null;
                 let DeclareForecst = null;
@@ -125,6 +125,7 @@ export class BuildComponent implements OnInit {
                 let WinnerDateForecast = null;
                 let CreationDate = null;
                 if (!this.isPreContract) {
+                  contractStatus = 2;
                   contractor = this.stepFormsData.contractsForm.Id_Contractor.Id;
                   Number = this.stepFormsData.contractsForm.Number_Contract;
                 } else {
@@ -176,6 +177,7 @@ export class BuildComponent implements OnInit {
                   WinnerDateForecast: WinnerDateForecast,
                   CreationDate: CreationDate,
                 };
+                console.log(this.stepFormsData.contractsForm.Id_Importer);
                 this.tempTransfer.getDataFromContextInfo().subscribe(
                   (digestValue) => {
                     this.tempTransfer.createContract(digestValue, data, this.isPreContract).subscribe(
@@ -229,7 +231,7 @@ export class BuildComponent implements OnInit {
   checkIsSiteBuildForPre(dg) {
     this.tempTransfer.getItemsFromList(this.contractID, 'Versions', false).subscribe(
       (data) => {
-        this.buildSiteService.buildSubSite(dg, this.contractID, 'pre-test-1').subscribe(
+        this.buildSiteService.buildSubSite(dg, this.contractID, 'pre-contract').subscribe(
           (dd) => {
             // console.clear();
             this.checkIsPreSiteBuilt();

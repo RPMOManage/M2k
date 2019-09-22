@@ -59,7 +59,7 @@ export class SiteCreationComponent implements OnInit {
   importerRoleForDate: any = 3;
   financialCounter = 0;
 
-  // pre-test-1
+  // pre-contract
 
   constructor(private router: Router,
               private sharedService: SharedService,
