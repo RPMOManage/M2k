@@ -1307,7 +1307,11 @@ export class NewContractStepperComponent implements OnInit {
             }
             this.indexingSteps();
             if (this.sharedService.userMainRole === 2 && this.sharedService.stepFormsData.finalApprovalForm[this.sharedService.stepFormsData.finalApprovalForm.length - 1].isApproved) {
-              this.router.navigate(['build'], {queryParams: {'ContractID': 'TC' + this.newContractStepperGaurd.contractID}});
+              if (this.isPreContract) {
+                this.router.navigate(['pre-build'], {queryParams: {'ContractID': 'TC' + this.newContractStepperGaurd.contractID}});
+              } else {
+                this.router.navigate(['build'], {queryParams: {'ContractID': 'TC' + this.newContractStepperGaurd.contractID}});
+              }
             } else {
               if (formName === 'final') {
                 this.router.navigate(['contracts-drafts']);

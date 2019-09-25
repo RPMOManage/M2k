@@ -202,7 +202,7 @@ export class HomeComponent implements OnInit {
         // );
       });
     // this.sharedService.getProjecs().subscribe();
-    this.sharedService.getDDD().subscribe();
+    // this.sharedService.getDDD().subscribe();
   }
 
   onClickContract(id: number) {

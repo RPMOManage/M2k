@@ -10,21 +10,15 @@ import {UserList} from '../models/user.model';
 import {CurrentUserList} from '../models/currentUser.model';
 import {ImporterList} from '../models/importer.model';
 import {PMsList} from '../models/PMs.model';
-import {UserNameList} from '../models/userName.model';
 import {UnitsList} from '../models/units.model';
 import {ContractServicesList} from '../models/contractServices.model';
 import {ZonesList} from '../models/zones.model';
 import {DeliverablesList} from '../models/Deliverables.model';
 import {OperationTypesList} from '../models/operationTypes.model';
 import {AgentPositionsList} from '../models/agentPositions.model';
-import {ContractTypesList} from '../models/contractTypes.model';
 import * as moment from 'jalali-moment';
-import {CurrenciesList} from '../models/currencies.model';
 import {ContractorsList} from '../models/contractors.model';
 import {RaiPartsList} from '../models/raiParts.model';
-import {ComptrollerContractsList} from '../models/comptrollerContracts.model';
-import {StepDeliverablesFormList} from '../models/stepFormModels/stepDeliverablesForm.model';
-import {toBase64String} from '@angular/compiler/src/output/source_map';
 import {FinancialModel} from '../models/transferModels/Financial.model';
 import {FinancialRequestTypeModel} from '../models/FinancialRequestType.model';
 import {ContractComptrollerModel} from '../models/ContractComptroller.model';
@@ -97,11 +91,11 @@ export class SharedService {
   }
 
   getAllTempContracts() {
-    const mainData: { ID, Title, ImporterApprovedPre, PMApprovedPre, PMUserId, ImporterUserId, PMOExpertId, ImporterId, PMApproved, ImporterApproved, Code, Created, Importer?: number, ContractStatus?: number }[] = [];
+    const mainData: { ID, Title, ImporterApprovedPre, PMApprovedPre, PMUserId, ImporterUserId, PMOExpertId, ImporterId, PMApproved, PMOApproved, PMOApprovedPre, ImporterApproved, Code, Created, Importer?: number, ContractStatus?: number }[] = [];
     let headers = new HttpHeaders();
     headers = headers.set('ACCEPT', 'application/json;odata=verbose');
     return this.http.get(
-      'http://rpmo.rai.ir/PWA/_api/web/lists/getbytitle(\'TempContracts\')/items?$filter=IsActive1 ne false&$select=ID,Title,ImporterApprovedPre,PMApprovedPre,PMUserId,Types,PMOExpertId, ContractStatusId,ImporterId,PMApproved,ImporterApproved,Code,Created,ImporterUser/Title,ImporterUser/ID&$expand=ImporterUser&$top=10000&$OrderBy=ID desc',
+      'http://rpmo.rai.ir/PWA/_api/web/lists/getbytitle(\'TempContracts\')/items?$filter=IsActive1 ne false&$select=ID,Title,ImporterApprovedPre,PMOApproved,PMOApprovedPre,PMApprovedPre,PMUserId,Types,PMOExpertId, ContractStatusId,ImporterId,PMApproved,ImporterApproved,Code,Created,ImporterUser/Title,ImporterUser/ID&$expand=ImporterUser&$top=10000&$OrderBy=ID desc',
       {headers: headers}
     ).pipe(map((response: Response) => {
         const data = (<any>response).d.results;
@@ -117,6 +111,8 @@ export class SharedService {
               PMOExpertId: data[i].PMOExpertId,
               ImporterId: data[i].ImporterUser.Title,
               PMApproved: data[i].PMApproved,
+              PMOApproved: data[i].PMOApproved,
+              PMOApprovedPre: data[i].PMOApprovedPre,
               ImporterApproved: data[i].ImporterApproved,
               Code: data[i].Code,
               Created: moment(data[i].Created, 'YYYY/M/D').format('jYYYY/jM/jD'),
@@ -735,11 +731,11 @@ export class SharedService {
           }
         }
       } else {
-        console.log(8);
-        body = {
-          '__metadata': {'type': 'SP.Data.TempContractsListItem'},
-          'Code': code
-        };
+          body = {
+            '__metadata': {'type': 'SP.Data.TempContractsListItem'},
+            'Code': code,
+            'PMOApprovedPre': true
+          };
       }
       if (!body) {
         console.log(8);
@@ -828,7 +824,8 @@ export class SharedService {
         console.log(8);
         body = {
           '__metadata': {'type': 'SP.Data.TempContractsListItem'},
-          'Code': code
+          'Code': code,
+          'PMOApproved': true
         };
       }
       if (!body) {

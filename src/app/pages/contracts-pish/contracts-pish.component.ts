@@ -36,7 +36,7 @@ export class ContractsPishComponent implements OnInit {
     TitleFa: 'صفحه قرارداد 3',
   }];
 
-  tempContracts: { ID, Title, ImporterApprovedPre, PMApprovedPre, PMUserId, ImporterUserId, PMOExpertId, ImporterId, PMApproved, ImporterApproved, Code, Created, Importer?: number, ContractStatus?: number }[] = [];
+  tempContracts: { ID, Title, ImporterApprovedPre, PMApprovedPre, PMOApprovedPre, PMUserId, ImporterUserId, PMOExpertId, ImporterId, PMApproved, PMOApproved, ImporterApproved, Code, Created, Importer?: number, ContractStatus?: number }[] = [];
   pms: PMsList[] = [];
   type = 'pish';
   spinnerChecking = false;

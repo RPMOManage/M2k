@@ -84,7 +84,7 @@
                   </div>
                 </div>
                 <div class="row" style="padding: 15px"
-                     *ngIf="tempContract.ImporterApprovedPre && tempContract.PMApprovedPre && tempContract.Code">
+                     *ngIf="tempContract.ContractStatus === 2">
                   <div class="col-md-2">
                     <i
                       [ngClass]="tempContract.ImporterApproved ? 'fas fa-user-edit' : 'fas fa-user-edit fa-user-edit-fade'"
@@ -110,7 +110,7 @@
                   </div>
                   <div class="col-md-2">
                     <i
-                      [ngClass]="tempContract.Code ? 'fas fa-check-double' : 'fas fa-check-double fa-check-double-fade'"
+                      [ngClass]="tempContract.PMOApproved ? 'fas fa-check-double' : 'fas fa-check-double fa-check-double-fade'"
                       nbPopover="This is Expert"
                       nbPopoverMode="hint"
                       nbPopoverPlacement="bottom"
@@ -118,7 +118,7 @@
                   </div>
                 </div>
                 <div class="row" style="padding: 15px"
-                     *ngIf="!tempContract.ImporterApprovedPre || !tempContract.PMApprovedPre || !tempContract.Code">
+                     *ngIf="tempContract.ContractStatus === 1">
                   <div class="col-md-2">
                     <i
                       [ngClass]="tempContract.ImporterApprovedPre ? 'fas fa-user-edit' : 'fas fa-user-edit fa-user-edit-fade'"
@@ -144,7 +144,7 @@
                   </div>
                   <div class="col-md-2">
                     <i
-                      [ngClass]="tempContract.Code ? 'fas fa-check-double' : 'fas fa-check-double fa-check-double-fade'"
+                      [ngClass]="tempContract.PMOApprovedPre ? 'fas fa-check-double' : 'fas fa-check-double fa-check-double-fade'"
                       nbPopover="This is Expert"
                       nbPopoverMode="hint"
                       nbPopoverPlacement="bottom"
