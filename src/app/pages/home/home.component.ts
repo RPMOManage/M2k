@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { Chart } from 'angular-highcharts';
-import { SharedService } from '../../shared/services/shared.service';
-import { ContractService } from '../../shared/services/contract.service';
-import { ContractModel } from '../../shared/models/contractModels/contract.model';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {Chart} from 'angular-highcharts';
+import {SharedService} from '../../shared/services/shared.service';
+import {ContractService} from '../../shared/services/contract.service';
+import {ContractModel} from '../../shared/models/contractModels/contract.model';
 import * as moment from 'jalali-moment';
 
 import anime from 'node_modules/animejs';
-import { ContractServicesList } from '../../shared/models/contractServices.model';
+import {ContractServicesList} from '../../shared/models/contractServices.model';
 import {BuildSiteService} from '../../shared/services/build-site.service';
 import {TempTransferService} from '../../shared/services/temp-transfer.service';
+import * as Highcharts from 'highcharts';
 
 
 @Component({
@@ -132,7 +133,7 @@ export class HomeComponent implements OnInit {
             }
           }
           if (contracts[i].PCCalcsLast.length > 0 && this.contracts[i].FinancialLast) {
-           this.boxes.TopPaymentDeviations.push([this.contracts[i].FinancialLast, i]);
+            this.boxes.TopPaymentDeviations.push([this.contracts[i].FinancialLast, i]);
           }
           if (+new Date(this.contracts[i].FinishDate) < (+new Date(this.today) + 5184000000) && +new Date(this.contracts[i].FinishDate) > +new Date(this.today)) {
             this.boxes.TopFinishingContracts.push([this.contracts[i].FinishDate, i]);
@@ -446,11 +447,30 @@ export class HomeComponent implements OnInit {
       title: {
         text: ''
       },
+      tooltip: {
+        padding: 4,
+        useHTML: true,
+        formatter: function () {
+          return '<p class="highchart-Tooltip">' + this.series.name + '</p>' +
+            '<p style="direction: ltr;" class="highchart-Tooltip">' + 'مقدار : ' + Highcharts.numberFormat(Math.abs(this.point.y), 0) + '</p>';
+        }
+      },
       xAxis: {
         categories: this.contracts.map(v => v.Title),
         min: 0,
         scrollbar: {
           enabled: isScrollbarEnabled
+        },
+        labels: {
+          useHTML: true,
+          style: {
+            width: '100%',
+            whiteSpace: 'normal'
+          },
+          step: 1,
+          formatter: function () {
+            return '<div align="center" style="text-align: right; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; width: 100%;font-family: IranSans;direction: rtl;"><span title="' + this.value + '">' + this.value + '</span></div>';
+          }
         },
         tickLength: 0
       },
