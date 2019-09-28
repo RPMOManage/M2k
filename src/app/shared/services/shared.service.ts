@@ -477,7 +477,7 @@ export class SharedService {
     let headers = new HttpHeaders();
     headers = headers.set('ACCEPT', 'application/json;odata=verbose');
     return this.http.get(
-      'http://rpmo.rai.ir/PWA/' + contractID + '/_api/web/lists/getbytitle(\'PCs\')/items?$select=ID,PCPropId,Date1,PC,PCProp/ID,PCProp/Kind&$expand=PCProp&$OrderBy=Date1 asc',
+      'http://rpmo.rai.ir/PWA/' + contractID + '/_api/web/lists/getbytitle(\'PCs\')/items?$select=ID,PCPropId,Date1,PC&$OrderBy=Date1 asc',
       {headers: headers}
     ).pipe(map((response: Response) => {
         const data = (<any>response).d.results;
@@ -485,9 +485,9 @@ export class SharedService {
           mainData.push({
             ID: data[i].ID,
             PCProp: {
-              ID: data[i].PCProp.ID,
+              ID: data[i].PCPropId,
               Kind: 'P',
-              Service: pcProps.filter(v => v.ID === data[i].PCProp.ID)[0].Service
+              Service: pcProps.filter(v => v.ID === data[i].PCPropId)[0].Service
             },
             Date: data[i].Date1.substring(0, 10),
             PC: data[i].PC
@@ -644,6 +644,26 @@ export class SharedService {
     );
   }
 
+  updateDataJsonPMO(DigestValue: any, id) {
+    const headers = new HttpHeaders({
+      'X-RequestDigest': DigestValue,
+      'content-type': 'application/json;odata=verbose',
+      'accept': 'application/json;odata=verbose',
+      'IF-MATCH': '*',
+      'X-HTTP-Method': 'MERGE'
+    });
+    let body;
+    body = {
+      '__metadata': {'type': 'SP.Data.TempContractsListItem'},
+      'PMOApprovedPre': true
+    };
+    return this.http.post(
+      'http://rpmo.rai.ir/PWA/_api/web/lists/getbytitle(\'TempContracts\')/items(' + id + ')',
+      body,
+      {headers: headers}
+    );
+  }
+
   updateDataJson(DigestValue: any, id, isFinal: boolean, code = null, isPreContract = false) {
     const headers = new HttpHeaders({
       'X-RequestDigest': DigestValue,
@@ -734,7 +754,6 @@ export class SharedService {
           body = {
             '__metadata': {'type': 'SP.Data.TempContractsListItem'},
             'Code': code,
-            'PMOApprovedPre': true
           };
       }
       if (!body) {

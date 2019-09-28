@@ -374,8 +374,15 @@ export class SiteCreationComponent implements OnInit {
               console.log('Done!', this.lasts, 'lasts');
               this.tempTransfer.getDataFromContextInfo().subscribe(
                 (dg) => {
-                  this.tempTransfer.updateContract(dg, this.contractID, this.lasts).subscribe();
-                  this.router.navigate(['/contract'], {queryParams: {'ID': this.contractID}});
+                  this.tempTransfer.updateContract(dg, this.contractID, this.lasts).subscribe(
+                    () => {
+                      this.sharedService.updateDataJsonPMO(data, +this.sharedService.stepFormsData.contractsForm.Code_Contract).subscribe(
+                        () => {
+                          this.router.navigate(['/contract'], {queryParams: {'ID': this.contractID}});
+                        }
+                      );
+                    }
+                  );
                 }
               );
               // this.createBasic(rData.d.Id, totalValue, kinds[i], zones, delData, delDate);
@@ -494,6 +501,7 @@ export class SiteCreationComponent implements OnInit {
                     //   PC: finalDataAct[j].PC,
                     //   Date: importerDates[importerDates.length - 1].date
                     // }, finalDataPlan),
+                    // +this.calculationsService.getPC(finalDataAct[j].Date, finalDataPlan)
                     const pcCalcs2: { DataAct, PCRelation, ProgressDeviation, Speed, TimeDeviation, Speed4OnTime, FinishTimeForecast, FinishDates, Service, PC, Speed90D, FinishTimeForecast90, planPC, suitablePlan } = {
                       DataAct: finalDataAct[j].ID,
                       PCRelation: this.contractData.PCRelations[i].ID,

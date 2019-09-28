@@ -131,32 +131,40 @@ export class CalculationsService {
   }
 
   getPC(pcDate, filteredByPlanActPropCode: { ID, PCProp, Date, PC }[]) {
-    // console.log(filteredByPlanActPropCode);
-    // console.log(pcDate);
+    console.log(filteredByPlanActPropCode);
+    console.log(pcDate);
     const index = filteredByPlanActPropCode.findIndex(a => +new Date(a.Date) === +new Date(pcDate));
+    console.log(index);
     if (index > 0 && filteredByPlanActPropCode[index].PC) {
       return filteredByPlanActPropCode[index].PC;
     }
+    console.log('havij');
     const d = filteredByPlanActPropCode.filter(a => new Date(a.Date) > new Date(pcDate));
+    console.log(d);
     const g = filteredByPlanActPropCode.filter(a => new Date(a.Date) < new Date(pcDate));
+    console.log(g);
     const sortedD = d.sort((n1, n2) => +new Date(n1.Date) - +new Date(n2.Date));
+    console.log(sortedD);
     const sortedG = g.sort((n1, n2) => +new Date(n1.Date) - +new Date(n2.Date));
+    console.log(sortedG);
 
     let d1 = sortedG[g.length - 1];
     let d2 = sortedD[0];
-    // console.log(d1);
-    // console.log(d2);
+    console.log(d1);
+    console.log(d2);
 
     if (d1) {
       let d1Counter = 1;
+      console.log(d1);
       while (d1.PC === null && d1Counter < sortedG.length - 1) {
+        console.log(d1);
         d1Counter++;
         d1 = sortedG[g.length - d1Counter];
         if (!d1) {
           d1 = sortedG[g.length - d1Counter + 1];
           break;
         }
-        // console.log(d1);
+        console.log(d1);
       }
       if (d1.PC === null) {
         d1.PC = 0;
@@ -167,23 +175,28 @@ export class CalculationsService {
       if (d2.PC === '') {
         return 1;
       }
+      console.log(d2);
       let d2Counter = 0;
       while (d2.PC === null && d2Counter < sortedD.length - 1) {
+        console.log(d2);
         d2Counter++;
         d2 = sortedD[d2Counter];
         if (!d2) {
           d2 = sortedD[d2Counter - 1];
           break;
         }
-        // console.log(d2);
+        console.log(d2);
       }
 
       if (d2.PC === null) {
         d2.PC = 1;
       }
     } else {
+      console.log(d2);
       return 1;
     }
+
+    console.log('ajab');
 
 
     // console.log(d);

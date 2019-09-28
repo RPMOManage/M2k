@@ -420,7 +420,7 @@ export class HomeComponent implements OnInit {
       thirdData.push(+this.contracts[i].FinancialLast.FinancialProgress * 100);
     }
     let isScrollbarEnabled = false;
-    if (this.contracts.length > 20) {
+    if (this.contracts.length > 5) {
       isScrollbarEnabled = true;
     }
     series.push({
@@ -461,6 +461,7 @@ export class HomeComponent implements OnInit {
         scrollbar: {
           enabled: isScrollbarEnabled
         },
+        max: 5,
         labels: {
           useHTML: true,
           style: {
